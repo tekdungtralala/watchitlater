@@ -2,3 +2,5 @@ node_modules
 stash
 
 npm-debug.log
+
+expressapp/public/bower_components
