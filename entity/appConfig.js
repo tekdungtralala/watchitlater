@@ -19,19 +19,32 @@ var AppConfigSchema = new mongoose.Schema({
 		trim: true
 	}
 });
-
 var AppConfig = mongoose.model('AppConfig', AppConfigSchema);
+var LATEST_BO_KEY = 'latest-box-office';
 
 var appModule = {
-	updateLatestBoxOffice: updateLatestBoxOffice
+	updateLatestBoxOffice: updateLatestBoxOffice,
+	getLatestBoxOffice: getLatestBoxOffice
 };
 module.exports = appModule;
 
+function getLatestBoxOffice() {
+	var deferred = Q.defer();
+	var query = {key: LATEST_BO_KEY};
+	AppConfig.findOne(query, function(err, doc) {
+		if (err)
+			debug('error ', err);
+		else
+			deferred.resolve(doc.value);
+	});
+	return deferred.promise;
+}
+
 function updateLatestBoxOffice(movieIds) {
 	debug('AppConfig updateLatestBoxOffice() ', movieIds);
-	var KEY = 'latest-box-office';
+	
 	var deferred = Q.defer();
-	var query = {key: KEY};
+	var query = {key: LATEST_BO_KEY};
 	var opt = {upsert: true};
 
 	var data = {

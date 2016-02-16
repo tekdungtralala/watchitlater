@@ -1,6 +1,7 @@
 var debug = require('debug')('watchitlater:server');
 var Q = require('q');
 var mongoose = require('mongoose');
+var appConfig = require('./appConfig');
 
 var MovieSchema = new mongoose.Schema({
 	created: {
@@ -82,9 +83,33 @@ var MovieSchema = new mongoose.Schema({
 var Movie = mongoose.model('Movie', MovieSchema);
 
 var movieModule = {
-	saveOrUpdate: saveOrUpdate
+	saveOrUpdate: saveOrUpdate,
+	getLatestBoxOffice: getLatestBoxOffice
 };
 module.exports = movieModule;
+
+function getLatestBoxOffice() {
+	debug('getLatestBoxOffice()');
+
+	var deferred = Q.defer();
+	function afterGetMovieIds(movieIds) {
+		debug('movieIds = ', movieIds);
+
+		var query = {
+			imdbID: {
+				'$in': movieIds
+			}
+		};
+		Movie.find(query, function(err, doc) {
+			if (err) debug('error ', err);
+			deferred.resolve(doc);
+		});
+	};
+
+	appConfig.getLatestBoxOffice().then(afterGetMovieIds);
+
+	return deferred.promise;
+}
 
 function saveOrUpdate(data) {
 	debug('Movie saveOrUpdate() ', data.imdbID);
