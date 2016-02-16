@@ -43,7 +43,7 @@ function startApp() {
 
 
   var initEntity = require('../entity/initEntity');
-  initEntity.doInitialize();
+  // initEntity.doInitialize();
 }
 
 
