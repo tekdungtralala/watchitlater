@@ -33,29 +33,20 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
-
-// development error handler
-// will print stacktrace
-console.log("app.get('env') = " + app.get('env'));
 if (app.get('env') === 'development') {
 	app.use(function(err, req, res, next) {
 		res.status(err.status || 500);
 		res.render('error', {
 			message: err.message,
-			error: err
+
+			// will print stacktrace
+			error: err,
+
+			// no stacktraces leaked to user
+			// error: {}
 		});
 	});
 }
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-	res.status(err.status || 500);
-	res.render('error', {
-		message: err.message,
-		error: {}
-	});
-});
 
 
 module.exports = app;
