@@ -10,6 +10,7 @@
 		'ui.bootstrap',
 		'xeditable',
 		'cgBusy',
+		'duScroll',
 
 		// App Module
 		'app.home'
