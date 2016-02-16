@@ -14,57 +14,91 @@ module.exports = initEntity;
 
 var movieIds = [];
 var index = 0;
+var titleSplitter = null;
 
 function doInitialize() {
-	var url = "http://www.imdb.com/chart/";
-	fetchHtml(url)
-		.then(processData);
+	var latestBOUrl = 'http://www.imdb.com/chart/';
+	fetchlatestBO()
+		.then(processData)
+		.then(afterProcessBO)
+		.then(fetchLatestTM)
+		.then(processData)
+		.then(afterProcessTM);
 }
 
-function fetchHtml(url, callback) {
+function processData(html) {
+	movieIds = [];
+	index = 0;
+
+	var deferred = Q.defer();
+	var $ = cheerio.load(html);
+	$('table.chart.full-width tbody tr td.posterColumn').each(function(i, elm) {
+		if (i <= 9) {
+			var $tr = cheerio.load($(this).html());
+			var href = $tr('a').attr('href');
+			var movieId = href.split('/title/')[1].split(titleSplitter)[0];
+			movieIds.push(movieId);
+		}
+	});
+
+	function iterateMovieId() {
+		if (index === movieIds.length) {
+			resolvePromise();
+			return;
+		}
+		var movieId = movieIds[index];
+		index++;
+		var url = 'http://www.omdbapi.com/?i=' + movieId + '&plot=full&r=json';
+		fetchHtml(url)
+			.then(processMovieData)
+			.then(iterateMovieId);
+	}
+
+	function resolvePromise() {
+		deferred.resolve();
+	}
+
+	iterateMovieId();
+	return deferred.promise;
+}
+
+function processMovieData(data) {
+	var obj = JSON.parse(data);
+	return movie.saveOrUpdate(obj);
+}
+
+function afterProcessBO() {
+	return appConfig.updateLatestBoxOffice(movieIds)
+}
+
+function afterProcessTM() {
+	return appConfig.updateLatestTopMovies(movieIds)
+}
+
+function fetchlatestBO() {
+	titleSplitter = '?';
+
+	var url = 'http://www.imdb.com/chart/';
+	return fetchHtml(url);
+}
+
+function fetchLatestTM() {
+	titleSplitter = '/?';
+
+	var url = 'http://www.imdb.com/chart/top';
+	return fetchHtml(url);
+}
+
+function fetchHtml(url) {
 	var deferred = Q.defer();
 	http.get(url, function(res) {
-		var data = "";
+		var data = '';
 		res.on('data', function (chunk) {
 			data += chunk;
 		});
-		res.on("end", function() {
+		res.on('end', function() {
 			deferred.resolve(data);
 		});
 	});
 	return deferred.promise;
-}
-
-function processData(html) {
-	var $ = cheerio.load(html);	
-	$("#boxoffice table.chart.full-width tbody tr td.posterColumn").each(function(i, elm) {
-		var $tr = cheerio.load($(this).html());
-		var href = $tr("a").attr("href");
-		var movieId = href.split("/title/")[1].split("?")[0];
-		movieIds.push(movieId);
-	});
-	iterateMovieId();
-}
-
-function iterateMovieId() {
-	if (index === movieIds.length) {
-		appConfig.updateLatestBoxOffice(movieIds);
-		return;
-	}
-	var movieId = movieIds[index];
-	index++;
-	var url = "http://www.omdbapi.com/?i=" + movieId + "&plot=full&r=json";
-	fetchFromOmdbapi(url)
-		.then(processDataFromApi);
-}
-
-function fetchFromOmdbapi(url) {
-	return fetchHtml(url);
-}
-
-function processDataFromApi(data) {
-	var obj = JSON.parse(data);
-
-	movie.saveOrUpdate(obj)
-		.then(iterateMovieId);
 }

@@ -12,4 +12,13 @@ router.get('/getLatestBoxOffice', function(req, res, next) {
 		})
 });
 
+router.get('/getLatestTopMovie', function(req, res, next) {
+	movie
+		.getLatestTopMovie()
+		.then(function(result) {
+			res.send(result);
+		})
+});
+
+
 module.exports = router;
