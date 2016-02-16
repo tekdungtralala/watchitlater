@@ -42,8 +42,8 @@ function startApp() {
   server.on('listening', onListening);
 
 
-  var initEntity = require('../entity/initEntity');
-  // initEntity.doInitialize();
+  var initEntity = require('../expressapp/entity/initEntity');
+  initEntity.doInitialize();
 }
 
 

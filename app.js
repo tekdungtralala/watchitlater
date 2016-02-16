@@ -9,7 +9,7 @@ var exphbs  = require('express-handlebars');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views/handlebars'));
+app.set('views', path.join(__dirname, 'expressapp/views/handlebars'));
 // jade template
 //app.set('view engine', 'jade');
 // handlebars template
@@ -22,12 +22,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'expressapp/public')));
 
+app.use('/api', require('./expressapp/routes/appApi'));
 app.use('/', function(req, res, next) {
 	res.render('index');
 });
-app.use('/api', require('./routes/appApi'));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
