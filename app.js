@@ -26,12 +26,17 @@ app.use(express.static(path.join(__dirname, 'expressapp/public')));
 
 // catch 404 and forward to error handler
 app.use('/api', require('./expressapp/routes/appApi'));
-app.get('/', function(req, res) {
+app.get('/', renderIndexPage);
+app.get('/home', renderIndexPage);
+app.use(handleError404);
+
+function renderIndexPage(req, res) {
 	res.render('index');
-});
-app.use(function(req, res, next) {
+};
+
+function handleError404() {
 	res.status(404).send('Sorry cant find that!');
-});
+};
 
 // error handlers
 if (app.get('env') === 'development') {
