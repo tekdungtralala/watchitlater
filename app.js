@@ -24,17 +24,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'expressapp/public')));
 
+// catch 404 and forward to error handler
 app.use('/api', require('./expressapp/routes/appApi'));
-app.use('/', function(req, res, next) {
+app.get('/', function(req, res) {
 	res.render('index');
 });
-
-
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-	var err = new Error('Not Found');
-	err.status = 404;
-	next(err);
+	res.status(404).send('Sorry cant find that!');
 });
 
 // error handlers

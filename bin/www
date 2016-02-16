@@ -43,7 +43,7 @@ function startApp() {
 
 
   var initEntity = require('../expressapp/entity/initEntity');
-  initEntity.doInitialize();
+  // initEntity.doInitialize();
 }
 
 
