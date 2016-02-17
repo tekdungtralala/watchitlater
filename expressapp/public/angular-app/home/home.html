@@ -97,90 +97,16 @@
 				<h3 class="section-subheading text-muted">Latest Update : Sunday, Dec 12 2015</h3>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-4 col-sm-6 portfolio-item">
+		<div ng-repeat="list in vm.listBO" class="row">
+			<div ng-repeat="d in list"
+				class="col-md-4 col-sm-6 portfolio-item">
 				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BNjQzNDI2NTU1Ml5BMl5BanBnXkFtZTgwNTAyMDQ5NjE@._V1_SX214_AL_.jpg" alt=""/>
+					<img ng-src="{{d.Poster}}" 
+						ng-click="vm.viewMovieDetail(d.imdbID)" alt=""/>
 				</div>
 				<div class="portfolio-caption">
-					<h4>The Hunger Games: Mockingjay - Part 2</h4>
-						<p class="text-muted">User Rating: 8.8</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6 portfolio-item">
-				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BMjk0MjMzMTI3NV5BMl5BanBnXkFtZTgwODEyODkxNzE@._V1_SX214_AL_.jpg" alt=""/>
-				</div>
-				<div class="portfolio-caption">
-					<h4>Krampus</h4>
-					<p class="text-muted">User Rating: 8.3</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6 portfolio-item">
-				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BMTc5MTg2NjQ4MV5BMl5BanBnXkFtZTgwNzcxOTY5NjE@._V1_SX214_AL_.jpg" alt=""/>
-				</div>
-				<div class="portfolio-caption">
-					<h4>The Good Dinosaur</h4>
-					<p class="text-muted">User Rating: 8.2</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 col-sm-6 portfolio-item">
-				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BNjQzNDI2NTU1Ml5BMl5BanBnXkFtZTgwNTAyMDQ5NjE@._V1_SX214_AL_.jpg" alt=""/>
-				</div>
-				<div class="portfolio-caption">
-					<h4>The Hunger Games: Mockingjay - Part 2</h4>
-						<p class="text-muted">User Rating: 8.8</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6 portfolio-item">
-				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BMjk0MjMzMTI3NV5BMl5BanBnXkFtZTgwODEyODkxNzE@._V1_SX214_AL_.jpg" alt=""/>
-				</div>
-				<div class="portfolio-caption">
-					<h4>Krampus</h4>
-					<p class="text-muted">User Rating: 8.3</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6 portfolio-item">
-				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BMTc5MTg2NjQ4MV5BMl5BanBnXkFtZTgwNzcxOTY5NjE@._V1_SX214_AL_.jpg" alt=""/>
-				</div>
-				<div class="portfolio-caption">
-					<h4>The Good Dinosaur</h4>
-					<p class="text-muted">User Rating: 8.2</p>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-4 col-sm-6 portfolio-item">
-				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BNjQzNDI2NTU1Ml5BMl5BanBnXkFtZTgwNTAyMDQ5NjE@._V1_SX214_AL_.jpg" alt=""/>
-				</div>
-				<div class="portfolio-caption">
-					<h4>The Hunger Games: Mockingjay - Part 2</h4>
-						<p class="text-muted">User Rating: 8.8</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6 portfolio-item">
-				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BMjk0MjMzMTI3NV5BMl5BanBnXkFtZTgwODEyODkxNzE@._V1_SX214_AL_.jpg" alt=""/>
-				</div>
-				<div class="portfolio-caption">
-					<h4>Krampus</h4>
-					<p class="text-muted">User Rating: 8.3</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6 portfolio-item">
-				<div class="app-latestmovie-item">
-					<img src="http://ia.media-imdb.com/images/M/MV5BMTc5MTg2NjQ4MV5BMl5BanBnXkFtZTgwNzcxOTY5NjE@._V1_SX214_AL_.jpg" alt=""/>
-				</div>
-				<div class="portfolio-caption">
-					<h4>The Good Dinosaur</h4>
-					<p class="text-muted">User Rating: 8.2</p>
+					<h4 ng-click="vm.viewMovieDetail(d.imdbID)">{{d.Title}}</h4>
+					<p class="text-muted">User Rating: {{d.imdbRating}}</p>
 				</div>
 			</div>
 		</div>
@@ -206,39 +132,14 @@
 						</div>
 				</div>
 				<div class="row">
-						<div class="col-sm-offset-1 col-sm-2">
+						<div ng-repeat="d in vm.listTM" 
+							ng-class="{'col-sm-offset-1': $index === 0}"
+							class="col-sm-2">
 								<div class="team-member">
-										<img src="static-assets/img/latestmovies/shawshank.jpg" class="img-responsive img-circle" alt="">
-										<h4>The Shawshank Redemption (1994)</h4>
-										<p class="text-muted">Rating : 9.2</p>
-								</div>
-						</div>
-						<div class="col-sm-2">
-								<div class="team-member">
-										<img src="static-assets/img/latestmovies/thegodfather.jpg" class="img-responsive img-circle" alt="">
-										<h4>The Godfather (1972)</h4>
-										<p class="text-muted">Rating : 9.2</p>
-								</div>
-						</div>
-						<div class="col-sm-2">
-								<div class="team-member">
-										<img src="static-assets/img/latestmovies/thegodfather2.jpg" class="img-responsive img-circle" alt="">
-										<h4>The Godfather: Part II (1974)</h4>
-										<p class="text-muted">Rating : 9.0</p>
-								</div>
-						</div>
-						<div class="col-sm-2">
-								<div class="team-member">
-										<img src="static-assets/img/latestmovies/thedarkknight.jpg" class="img-responsive img-circle" alt="">
-										<h4>he Dark Knight (2008)</h4>
-										<p class="text-muted">Rating : 8.9</p>
-								</div>
-						</div>
-						<div class="col-sm-2">
-								<div class="team-member">
-										<img src="static-assets/img/latestmovies/angrymen.jpg" class="img-responsive img-circle" alt="">
-										<h4>2 Angry Men (1957)</h4>
-										<p class="text-muted">Rating : 8.9</p>
+										<img ng-src="{{d.Poster}}" 
+											ng-click="vm.viewMovieDetail(d.imdbID)" class="img-responsive img-circle" alt="">
+										<h4 ng-click="vm.viewMovieDetail(d.imdbID)">{{d.Title}} ({{d.Year}})</h4>
+										<p class="text-muted">Rating : {{d.imdbRating}}</p>
 								</div>
 						</div>
 				</div>
@@ -279,3 +180,92 @@
 				</div>
 		</div>
 </footer>
+
+<script type="text/ng-template" id="movieDetail.html">
+	<div class="modal-header app-movieDetail-header">
+		<div class="app-movieDetail-title">
+			{{vm.selectedMovie.Title}}
+		</div>
+		<button ng-click="vm.closeDialog()"
+			type="button" class="btn btn-default app-movieDetail-closebtn" aria-label="Left Align">
+			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		</button>
+	</div>
+	<div class="modal-body app-movieDetail-body">
+		<div class="row">
+			<div class="col-sm-4">
+				<form class="app-movieDetail-bodyleft">
+					<div class="form-group">
+						<label>Director</label>
+						<div>
+							{{vm.selectedMovie.Director}}
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Writer</label>
+						<div>
+							{{vm.selectedMovie.Writer}}
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Awards</label>
+						<div>
+							{{vm.selectedMovie.Awards}}
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Type</label>
+						<div>
+							{{vm.selectedMovie.Type}}
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-4 app-movieDetail-bodycenter">
+				<img ng-src="{{vm.selectedMovie.Poster}}"/>
+			</div>
+			<div class="col-sm-4">
+				<form class="app-movieDetail-bodyright">
+					<div class="form-group">
+						<label>Released</label>
+						<input type="text" class="form-control" placeholder="{{vm.selectedMovie.Released}}" readonly/>
+					</div>
+					<div class="form-group">
+						<label>Genre</label>
+						<input type="text" class="form-control" placeholder="{{vm.selectedMovie.Genre}}" readonly/>
+					</div>
+					<div class="form-group">
+						<label>Runtime</label>
+						<input type="text" class="form-control" placeholder="{{vm.selectedMovie.Runtime}}" readonly/>
+					</div>
+					<div class="form-group">
+						<label>Country</label>
+						<input type="text" class="form-control" placeholder="{{vm.selectedMovie.Country}}" readonly/>
+					</div>
+					<div class="form-group">
+						<label>Language</label>
+						<input type="text" class="form-control" placeholder="{{vm.selectedMovie.Language}}" readonly/>
+					</div>
+					<div class="form-group app-movieDetail-rating">
+						{{vm.selectedMovie.imdbRating}}
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-sm-2 app-movieDetail-prevnext text-center">
+				<img ng-click="vm.viewMovieDetail(vm.prevMovie.imdbID)" 
+					ng-src="{{vm.prevMovie.Poster}}"/>
+			</div>
+			<div class="col-sm-8 text-justify app-movieDetail-plot">
+				{{vm.selectedMovie.Plot}}
+			</div>
+			<div class="col-sm-2 app-movieDetail-prevnext text-center">
+				<img ng-click="vm.viewMovieDetail(vm.nextMovie.imdbID)"
+					ng-src="{{vm.nextMovie.Poster}}"/>
+			</div>
+		</div>
+	</div>
+</script>

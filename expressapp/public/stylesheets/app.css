@@ -1,0 +1,72 @@
+header {
+	height: 800px;
+}
+
+.app-telmemore {
+	color: #000;
+}
+
+.app-latestmovie-item {
+	background-color: #eee;
+	line-height: 150px;
+	text-align: center;  
+	min-height: 300px;
+	display : flex;
+	align-items : center;
+}
+
+.app-latestmovie-item img {
+	vertical-align: middle;
+	max-height: 290px;
+	margin: auto;
+	cursor: pointer;
+}
+
+.team-member img,
+.team-member h4,
+.portfolio-caption h4,
+.app-movieDetail-prevnext img {
+	cursor: pointer;	
+}
+
+.app-movieDetail-header {
+	padding: 0px;
+	border: none;
+	line-height: 0px;
+	padding-top: 30px;
+}
+.app-movieDetail-body {
+	padding-top: 0px;
+}
+.app-movieDetail-closebtn {
+	float: right;
+	border: none;
+	position: relative;
+	top: -30px;
+	right: 0px;
+}
+.app-movieDetail-title {
+	width: 100%;
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;
+}
+.app-movieDetail-poster {
+	width: 100%;
+	text-align: center;
+}
+.app-movieDetail-bodycenter {
+	padding-left: 0px;
+}
+.app-movieDetail-bodyright {
+	padding-left: 10px;
+}
+.app-movieDetail-rating {
+	font-size: 40px;
+}
+.app-movieDetail-prevnext img {
+	width: 60%;
+}
+.app-movieDetail-plot {
+	text-indent: 50px;
+}

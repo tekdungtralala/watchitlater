@@ -13,7 +13,8 @@
 		'duScroll',
 
 		// App Module
-		'app.home'
+		'app.home',
+		'app.core'
 	])
 	.config(configRoute)
 	.run(appRun);
