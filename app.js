@@ -46,13 +46,12 @@ if (app.get('env') === 'development') {
 			message: err.message,
 
 			// will print stacktrace
-			error: err,
+			error: err
 
 			// no stacktraces leaked to user
 			// error: {}
 		});
 	});
 }
-
 
 module.exports = app;

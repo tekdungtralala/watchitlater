@@ -25,16 +25,15 @@
 	};
 
 	function appRun($rootScope, $window) {
-		console.log("appRun ");
 		startScrollListener($rootScope);
 	}
 
 	function startScrollListener($rootScope) {
-		var docElem = document.documentElement,
-			didScroll = false,
-			changeHeaderOn = 300;
+		var docElem = document.documentElement;
+		var didScroll = false;
+		var changeHeaderOn = 300;
 
-		window.addEventListener( 'scroll', function( event ) {
+		window.addEventListener('scroll', function(event) {
 			if (!didScroll) {
 				didScroll = true;
 				setTimeout(scrollPage, 250);
@@ -52,6 +51,7 @@
 					$rootScope.showNavbar = false;
 				});
 			}
+
 			didScroll = false;
 		}
 

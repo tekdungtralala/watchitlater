@@ -48,7 +48,8 @@ function getValue(key) {
 		else
 			deferred.resolve(doc.value);
 	});
-	return deferred.promise;	
+
+	return deferred.promise;
 }
 
 function updateLatestBoxOffice(movieIds) {
@@ -78,6 +79,8 @@ function findOneAndUpdate(key, value) {
 			debug('  saved ');
 
 		deferred.resolve();
+
 	});
+
 	return deferred.promise;
 }

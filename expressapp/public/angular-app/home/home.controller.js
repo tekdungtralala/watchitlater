@@ -37,19 +37,23 @@
 		}
 
 		function findMovie(movieId) {
-			var prev, next, index;
+			var prev;
+			var next;
+			var index;
+
 			_.forEach(movieList, function(d, i) {
 				if (movieId === d.imdbID) {
 					vm.selectedMovie = d;
 					index = i;
 				}
 			});
+
 			prev = index - 1;
 			next = index + 1;
 
 			prev = (prev === -1) ? movieList.length - 1 : prev;
 			next = (next >= movieList.length) ? 0 : next;
-			
+
 			vm.prevMovie = movieList[prev];
 			vm.nextMovie = movieList[next];
 		}
@@ -62,7 +66,6 @@
 		function afterGetResult(result) {
 			afterGetLatestBO(result[0]);
 			afterGetLatestTM(result[1]);
-			viewMovieDetail("tt0111161");
 		}
 
 		function afterGetLatestTM(result) {

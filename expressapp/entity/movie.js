@@ -80,13 +80,14 @@ var MovieSchema = new mongoose.Schema({
 		trim: true
 	}
 });
-var Movie = mongoose.model('Movie', MovieSchema);
 
+var Movie = mongoose.model('Movie', MovieSchema);
 var movieModule = {
 	saveOrUpdate: saveOrUpdate,
 	getLatestBoxOffice: getLatestBoxOffice,
 	getLatestTopMovie: getLatestTopMovie
 };
+
 module.exports = movieModule;
 
 function getLatestTopMovie() {
@@ -96,11 +97,9 @@ function getLatestTopMovie() {
 	function afterGetMovieIds(movieIds) {
 		debug('  movieIds = ' + movieIds.length);
 
-		var query = {
-			imdbID: {
-				'$in': movieIds
-			}
-		};
+		var query = {imdbID: {}};
+		query.imdbID.$in = movieIds;
+
 		var opt = {sort: {imdbRating: -1}};
 		Movie.find(query, null, opt, function(err, doc) {
 			if (err) debug('error ', err);
@@ -111,7 +110,7 @@ function getLatestTopMovie() {
 
 	appConfig.getLatestTopMovie().then(afterGetMovieIds);
 
-	return deferred.promise;	
+	return deferred.promise;
 }
 
 function getLatestBoxOffice() {
@@ -121,15 +120,14 @@ function getLatestBoxOffice() {
 	function afterGetMovieIds(movieIds) {
 		debug('  movieIds = ' + movieIds.length);
 
-		var query = {
-			imdbID: {
-				'$in': movieIds
-			}
-		};
+		var query = {imdbID: {}};
+		query.imdbID.$in = movieIds;
+
 		Movie.find(query, function(err, doc) {
 			if (err) debug('error ', err);
 			debug('  movies = ' + doc.length);
 			deferred.resolve(doc);
+
 		});
 	};
 
@@ -150,5 +148,6 @@ function saveOrUpdate(data) {
 			debug('  saved ');
 		deferred.resolve();
 	});
+
 	return deferred.promise;
 }

@@ -9,7 +9,8 @@ router.get('/getLatestBoxOffice', function(req, res, next) {
 		.getLatestBoxOffice()
 		.then(function(result) {
 			res.send(result);
-		})
+		});
+
 });
 
 router.get('/getLatestTopMovie', function(req, res, next) {
@@ -17,8 +18,8 @@ router.get('/getLatestTopMovie', function(req, res, next) {
 		.getLatestTopMovie()
 		.then(function(result) {
 			res.send(result);
-		})
-});
+		});
 
+});
 
 module.exports = router;

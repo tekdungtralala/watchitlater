@@ -19,12 +19,12 @@
 		return service;
 
 		function getLatestTopMovie() {
-			var apiUrl = '/api/getLatestTopMovie'
+			var apiUrl = '/api/getLatestTopMovie';
 			return $http.get(apiUrl).then(getData);
 		}
 
 		function getLatestBoxOffice() {
-			var apiUrl = '/api/getLatestBoxOffice'
+			var apiUrl = '/api/getLatestBoxOffice';
 			return $http.get(apiUrl).then(getData);
 		}
 

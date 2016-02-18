@@ -46,6 +46,7 @@ function processData(html) {
 			resolvePromise();
 			return;
 		}
+
 		var movieId = movieIds[index];
 		index++;
 		var url = 'http://www.omdbapi.com/?i=' + movieId + '&plot=full&r=json';
@@ -68,11 +69,11 @@ function processMovieData(data) {
 }
 
 function afterProcessBO() {
-	return appConfig.updateLatestBoxOffice(movieIds)
+	return appConfig.updateLatestBoxOffice(movieIds);
 }
 
 function afterProcessTM() {
-	return appConfig.updateLatestTopMovies(movieIds)
+	return appConfig.updateLatestTopMovies(movieIds);
 }
 
 function fetchlatestBO() {
@@ -93,12 +94,15 @@ function fetchHtml(url) {
 	var deferred = Q.defer();
 	http.get(url, function(res) {
 		var data = '';
-		res.on('data', function (chunk) {
+		res.on('data', function(chunk) {
 			data += chunk;
 		});
+
 		res.on('end', function() {
 			deferred.resolve(data);
 		});
+
 	});
+
 	return deferred.promise;
 }
