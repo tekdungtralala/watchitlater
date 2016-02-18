@@ -1,96 +1,96 @@
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top"
 	ng-class="{'navbar-shrink': showNavbar}">
-		<div class="container">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header page-scroll">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-						</button>
-						<a ng-click="vm.scrollToElmt('page-top');" class="navbar-brand page-scroll" href="">
-								<span >Watch it later</span>
-						</a>
-				</div>
-
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav navbar-right">
-								<li class="hidden">
-										<a href=""></a>
-								</li>
-								<li>
-										<a ng-click="vm.scrollToElmt('whatisit');" class="page-scroll" href="">What is it?</a>
-								</li>
-								<li>
-										<a ng-click="vm.scrollToElmt('top10Movies');" class="page-scroll" href="">Latest Movies</a>
-								</li>
-								<li>
-										<a ng-click="vm.scrollToElmt('haloffame');" class="page-scroll" href="">Hal Of Fame</a>
-								</li>
-								<li ng-show="!vm.isLogged">
-										<a ng-click="vm.scrollToElmt('signin');" class="page-scroll" href="">Sign In</a>
-								</li>
-								<li ng-show="vm.isLogged">
-										<a class="page-scroll" href="">My Account</a>
-										&nbsp;
-										<a href="" ng-click="vm.testSignOut()">TestSignOut</a>
-								</li>
-						</ul>
-				</div>
-				<!-- /.navbar-collapse -->
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header page-scroll">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a ng-click="vm.scrollToElmt('page-top');" class="navbar-brand page-scroll" href="">
+				<span >Watch it later</span>
+			</a>
 		</div>
-		<!-- /.container-fluid -->
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="hidden">
+					<a href=""></a>
+				</li>
+				<li>
+					<a ng-click="vm.scrollToElmt('whatisit');" class="page-scroll" href="">What is it?</a>
+				</li>
+				<li>
+					<a ng-click="vm.scrollToElmt('top10Movies');" class="page-scroll" href="">Latest Movies</a>
+				</li>
+				<li>
+					<a ng-click="vm.scrollToElmt('haloffame');" class="page-scroll" href="">Hal Of Fame</a>
+				</li>
+				<li ng-show="!vm.isLogged">
+					<a ng-click="vm.scrollToElmt('signin');" class="page-scroll" href="">Sign In</a>
+				</li>
+				<li ng-show="vm.isLogged">
+					<a class="page-scroll" href="">My Account</a>
+					&nbsp;
+					<a href="" ng-click="vm.testSignOut()">TestSignOut</a>
+				</li>
+			</ul>
+		</div>
+		<!-- /.navbar-collapse -->
+	</div>
+	<!-- /.container-fluid -->
 </nav>
 
 <header>
 </header>
 
 <section id="whatisit">
-		<div class="container">
-				<div class="row">
-						<div class="col-lg-12 text-center">
-								<h2 class="section-heading">What is it ?</h2>
-								<h3 class="section-subheading text-muted">
-									It's a simple application to bookmark a box office movie.
-									<br/>
-									It's used for my portfolio purpose, no commercial content in this app ;)
-								</h3>
-						</div>
-				</div>
-				<div class="row text-center">
-						<div class="col-md-3">
-								<span class="fa-stack fa-4x">
-										<i class="fa fa-circle fa-stack-2x text-primary"></i>
-										<i class="fa fa-newspaper-o fa-stack-1x fa-inverse"></i>
-								</span>
-								<h4 class="service-heading">Always up to date</h4>
-						</div>
-						<div class="col-md-3">
-								<span class="fa-stack fa-4x">
-										<i class="fa fa-circle fa-stack-2x text-primary"></i>
-										<i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i>
-								</span>
-								<h4 class="service-heading">Bookmark box office movie</h4>
-						</div>
-						<div class="col-md-3">
-								<span class="fa-stack fa-4x">
-										<i class="fa fa-circle fa-stack-2x text-primary"></i>
-										<i class="fa fa-file-video-o fa-stack-1x fa-inverse"></i>
-								</span>
-								<h4 class="service-heading">Wait until HD movie come-up</h4>
-						</div>
-						<div class="col-md-3">
-								<span class="fa-stack fa-4x">
-										<i class="fa fa-circle fa-stack-2x text-primary"></i>
-										<i class="fa fa-share-alt fa-stack-1x fa-inverse"></i>
-								</span>
-								<h4 class="service-heading">Share to your friends</h4>
-						</div>
-				</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="section-heading">What is it ?</h2>
+				<h3 class="section-subheading text-muted">
+					It's a simple application to bookmark a box office movie.
+					<br/>
+					It's used for my portfolio purpose, no commercial content in this app ;)
+				</h3>
+			</div>
 		</div>
+		<div class="row text-center">
+			<div class="col-md-3">
+				<span class="fa-stack fa-4x">
+					<i class="fa fa-circle fa-stack-2x text-primary"></i>
+					<i class="fa fa-newspaper-o fa-stack-1x fa-inverse"></i>
+				</span>
+				<h4 class="service-heading">Always up to date</h4>
+			</div>
+			<div class="col-md-3">
+				<span class="fa-stack fa-4x">
+					<i class="fa fa-circle fa-stack-2x text-primary"></i>
+					<i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i>
+				</span>
+				<h4 class="service-heading">Bookmark box office movie</h4>
+			</div>
+			<div class="col-md-3">
+				<span class="fa-stack fa-4x">
+					<i class="fa fa-circle fa-stack-2x text-primary"></i>
+					<i class="fa fa-file-video-o fa-stack-1x fa-inverse"></i>
+				</span>
+				<h4 class="service-heading">Wait until HD movie come-up</h4>
+			</div>
+			<div class="col-md-3">
+				<span class="fa-stack fa-4x">
+					<i class="fa fa-circle fa-stack-2x text-primary"></i>
+					<i class="fa fa-share-alt fa-stack-1x fa-inverse"></i>
+				</span>
+				<h4 class="service-heading">Share to your friends</h4>
+			</div>
+		</div>
+	</div>
 </section>
 
 <!-- Portfolio Grid Section -->
@@ -119,91 +119,91 @@
 </section>
 
 <section id="signin" ng-show="!vm.isLogged" class="app-home-section">
-		<div class="container">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="section-heading">Sign In</h2>
 				<div class="row">
-						<div class="col-lg-12 text-center">
-								<h2 class="section-heading">Sign In</h2>
-								<div class="row">
-									<div class="col-sm-offset-4 col-sm-4">
-											<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
-									</div>
-									<div class="col-sm-offset-4 col-sm-4">
-										<a id="google-signin-btn1" class="btn btn-block btn-social btn-google">
-											<span class="fa fa-google"></span> Sign in with Google
-										</a>
-									</div>
-									<div class="col-sm-offset-4 col-sm-4">
-										<a class="btn btn-block btn-social btn-facebook">
-											<span class="fa fa-facebook"></span> Sign in with Facebook
-										</a>
-									</div>
-									<div class="col-sm-offset-4 col-sm-4">
-										<a class="btn btn-block btn-social btn-twitter">
-											<span class="fa fa-twitter"></span> Sign in with Twitter
-										</a>
-									</div>
-								</div>
-								<h3 class="section-subheading text-muted">Select your social media profile to using our app.</h3>
-						</div>
+					<div class="col-sm-offset-4 col-sm-4">
+						<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+					</div>
+					<div class="col-sm-offset-4 col-sm-4">
+						<a id="google-signin-btn1" class="btn btn-block btn-social btn-google">
+							<span class="fa fa-google"></span> Sign in with Google
+						</a>
+					</div>
+					<div class="col-sm-offset-4 col-sm-4">
+						<a class="btn btn-block btn-social btn-facebook">
+							<span class="fa fa-facebook"></span> Sign in with Facebook
+						</a>
+					</div>
+					<div class="col-sm-offset-4 col-sm-4">
+						<a class="btn btn-block btn-social btn-twitter">
+							<span class="fa fa-twitter"></span> Sign in with Twitter
+						</a>
+					</div>
 				</div>
+				<h3 class="section-subheading text-muted">Select your social media profile to using our app.</h3>
+			</div>
 		</div>
+	</div>
 </section>
 
 <section id="haloffame" class="bg-light-gray">
-		<div class="container">
-				<div class="row">
-						<div class="col-lg-12 text-center">
-								<h2 class="section-heading">Top 5 Movies</h2>
-						</div>
-				</div>
-				<div class="row">
-						<div ng-repeat="d in vm.listTM" 
-							ng-class="{'col-sm-offset-1': $index === 0}"
-							class="col-sm-2">
-								<div class="team-member">
-										<img ng-src="{{d.Poster}}" 
-											ng-click="vm.viewMovieDetail(d.imdbID)" class="img-responsive img-circle" alt="">
-										<h4 ng-click="vm.viewMovieDetail(d.imdbID)">{{d.Title}} ({{d.Year}})</h4>
-										<p class="text-muted">Rating : {{d.imdbRating}}</p>
-								</div>
-						</div>
-				</div>
-				<div class="row">
-						<div class="col-lg-8 col-lg-offset-2 text-center">
-								<p class="large text-muted">
-									All of data in this app is base on imdb site
-								</p>
-						</div>
-				</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 text-center">
+				<h2 class="section-heading">Top 5 Movies</h2>
+			</div>
 		</div>
+		<div class="row">
+			<div ng-repeat="d in vm.listTM" 
+				ng-class="{'col-sm-offset-1': $index === 0}"
+				class="col-sm-2">
+				<div class="team-member">
+					<img ng-src="{{d.Poster}}" 
+						ng-click="vm.viewMovieDetail(d.imdbID)" class="img-responsive img-circle" alt="">
+					<h4 ng-click="vm.viewMovieDetail(d.imdbID)">{{d.Title}} ({{d.Year}})</h4>
+					<p class="text-muted">Rating : {{d.imdbRating}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8 col-lg-offset-2 text-center">
+				<p class="large text-muted">
+					All of data in this app is base on imdb site
+				</p>
+			</div>
+		</div>
+	</div>
 </section>
 
 <footer id="footer">
-		<div class="container">
-				<div class="row">
-						<div class="col-md-4">
-								<span class="copyright"></span>
-						</div>
-						<div class="col-md-4">
-								<ul class="list-inline social-buttons">
-										<li><a href=""><i class="fa fa-github"></i></a>
-										</li>
-										<li><a href=""><i class="fa fa-facebook"></i></a>
-										</li>
-								</ul>
-						</div>
-						<div class="col-md-4">
-								<ul class="list-inline quicklinks">
-										<li><a href="https://www.upwork.com/freelancers/~016d109302643b6455">My Upwork Profile</a>
-										</li>
-										<li><a href="http://startbootstrap.com/template-overviews/agency/">Theme</a>
-										</li>
-										<li><a href="http://www.imdb.com/">Imdb</a>
-										</li>
-								</ul>
-						</div>
-				</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+					<span class="copyright"></span>
+			</div>
+			<div class="col-md-4">
+				<ul class="list-inline social-buttons">
+					<li><a href=""><i class="fa fa-github"></i></a>
+					</li>
+					<li><a href=""><i class="fa fa-facebook"></i></a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-4">
+				<ul class="list-inline quicklinks">
+					<li><a href="https://www.upwork.com/freelancers/~016d109302643b6455">My Upwork Profile</a>
+					</li>
+					<li><a href="http://startbootstrap.com/template-overviews/agency/">Theme</a>
+					</li>
+					<li><a href="http://www.imdb.com/">Imdb</a>
+					</li>
+				</ul>
+			</div>
 		</div>
+	</div>
 </footer>
 
 <script type="text/ng-template" id="movieDetail.html">
