@@ -26,6 +26,10 @@
 
 	function appRun($rootScope, $window) {
 		startScrollListener($rootScope);
+
+		$rootScope.loggedUser = {};
+		$rootScope.loggedUser.fullName = null;
+		$rootScope.loggedUser.email = null;
 	}
 
 	function startScrollListener($rootScope) {

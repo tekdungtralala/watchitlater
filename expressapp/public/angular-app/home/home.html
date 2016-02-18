@@ -28,10 +28,15 @@
 										<a ng-click="vm.scrollToElmt('top10Movies');" class="page-scroll" href="">Latest Movies</a>
 								</li>
 								<li>
-										<a ng-click="vm.scrollToElmt('signup');" class="page-scroll" href="">Sign Up</a>
-								</li>
-								<li>
 										<a ng-click="vm.scrollToElmt('haloffame');" class="page-scroll" href="">Hal Of Fame</a>
+								</li>
+								<li ng-show="!vm.isLogged">
+										<a ng-click="vm.scrollToElmt('signin');" class="page-scroll" href="">Sign In</a>
+								</li>
+								<li ng-show="vm.isLogged">
+										<a class="page-scroll" href="">My Account</a>
+										&nbsp;
+										<a href="" ng-click="vm.testSignOut()">TestSignOut</a>
 								</li>
 						</ul>
 				</div>
@@ -89,7 +94,7 @@
 </section>
 
 <!-- Portfolio Grid Section -->
-<section id="top10Movies" class="bg-light-gray">
+<section id="top10Movies" class="bg-light-gray app-home-section">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 text-center">
@@ -113,12 +118,32 @@
 	</div>
 </section>
 
-<section id="signup">
+<section id="signin" ng-show="!vm.isLogged" class="app-home-section">
 		<div class="container">
 				<div class="row">
 						<div class="col-lg-12 text-center">
-								<h2 class="section-heading">Sign Up</h2>
-								<h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+								<h2 class="section-heading">Sign In</h2>
+								<div class="row">
+									<div class="col-sm-offset-4 col-sm-4">
+											<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+									</div>
+									<div class="col-sm-offset-4 col-sm-4">
+										<a id="google-signin-btn1" class="btn btn-block btn-social btn-google">
+											<span class="fa fa-google"></span> Sign in with Google
+										</a>
+									</div>
+									<div class="col-sm-offset-4 col-sm-4">
+										<a class="btn btn-block btn-social btn-facebook">
+											<span class="fa fa-facebook"></span> Sign in with Facebook
+										</a>
+									</div>
+									<div class="col-sm-offset-4 col-sm-4">
+										<a class="btn btn-block btn-social btn-twitter">
+											<span class="fa fa-twitter"></span> Sign in with Twitter
+										</a>
+									</div>
+								</div>
+								<h3 class="section-subheading text-muted">Select your social media profile to using our app.</h3>
 						</div>
 				</div>
 		</div>
@@ -153,7 +178,7 @@
 		</div>
 </section>
 
-<footer>
+<footer id="footer">
 		<div class="container">
 				<div class="row">
 						<div class="col-md-4">
@@ -217,6 +242,20 @@
 						<label>Type</label>
 						<div>
 							{{vm.selectedMovie.Type}}
+						</div>
+					</div>
+					<div class="form-group" ng-show="!vm.isLogged">
+						<label>Sign In</label>
+						<div>
+							<a id="google-signin-btn2" class="btn btn-social-icon btn-google">
+								<span class="fa fa-google"></span>
+							</a>
+							<a class="btn btn-social-icon btn-facebook">
+								<span class="fa fa-facebook"></span>
+							</a>
+							<a class="btn btn-social-icon btn-twitter">
+							  <span class="fa fa-twitter"></span>
+							</a>
 						</div>
 					</div>
 				</form>

@@ -48,7 +48,7 @@
 	"requireCommaBeforeLineBreak": true,
 	"requireSpaceBeforeBinaryOperators": true,
 	"requireSpaceAfterBinaryOperators": true,
-	"requireCamelCaseOrUpperCaseIdentifiers": true,
+	"requireCamelCaseOrUpperCaseIdentifiers": false,
 	"requireLineFeedAtFileEnd": true,
 	"requireCapitalizedConstructors": true,
 	"requireDotNotation": true,

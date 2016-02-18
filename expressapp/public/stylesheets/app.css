@@ -5,6 +5,9 @@ header {
 .app-telmemore {
 	color: #000;
 }
+.app-home-section {
+	padding: 50px;
+}
 
 .app-latestmovie-item {
 	background-color: #eee;
