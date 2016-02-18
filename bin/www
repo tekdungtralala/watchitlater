@@ -7,6 +7,7 @@
 var debug = require('debug')('watchitlater:server');
 var http = require('http');
 var mongoose = require('mongoose');
+var CronJob = require('cron').CronJob;
 
 var port = null;
 var server = null;
@@ -16,34 +17,44 @@ mongoose.connect('mongodb://localhost/watchitlater');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  debug('connected to mongodb');
-  startApp();
+	debug('connected to mongodb');
+	startApp();
 });
 
 function startApp() {
-  var app = require('../app');
+	var app = require('../app');
 
-  /**
-   * Get port from environment and store in Express.
-   */
-  port = normalizePort(process.env.PORT || '3000');
-  app.set('port', port);
+	/**
+	 * Get port from environment and store in Express.
+	 */
+	port = normalizePort(process.env.PORT || '3000');
+	app.set('port', port);
 
-  /**
-   * Create HTTP server.
-   */
-  server = http.createServer(app);
+	/**
+	 * Create HTTP server.
+	 */
+	server = http.createServer(app);
 
-  /**
-   * Listen on provided port, on all network interfaces.
-   */
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
+	/**
+	 * Listen on provided port, on all network interfaces.
+	 */
+	server.listen(port);
+	server.on('error', onError);
+	server.on('listening', onListening);
 
 
-  var initEntity = require('../expressapp/entity/initEntity');
-  // initEntity.doInitialize();
+	var initEntity = require('../expressapp/entity/initEntity');
+	// initEntity.doInitialize();
+
+	try {
+		new CronJob('0 0 0 * * 0', function() {
+			debug('CronJob do work ', new Date());
+			initEntity.doInitialize();
+		}, null, true);
+
+	} catch (ex) {
+		debug("cron pattern not valid");
+	}
 }
 
 
@@ -52,19 +63,19 @@ function startApp() {
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+	var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+	if (isNaN(port)) {
+		// named pipe
+		return val;
+	}
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+	if (port >= 0) {
+		// port number
+		return port;
+	}
 
-  return false;
+	return false;
 }
 
 /**
@@ -72,27 +83,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+	if (error.syscall !== 'listen') {
+		throw error;
+	}
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+	var bind = typeof port === 'string'
+		? 'Pipe ' + port
+		: 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+	// handle specific listen errors with friendly messages
+	switch (error.code) {
+		case 'EACCES':
+			console.error(bind + ' requires elevated privileges');
+			process.exit(1);
+			break;
+		case 'EADDRINUSE':
+			console.error(bind + ' is already in use');
+			process.exit(1);
+			break;
+		default:
+			throw error;
+	}
 }
 
 /**
@@ -100,9 +111,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+	var addr = server.address();
+	var bind = typeof addr === 'string'
+		? 'pipe ' + addr
+		: 'port ' + addr.port;
+	debug('Listening on ' + bind);
 }
