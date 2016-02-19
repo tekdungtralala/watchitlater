@@ -23,11 +23,11 @@
 				<li>
 					<a class="page-scroll" href="">Top Movie</a>
 				</li>
-				<li>
-					<a class="page-scroll" href="">Da</a>
+				<li ng-show="!loggedUser.email">
+					<a class="page-scroll" href="">Sign In</a>
 				</li>
-				<li>
-					<a class="page-scroll" href="">What is it?</a>
+				<li ng-show="loggedUser.email">
+					<a class="page-scroll" href="">My Account</a>
 				</li>
 			</ul>
 		</div>
@@ -36,33 +36,34 @@
 	<!-- /.container-fluid -->
 </nav>
 
-<footer id="footer">
+<div class="app-topmovie-nav"/>
+
+<section class="app-home-section">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-4">
-					<span class="copyright"></span>
-			</div>
-			<div class="col-md-4">
-				<ul class="list-inline social-buttons">
-					<li><a href=""><i class="fa fa-github"></i></a>
-					</li>
-					<li><a href=""><i class="fa fa-facebook"></i></a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-md-4">
-				<ul class="list-inline quicklinks">
-					<li><a href="https://www.upwork.com/freelancers/~016d109302643b6455">My Upwork Profile</a>
-					</li>
-					<li><a href="http://startbootstrap.com/template-overviews/agency/">Theme</a>
-					</li>
-					<li><a href="http://www.imdb.com/">Imdb</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+		<table class="table table-striped">
+				<thead>
+					<tr>
+							<th>#</th>
+							<th>Title</th>
+							<th>Released</th>
+							<th>Director</th>
+							<th>Rating</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="d in ::vm.listMovie">
+							<th scope="row">{{$index + 1}}</th>
+							<td>{{::d.Title}}</td>
+							<td class="col-sm-2">{{::d.Released}}</td>
+							<td class="col-sm-2">{{::d.Director}}</td>
+							<td class="col-sm-1">{{::d.imdbRating}}</td>
+					</tr>
+				</tbody>
+			</table>
 	</div>
-</footer>
+</section>
+
+<footer id="footer" ng-include src="'angular-app/static-html/footer.html'"></footer>
 
 <script type="text/ng-template" id="movieDetail.html">
 	<div class="modal-header app-movieDetail-header">

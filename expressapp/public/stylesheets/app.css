@@ -73,3 +73,8 @@ header {
 .app-movieDetail-plot {
 	text-indent: 50px;
 }
+
+
+.app-topmovie-nav {
+	margin-bottom: 70px;
+}

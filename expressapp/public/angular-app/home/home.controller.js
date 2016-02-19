@@ -9,7 +9,6 @@
 		var vm = this;
 		var modalInstance = null;
 		var movieList = [];
-		var auth2 = null;
 		vm.listTM = [];
 		vm.listBO = [];
 		vm.selectedMovie = null;
@@ -20,57 +19,11 @@
 		vm.scrollToElmt = scrollToElmt;
 		vm.viewMovieDetail = viewMovieDetail;
 		vm.closeDialog = closeDialog;
-		vm.testSignOut = testSignOut;
 
 		activate();
 		function activate() {
 			var promise = [homeservice.getLatestBoxOffice(), homeservice.getLatestTopMovie()];
-			homeservice.ready(promise).then(afterGetResult);
-
-			loadGoogleAPI();
-		}
-
-		function loadGoogleAPI() {
-			gapi.load('auth2', function() {
-				auth2 = gapi.auth2.init({
-					client_id: '282630936768-vh37jnihfbm59s8jmkrr4eu7hl577r8r.apps.googleusercontent.com',
-					cookiepolicy: 'single_host_origin'
-				});
-				auth2.attachClickHandler(document.getElementById('google-signin-btn1'));
-				auth2.isSignedIn.listen(googleSignedListener);
-
-				function googleSignedListener(isLogged) {
-					var profile = auth2.currentUser.get().getBasicProfile();
-					var data = {
-						email: profile.getEmail(),
-						socialNetwok: {
-							fullName: profile.getName(),
-							id: profile.getId(),
-							imageUrl: profile.getImageUrl(),
-							type: profile.getEmail()
-						}
-					};
-					homeservice.postSignIn(data)
-
-					if (isLogged) {
-						$scope.$apply(function() {
-							vm.isLogged = true;
-						});
-
-					}
-				}
-			});
-		}
-
-		function afterSuccessSignin() {
-		}
-
-		function testSignOut() {
-			vm.isLogged = false;
-
-			auth2.signOut().then(function() {
-				console.log('User signed out.');
-			});
+			homeservice.ready(promise).then(afterGetResult);		
 		}
 
 		function viewMovieDetail(movieId) {
@@ -85,7 +38,7 @@
 
 			modalInstance.rendered.then(function() {
 				if (auth2 && auth2.attachClickHandler)
-					auth2.attachClickHandler(document.getElementById('google-signin-btn2'));
+					window.auth2.attachClickHandler(document.getElementById('google-signin-btn2'));
 			});
 		}
 

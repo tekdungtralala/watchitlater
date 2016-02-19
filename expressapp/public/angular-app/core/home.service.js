@@ -32,8 +32,10 @@
 			return $http(req);
 		}
 
-		function getLatestTopMovie() {
-			var apiUrl = '/api/getLatestTopMovie';
+		function getLatestTopMovie(skip, limit) {
+			var l = limit ? limit : 5;
+			var s = skip ? skip : 0;
+			var apiUrl = '/api/getLatestTopMovie?skip=' + skip + '&limit=' + limit;
 			return $http.get(apiUrl).then(getData);
 		}
 
