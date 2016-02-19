@@ -1,3 +1,4 @@
+var debug = require('debug')('watchitlater:server');
 var express = require('express');
 var router = express.Router();
 
@@ -15,8 +16,12 @@ router.get('/getLatestBoxOffice', function(req, res, next) {
 });
 
 router.get('/getLatestTopMovie', function(req, res, next) {
+	debug('/getLatestTopMovie');
+	var skip = req.query.skip ? req.query.skip : 0;
+	var limit = req.query.limit ? req.query.limit : 5;
+	debug('  skip=' + skip + ', limit=' + limit);
 	movie
-		.getLatestTopMovie()
+		.getLatestTopMovie(skip, limit)
 		.then(function(result) {
 			res.send(result);
 		});

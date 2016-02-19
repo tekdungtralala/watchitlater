@@ -68,7 +68,7 @@ var MovieSchema = new mongoose.Schema({
 		trim: true
 	},
 	imdbRating: {
-		type: String,
+		type: Number,
 		trim: true
 	},
 	imdbID: {
@@ -90,7 +90,7 @@ var movieModule = {
 
 module.exports = movieModule;
 
-function getLatestTopMovie() {
+function getLatestTopMovie(skip, limit) {
 	debug('getLatestTopMovie()');
 
 	var deferred = Q.defer();
@@ -100,7 +100,12 @@ function getLatestTopMovie() {
 		var query = {imdbID: {}};
 		query.imdbID.$in = movieIds;
 
-		var opt = {sort: {imdbRating: -1}};
+		var opt = {
+			sort: {imdbRating: -1},
+			skip: skip,
+			limit: limit
+		};
+
 		Movie.find(query, null, opt, function(err, doc) {
 			if (err) debug('error ', err);
 			debug('  movies = ' + doc.length);
@@ -138,6 +143,14 @@ function getLatestBoxOffice() {
 
 function saveOrUpdate(data) {
 	debug('Movie saveOrUpdate() ' + data.imdbID);
+
+	var ratingNumber = Number(data.imdbRating);
+	if (isFloat(ratingNumber)) {
+		data.imdbRating = ratingNumber;
+	} else {
+		data.imdbRating = 0.0;
+	}
+
 	var deferred = Q.defer();
 	var query = {imdbID: data.imdbID};
 	var opt = {upsert: true};
@@ -150,4 +163,8 @@ function saveOrUpdate(data) {
 	});
 
 	return deferred.promise;
+}
+
+function isFloat(n) {
+	return Number(n) === n && n % 1 !== 0;
 }

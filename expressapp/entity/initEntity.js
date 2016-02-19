@@ -33,12 +33,10 @@ function processData(html) {
 	var deferred = Q.defer();
 	var $ = cheerio.load(html);
 	$('table.chart.full-width tbody tr td.posterColumn').each(function(i, elm) {
-		if (i <= 9) {
-			var $tr = cheerio.load($(this).html());
-			var href = $tr('a').attr('href');
-			var movieId = href.split('/title/')[1].split(titleSplitter)[0];
-			movieIds.push(movieId);
-		}
+		var $tr = cheerio.load($(this).html());
+		var href = $tr('a').attr('href');
+		var movieId = href.split('/title/')[1].split(titleSplitter)[0];
+		movieIds.push(movieId);
 	});
 
 	function iterateMovieId() {
