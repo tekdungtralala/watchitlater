@@ -11,9 +11,11 @@
 		'xeditable',
 		'cgBusy',
 		'duScroll',
+		'oc.lazyLoad',
 
 		// App Module
 		'app.home',
+		'app.top-movie',
 		'app.core'
 	])
 	.config(configRoute)

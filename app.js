@@ -24,10 +24,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'expressapp/public')));
 
-// catch 404 and forward to error handler
+// Rest api
 app.use('/api', require('./expressapp/routes/appApi'));
+
+// angular page
 app.get('/', renderIndexPage);
 app.get('/home', renderIndexPage);
+app.get('/top-movie', renderIndexPage);
+
+// catch 404 and forward to error handler
 app.use(handleError404);
 
 function renderIndexPage(req, res) {
