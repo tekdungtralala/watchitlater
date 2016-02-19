@@ -4,19 +4,33 @@
 
 	angular
 		.module('app.core')
-		.factory('dataservice', Dataservice);
+		.factory('homeservice', Homeservice);
 
-	function Dataservice($q, $http) {
+	function Homeservice($q, $http) {
 		var isPrimed = false;
 		var primePromise;
 
 		var service = {
 			ready: ready,
-			getLatestBoxOffice: getLatestBoxOffice(),
-			getLatestTopMovie: getLatestTopMovie()
+			getLatestBoxOffice: getLatestBoxOffice,
+			getLatestTopMovie: getLatestTopMovie,
+			postSignIn: postSignIn
 		};
 
 		return service;
+
+		function postSignIn(data) {
+			var req = {
+				method: 'POST',
+				url: '/api/signin',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: data
+			};
+
+			return $http(req);
+		}
 
 		function getLatestTopMovie() {
 			var apiUrl = '/api/getLatestTopMovie';

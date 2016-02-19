@@ -5,7 +5,7 @@
 		.module('app.home')
 		.controller('HomeCtrl', HomeCtrl);
 
-	function HomeCtrl($rootScope, $scope, $document, $uibModal, dataservice) {
+	function HomeCtrl($rootScope, $scope, $document, $uibModal, homeservice) {
 		var vm = this;
 		var modalInstance = null;
 		var movieList = [];
@@ -24,8 +24,8 @@
 
 		activate();
 		function activate() {
-			var promise = [dataservice.getLatestBoxOffice, dataservice.getLatestTopMovie];
-			dataservice.ready(promise).then(afterGetResult);
+			var promise = [homeservice.getLatestBoxOffice(), homeservice.getLatestTopMovie()];
+			homeservice.ready(promise).then(afterGetResult);
 
 			loadGoogleAPI();
 		}
@@ -40,16 +40,23 @@
 				auth2.isSignedIn.listen(googleSignedListener);
 
 				function googleSignedListener(isLogged) {
+					var profile = auth2.currentUser.get().getBasicProfile();
+					var data = {
+						email: profile.getEmail(),
+						socialNetwok: {
+							fullName: profile.getName(),
+							id: profile.getId(),
+							imageUrl: profile.getImageUrl(),
+							type: profile.getEmail()
+						}
+					};
+					homeservice.postSignIn(data)
+
 					if (isLogged) {
 						$scope.$apply(function() {
 							vm.isLogged = true;
 						});
 
-						var profile = auth2.currentUser.get().getBasicProfile();
-						console.log('ID: ' + profile.getId());
-						console.log('Name: ' + profile.getName());
-						console.log('Image URL: ' + profile.getImageUrl());
-						console.log('Email: ' + profile.getEmail());
 					}
 				}
 			});
