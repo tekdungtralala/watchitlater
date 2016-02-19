@@ -23,7 +23,7 @@
 		activate();
 		function activate() {
 			var promise = [homeservice.getLatestBoxOffice(), homeservice.getLatestTopMovie()];
-			homeservice.ready(promise).then(afterGetResult);		
+			homeservice.ready(promise).then(afterGetResult);
 		}
 
 		function viewMovieDetail(movieId) {

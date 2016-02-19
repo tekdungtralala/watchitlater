@@ -8,7 +8,7 @@
 	function TopMovieCtrl($scope, homeservice) {
 		var vm = this;
 		// vm.listMovie = [];
-		
+
 		activate();
 		function activate() {
 			homeservice
@@ -17,9 +17,8 @@
 		}
 
 		function afterGetData(result) {
+			_.orderBy(result, ['imdbRating'], ['desc']);
 			vm.listMovie = result;
-			_.orderBy(vm.listMovie, ['imdbRating'], ['desc']);
-			console.log(vm.listMovie[0])
 		}
 	}
 

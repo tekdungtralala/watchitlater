@@ -33,8 +33,8 @@ router.post('/signin', function(req, res, next) {
 	user
 		.saveOrUpdate(userData)
 		.then(function(result) {
-			res.send(result)
-		})
+			res.send(result);
+		});
 });
 
 module.exports = router;

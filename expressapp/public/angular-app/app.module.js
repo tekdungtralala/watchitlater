@@ -56,7 +56,7 @@
 						}
 					};
 
-					homeservice.postSignIn(data)
+					homeservice.postSignIn(data);
 
 					if (isLogged) {
 						$rootScope.$apply(function() {
