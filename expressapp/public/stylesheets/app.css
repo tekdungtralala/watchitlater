@@ -82,3 +82,11 @@ header {
 	text-decoration: none;
 	color: #337ab7;
 }
+
+
+.app-boxoffice table.uib-daypicker {
+	margin: 0 auto;
+}
+.app-boxoffice .app-selecteddate {
+	margin-bottom: 0px;
+}
