@@ -63,6 +63,10 @@
 							$rootScope.loggedUser.fullName = data.socialNetwok.fullName;
 							$rootScope.loggedUser.email = data.email;
 						});
+					} else {
+						$rootScope.$apply(function() {
+							$rootScope.loggedUser = {};
+						});
 					}
 				}
 

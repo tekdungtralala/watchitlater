@@ -5,20 +5,15 @@
 		.module('app.home')
 		.controller('HomeCtrl', HomeCtrl);
 
-	function HomeCtrl($rootScope, $scope, $document, $uibModal, homeservice) {
+	function HomeCtrl($rootScope, $scope, $document, $uibModal, $ocLazyLoad, homeservice) {
 		var vm = this;
 		var modalInstance = null;
 		var movieList = [];
 		vm.listTM = [];
 		vm.listBO = [];
-		vm.selectedMovie = null;
-		vm.prevMovie = null;
-		vm.nextMovie = null;
-		vm.isLogged = false;
 
 		vm.scrollToElmt = scrollToElmt;
 		vm.viewMovieDetail = viewMovieDetail;
-		vm.closeDialog = closeDialog;
 
 		activate();
 		function activate() {
@@ -27,13 +22,19 @@
 		}
 
 		function viewMovieDetail(movieId) {
-			closeDialog();
-			findMovie(movieId);
 			modalInstance = $uibModal.open({
-				templateUrl: 'movieDetail.html',
-				scope: $scope,
+				templateUrl: 'angular-app/home/movieDetail.html',
+				controller: 'MovieDetailCtrl',
+				controllerAs: 'vm',
 				size: 'lg',
-				backdrop: 'static'
+				backdrop: 'static',
+				resolve: {
+					movieList: getMovieList,
+					loadMovieDetailCtrl: loadMovieDetailCtrl,
+					movieId: function() {
+						return movieId;
+					}
+				}
 			});
 
 			modalInstance.rendered.then(function() {
@@ -42,31 +43,12 @@
 			});
 		}
 
-		function findMovie(movieId) {
-			var prev;
-			var next;
-			var index;
-
-			_.forEach(movieList, function(d, i) {
-				if (movieId === d.imdbID) {
-					vm.selectedMovie = d;
-					index = i;
-				}
-			});
-
-			prev = index - 1;
-			next = index + 1;
-
-			prev = (prev === -1) ? movieList.length - 1 : prev;
-			next = (next >= movieList.length) ? 0 : next;
-
-			vm.prevMovie = movieList[prev];
-			vm.nextMovie = movieList[next];
+		function loadMovieDetailCtrl() {
+			return $ocLazyLoad.load('/angular-app/home/movieDetail.controller.js');
 		}
 
-		function closeDialog() {
-			if (modalInstance && modalInstance.dismiss)
-				modalInstance.dismiss();
+		function getMovieList() {
+			return movieList;
 		}
 
 		function afterGetResult(result) {
