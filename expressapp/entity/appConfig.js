@@ -3,22 +3,22 @@ var Q = require('q');
 var mongoose = require('mongoose');
 
 var AppConfigSchema = new mongoose.Schema({
-	created: {
+	updatedAt: {
 		type: Date,
-		default: Date.now
-	},
-	updated: {
-		type: Array
+		required: true
 	},
 	key: {
 		type: String,
-		trim: true
+		trim: true,
+		required: true
 	},
 	value: {
 		type: Array,
-		trim: true
+		trim: true,
+		required: true
 	}
 });
+
 var AppConfig = mongoose.model('AppConfig', AppConfigSchema);
 var LATEST_BO_KEY = 'latest-box-office';
 var LATEST_TM_KEY = 'latest-top-movies';
@@ -69,7 +69,8 @@ function findOneAndUpdate(key, value) {
 
 	var data = {
 		key: key,
-		value: value
+		value: value,
+		updatedAt: new Date()
 	};
 
 	AppConfig.findOneAndUpdate(query, data, opt, function(err) {

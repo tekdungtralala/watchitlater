@@ -63,7 +63,7 @@ function processData(html) {
 
 function processMovieData(data) {
 	var obj = JSON.parse(data);
-	return movie.saveOrUpdate(obj);
+	return movie.createOrUpdate(obj);
 }
 
 function afterProcessBO() {

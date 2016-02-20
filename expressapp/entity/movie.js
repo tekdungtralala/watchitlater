@@ -83,7 +83,7 @@ var MovieSchema = new mongoose.Schema({
 
 var Movie = mongoose.model('Movie', MovieSchema);
 var movieModule = {
-	saveOrUpdate: saveOrUpdate,
+	createOrUpdate: createOrUpdate,
 	getLatestBoxOffice: getLatestBoxOffice,
 	getLatestTopMovie: getLatestTopMovie
 };
@@ -141,8 +141,8 @@ function getLatestBoxOffice() {
 	return deferred.promise;
 }
 
-function saveOrUpdate(data) {
-	debug('Movie saveOrUpdate() ' + data.imdbID);
+function createOrUpdate(data) {
+	debug('Movie createOrUpdate() ' + data.imdbID);
 
 	var ratingNumber = Number(data.imdbRating);
 	if (isFloat(ratingNumber)) {
