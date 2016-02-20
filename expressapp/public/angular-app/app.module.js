@@ -16,6 +16,7 @@
 		// App Module
 		'app.home',
 		'app.top-movie',
+		'app.box-office',
 		'app.core'
 	])
 	.config(configRoute)
@@ -58,7 +59,6 @@
 
 					homeservice.postSignIn(data);
 
-					console.log("google sign list ", isLogged);
 					if (isLogged) {
 						$rootScope.$apply(function() {
 							$rootScope.loggedUser.fullName = data.socialNetwok.fullName;
