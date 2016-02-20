@@ -15,9 +15,6 @@
 
 		activate();
 		function activate() {
-			console.log('MovieDetailCtrl ', movieList);
-			console.log('movieId : ', movieId);
-
 			findMovie(movieId);
 		};
 

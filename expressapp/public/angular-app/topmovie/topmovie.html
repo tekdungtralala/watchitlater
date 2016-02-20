@@ -53,7 +53,12 @@
 				<tbody>
 					<tr ng-repeat="d in ::vm.listMovie">
 							<th scope="row">{{$index + 1}}</th>
-							<td>{{::d.Title}}</td>
+							<td>
+								<span class="app-topmovie-columntitle">
+									<a ng-click="vm.showMovieDetail(d.imdbID)"
+										href="">{{::d.Title}}</a>
+								</span>
+							</td>
 							<td class="col-sm-2">{{::d.Released}}</td>
 							<td class="col-sm-2">{{::d.Director}}</td>
 							<td class="col-sm-1">{{::d.imdbRating}}</td>

@@ -6,7 +6,7 @@
 		.module('app.core')
 		.factory('homeservice', Homeservice);
 
-	function Homeservice($q, $http) {
+	function Homeservice($q, $http, $uibModal, $ocLazyLoad) {
 		var isPrimed = false;
 		var primePromise;
 
@@ -14,10 +14,40 @@
 			ready: ready,
 			getLatestBoxOffice: getLatestBoxOffice,
 			getLatestTopMovie: getLatestTopMovie,
-			postSignIn: postSignIn
+			postSignIn: postSignIn,
+			showMovieDetail: showMovieDetail
 		};
 
 		return service;
+
+		function showMovieDetail(movieList, movieId) {
+			$uibModal.open({
+				templateUrl: 'angular-app/home/movieDetail.html',
+				controller: 'MovieDetailCtrl',
+				controllerAs: 'vm',
+				size: 'lg',
+				backdrop: 'static',
+				resolve: {
+					movieList: getMovieList,
+					loadMovieDetailCtrl: loadMovieDetailCtrl,
+					movieId: function() {
+						return movieId;
+					}
+				}
+			})
+			.rendered.then(function() {
+				if (window.auth2 && window.auth2.attachClickHandler)
+					window.auth2.attachClickHandler(document.getElementById('google-signin-btn2'));
+			});
+
+			function getMovieList() {
+				return movieList;
+			}
+
+			function loadMovieDetailCtrl() {
+				return $ocLazyLoad.load('/angular-app/home/movieDetail.controller.js');
+			}
+		}
 
 		function postSignIn(data) {
 			var req = {
