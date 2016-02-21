@@ -20,7 +20,6 @@ function fetchHtml(url) {
 		res.on('end', function() {
 			deferred.resolve(data);
 		});
-
 	});
 
 	return deferred.promise;
@@ -38,5 +37,5 @@ function getFirstLastDOW(d) {
 	return {
 		fdow: firstDayOfWeek,
 		ldow: lastDayOfWeek
-	}
+	};
 }

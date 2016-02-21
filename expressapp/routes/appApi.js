@@ -47,7 +47,7 @@ router.post('/signin', function(req, res, next) {
 
 router.get('/weeklymovie', function(req, res, next) {
 	debug('/weeklymovie GET');
-	var currDate = generateCurrDate(req.query.date)
+	var currDate = generateCurrDate(req.query.date);
 	debug('  currDate = ' + currDate);
 
 	findWeeklymovie(currDate, res);
@@ -59,8 +59,8 @@ function findWeeklymovie(currDate, res) {
 
 	function afterGetMovieIds(result) {
 		if (result)
-			return movie.findByImdbIDs(result.movieIds)
-		else 
+			return movie.findByImdbIDs(result.movieIds);
+		else
 			return {};
 	}
 
@@ -76,7 +76,7 @@ function findWeeklymovie(currDate, res) {
 
 router.post('/weeklymovie', function(req, res, next) {
 	debug('/weeklymovie POST');
-	var currDate = generateCurrDate(req.query.date)
+	var currDate = generateCurrDate(req.query.date);
 	debug('  currDate = ' + currDate);
 
 	function doFindWeeklymovie() {
@@ -94,6 +94,7 @@ function generateCurrDate(date) {
 	if (!date) {
 		date = moment(new Date()).format(DATE_FORMAT);
 	};
+
 	return moment(date, DATE_FORMAT)._d;
 }
 

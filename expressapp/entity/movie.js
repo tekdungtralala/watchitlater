@@ -136,7 +136,7 @@ function getLatestBoxOffice() {
 }
 
 function createOrUpdate(data) {
-	debug('Movie createOrUpdate() ' + data.imdbID + ", " + data.Title);
+	debug('Movie createOrUpdate() ' + data.imdbID + ', ' + data.Title);
 
 	var ratingNumber = Number(data.imdbRating);
 	if (isFloat(ratingNumber)) {
@@ -161,7 +161,6 @@ function createOrUpdate(data) {
 			deferred.resolve();
 		}, 1);
 	}
-
 
 	return deferred.promise;
 }

@@ -16,9 +16,9 @@ module.exports = moduleExports;
 function fetchWeeklyMovie(date) {
 	var fldow = appUtil.getFirstLastDOW(date);
 	var sortdate = moment(fldow.fdow).format('YYYY-MM-DD');
-	debug('fetchWeeklyMovie sortdate=' + sortdate)
+	debug('fetchWeeklyMovie sortdate=' + sortdate);
 	var url = 'http://www.boxofficemojo.com/daily/chart/?sortdate=' + sortdate;
-	debug('  url= ' + url)
+	debug('  url= ' + url);
 
 	function processWeeklyMovie(html) {
 		var movieIds = [];
@@ -56,7 +56,7 @@ function fetchWeeklyMovie(date) {
 
 		function afterSavedMovie(data) {
 			if (data && data.imdbID) {
-				movieIds.push(data.imdbID)
+				movieIds.push(data.imdbID);
 			}
 		}
 
@@ -81,5 +81,5 @@ function fetchWeeklyMovie(date) {
 	return appUtil
 		.fetchHtml(url)
 		.then(processWeeklyMovie)
-		.then(afterProcessWM)
+		.then(afterProcessWM);
 }

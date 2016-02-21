@@ -34,7 +34,7 @@ function findWeeklyMovie(fdow, ldow) {
 	var deferred = Q.defer();
 	setupDate(fdow);
 	setupDate(ldow);
-	debug('WeeklyMovie findWeeklyMovie() ' + fdow + ", " + ldow);
+	debug('WeeklyMovie findWeeklyMovie() ' + fdow + ', ' + ldow);
 	var query = {
 		firstDayOfWeek: fdow,
 		lastDayOfWeek: ldow
@@ -43,7 +43,7 @@ function findWeeklyMovie(fdow, ldow) {
 	WeeklyMovie.findOne(query, {}, function(err, data) {
 		if (err)
 			debug('  error ', err);
-		deferred.resolve(data)
+		deferred.resolve(data);
 	});
 
 	return deferred.promise;
