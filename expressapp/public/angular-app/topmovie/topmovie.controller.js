@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app.top-movie')
+		.module('app')
 		.controller('TopMovieCtrl', TopMovieCtrl);
 
 	function TopMovieCtrl($scope, homeservice) {

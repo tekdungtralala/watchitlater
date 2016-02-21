@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular
-		.module('app.core')
+		.module('app')
 		.factory('homeservice', Homeservice);
 
 	function Homeservice($q, $http, $uibModal, $ocLazyLoad) {
@@ -14,7 +14,6 @@
 			ready: ready,
 			getLatestBoxOffice: getLatestBoxOffice,
 			getLatestTopMovie: getLatestTopMovie,
-			postSignIn: postSignIn,
 			showMovieDetail: showMovieDetail
 		};
 
@@ -45,21 +44,8 @@
 			}
 
 			function loadMovieDetailCtrl() {
-				return $ocLazyLoad.load('/angular-app/home/movieDetail.controller.js');
+				return $ocLazyLoad.load('MovieDetailCtrl');
 			}
-		}
-
-		function postSignIn(data) {
-			var req = {
-				method: 'POST',
-				url: '/api/signin',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				data: data
-			};
-
-			return $http(req);
 		}
 
 		function getLatestTopMovie(skip, limit) {

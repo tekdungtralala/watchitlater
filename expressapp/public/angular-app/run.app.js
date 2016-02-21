@@ -1,33 +1,8 @@
 (function() {
 	'use strict';
 
-	angular.module('app', [
-		// Angular module
-		'ngSanitize',
-
-		// Third party module
-		'ui.router',
-		'ui.bootstrap',
-		'xeditable',
-		'cgBusy',
-		'duScroll',
-		'oc.lazyLoad',
-
-		// App Module
-		'app.home',
-		'app.top-movie',
-		'app.box-office',
-		'app.core'
-	])
-	.config(configRoute)
-	.run(appRun);
-
-	function configRoute($urlRouterProvider, $locationProvider) {
-		$urlRouterProvider.otherwise('/home');
-		$locationProvider.html5Mode(true);
-	};
-
-	function appRun($rootScope, $window, homeservice) {
+	angular.module('app').run(appRun);
+	function appRun($rootScope, $window, $http) {
 		startScrollListener();
 		loadGoogleAPI();
 
@@ -57,7 +32,7 @@
 						}
 					};
 
-					homeservice.postSignIn(data);
+					postSignIn(data);
 
 					if (isLogged) {
 						$rootScope.$apply(function() {
@@ -70,8 +45,20 @@
 						});
 					}
 				}
-
 			});
+
+			function postSignIn(data) {
+				var req = {
+					method: 'POST',
+					url: '/api/signin',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					data: data
+				};
+
+				return $http(req);
+			}
 		}
 
 		function startScrollListener() {
@@ -106,11 +93,4 @@
 			}
 		}
 	}
-
-	function testSignOut() {
-		// auth2.signOut().then(function() {
-		// 	console.log('User signed out.');
-		// });
-	}
-
 })();

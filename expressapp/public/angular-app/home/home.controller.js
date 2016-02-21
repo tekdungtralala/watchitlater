@@ -2,10 +2,10 @@
 	'use strict';
 
 	angular
-		.module('app.home')
+		.module('app')
 		.controller('HomeCtrl', HomeCtrl);
 
-	function HomeCtrl($rootScope, $scope, $document, $ocLazyLoad, homeservice) {
+	function HomeCtrl($rootScope, $scope, $document, homeservice) {
 		var vm = this;
 		var movieList = [];
 		vm.listTM = [];

@@ -2,10 +2,10 @@
 	'use strict';
 
 	angular
-		.module('app.box-office')
+		.module('app')
 		.controller('BoxOfficeCtrl', BoxOfficeCtrl);
 
-	function BoxOfficeCtrl($scope, homeservice) {
+	function BoxOfficeCtrl($scope) {
 		var vm = this;
 		var rangeMap = [
 			{firstRange: -2, lastRange: 4},

@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('app.home')
+		.module('app')
 		.controller('MovieDetailCtrl', MovieDetailCtrl);
 
 	function MovieDetailCtrl($uibModalInstance, movieList, movieId) {
