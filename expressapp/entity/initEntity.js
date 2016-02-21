@@ -8,6 +8,7 @@ var movie = require('./movie');
 var appConfig = require('./appConfig');
 var weeklyMovie = require('./weeklyMovie');
 var weeklyMovieUtil = require('../util/weeklyMovieUtil');
+var appUtil = require('../util/appUtil');
 
 var initEntity = {
 	doInitialize: doInitialize
@@ -24,7 +25,7 @@ var lastDayOfWeek = null;
 
 function doInitialize() {
 	var latestBOUrl = 'http://www.imdb.com/chart/';
-	fetchlatestBO()
+	Q.fcall(fetchlatestBO)
 		.then(processData)
 		.then(afterProcessBO)
 		.then(fetchLatestTM)
@@ -59,7 +60,7 @@ function processData(html) {
 		var movieId = movieIds[index];
 		index++;
 		var url = 'http://www.omdbapi.com/?i=' + movieId + '&plot=full&r=json';
-		fetchHtml(url)
+		appUtil.fetchHtml(url)
 			.then(processMovieData)
 			.then(iterateMovieId);
 	}
@@ -89,29 +90,12 @@ function fetchlatestBO() {
 	titleSplitter = '?';
 
 	var url = 'http://www.imdb.com/chart/';
-	return fetchHtml(url);
+	return appUtil.fetchHtml(url);
 }
 
 function fetchLatestTM() {
 	titleSplitter = '/?';
 
 	var url = 'http://www.imdb.com/chart/top';
-	return fetchHtml(url);
-}
-
-function fetchHtml(url) {
-	var deferred = Q.defer();
-	http.get(url, function(res) {
-		var data = '';
-		res.on('data', function(chunk) {
-			data += chunk;
-		});
-
-		res.on('end', function() {
-			deferred.resolve(data);
-		});
-
-	});
-
-	return deferred.promise;
+	return appUtil.fetchHtml(url);
 }

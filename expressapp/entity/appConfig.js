@@ -40,13 +40,15 @@ function getLatestTopMovie() {
 }
 
 function getValue(key) {
+	debug('AppConfig getValue() ', key);
 	var deferred = Q.defer();
 	var query = {key: key};
 	AppConfig.findOne(query, function(err, doc) {
 		if (err)
 			debug('error ', err);
-		else
+		else {
 			deferred.resolve(doc.value);
+		}
 	});
 
 	return deferred.promise;

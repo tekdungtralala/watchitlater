@@ -92,7 +92,7 @@ var movieModule = {
 module.exports = movieModule;
 
 function findByImdbIDs(imdbIds, skip, limit) {
-	debug('findByImdbIDs() imdbIds.length = ' + imdbIds.length);
+	debug('movie findByImdbIDs() imdbIds.length = ' + imdbIds.length);
 	var deferred = Q.defer();
 
 	var query = {imdbID: {}};
@@ -114,7 +114,7 @@ function findByImdbIDs(imdbIds, skip, limit) {
 }
 
 function getLatestTopMovie(skip, limit) {
-	debug('getLatestTopMovie()');
+	debug('movie getLatestTopMovie()');
 
 	function getMovieData(result) {
 		return findByImdbIDs(result, skip, limit);
@@ -125,10 +125,10 @@ function getLatestTopMovie(skip, limit) {
 }
 
 function getLatestBoxOffice() {
-	debug('getLatestBoxOffice()');
+	debug('movie getLatestBoxOffice()');
 
 	function getMovieData(result) {
-		return findByImdbIDs(result, skip, limit);
+		return findByImdbIDs(result);
 	}
 
 	return appConfig.getLatestBoxOffice()
@@ -136,7 +136,7 @@ function getLatestBoxOffice() {
 }
 
 function createOrUpdate(data) {
-	debug('Movie createOrUpdate() ' + data.imdbID + ', ' + data.Title);
+	debug('movie createOrUpdate() ' + data.imdbID + ', ' + data.Title);
 
 	var ratingNumber = Number(data.imdbRating);
 	if (isFloat(ratingNumber)) {
