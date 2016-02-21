@@ -40,24 +40,8 @@ function renderIndexPage(req, res) {
 	res.render('index');
 };
 
-function handleError404() {
+function handleError404(res) {
 	res.status(404).send('Sorry cant find that!');
 };
-
-// error handlers
-// if (app.get('env') === 'development') {
-// 	app.use(function(err, req, res, next) {
-// 		res.status(err.status || 500);
-// 		res.render('error', {
-// 			message: err.message,
-
-// 			// will print stacktrace
-// 			error: err
-
-// 			// no stacktraces leaked to user
-// 			// error: {}
-// 		});
-// 	});
-// }
 
 module.exports = app;

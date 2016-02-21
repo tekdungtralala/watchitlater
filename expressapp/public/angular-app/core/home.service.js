@@ -70,7 +70,7 @@
 		}
 
 		function getLatestBoxOffice() {
-			var apiUrl = '/api/getLatestBoxOffice';
+			var apiUrl = '/api/weeklymovie';
 			return $http.get(apiUrl).then(getData);
 		}
 
