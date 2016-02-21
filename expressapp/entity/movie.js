@@ -85,64 +85,58 @@ var Movie = mongoose.model('Movie', MovieSchema);
 var movieModule = {
 	createOrUpdate: createOrUpdate,
 	getLatestBoxOffice: getLatestBoxOffice,
-	getLatestTopMovie: getLatestTopMovie
+	getLatestTopMovie: getLatestTopMovie,
+	findByImdbIDs: findByImdbIDs
 };
 
 module.exports = movieModule;
 
+function findByImdbIDs(imdbIds, skip, limit) {
+	debug('findByImdbIDs() imdbIds.length = ' + imdbIds.length);
+	var deferred = Q.defer();
+
+	var query = {imdbID: {}};
+	query.imdbID.$in = imdbIds;
+
+	var opt = {
+		sort: {imdbRating: -1}
+	};
+	if (skip) opt.skip = skip;
+	if (limit) opt.limit = limit;
+
+	Movie.find(query, null, opt, function(err, doc) {
+		if (err) debug('error ', err);
+		debug('  movies = ' + doc.length);
+		deferred.resolve(doc);
+	});
+
+	return deferred.promise;
+}
+
 function getLatestTopMovie(skip, limit) {
 	debug('getLatestTopMovie()');
 
-	var deferred = Q.defer();
-	function afterGetMovieIds(movieIds) {
-		debug('  movieIds = ' + movieIds.length);
+	function getMovieData(result) {
+		return findByImdbIDs(result, skip, limit);
+	}
 
-		var query = {imdbID: {}};
-		query.imdbID.$in = movieIds;
-
-		var opt = {
-			sort: {imdbRating: -1},
-			skip: skip,
-			limit: limit
-		};
-
-		Movie.find(query, null, opt, function(err, doc) {
-			if (err) debug('error ', err);
-			debug('  movies = ' + doc.length);
-			deferred.resolve(doc);
-		});
-	};
-
-	appConfig.getLatestTopMovie().then(afterGetMovieIds);
-
-	return deferred.promise;
+	return appConfig.getLatestTopMovie()
+		.then(getMovieData);
 }
 
 function getLatestBoxOffice() {
 	debug('getLatestBoxOffice()');
 
-	var deferred = Q.defer();
-	function afterGetMovieIds(movieIds) {
-		debug('  movieIds = ' + movieIds.length);
+	function getMovieData(result) {
+		return findByImdbIDs(result, skip, limit);
+	}
 
-		var query = {imdbID: {}};
-		query.imdbID.$in = movieIds;
-
-		Movie.find(query, function(err, doc) {
-			if (err) debug('error ', err);
-			debug('  movies = ' + doc.length);
-			deferred.resolve(doc);
-
-		});
-	};
-
-	appConfig.getLatestBoxOffice().then(afterGetMovieIds);
-
-	return deferred.promise;
+	return appConfig.getLatestBoxOffice()
+		.then(getMovieData);
 }
 
 function createOrUpdate(data) {
-	debug('Movie createOrUpdate() ' + data.imdbID);
+	debug('Movie createOrUpdate() ' + data.imdbID + ", " + data.Title);
 
 	var ratingNumber = Number(data.imdbRating);
 	if (isFloat(ratingNumber)) {
@@ -154,13 +148,20 @@ function createOrUpdate(data) {
 	var deferred = Q.defer();
 	var query = {imdbID: data.imdbID};
 	var opt = {upsert: true};
-	Movie.findOneAndUpdate(query, data, opt, function(err) {
-		if (err)
-			debug('  error ', err);
-		else
-			debug('  saved ');
-		deferred.resolve();
-	});
+	if (data.imdbID && data.Title) {
+		Movie.findOneAndUpdate(query, data, opt, function(err) {
+			if (err)
+				debug('  error ', err);
+			else
+				debug('  saved ');
+			deferred.resolve(data);
+		});
+	} else {
+		setTimeout(function() {
+			deferred.resolve();
+		}, 1);
+	}
+
 
 	return deferred.promise;
 }

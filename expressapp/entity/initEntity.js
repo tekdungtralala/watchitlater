@@ -2,9 +2,12 @@ var debug = require('debug')('watchitlater:server');
 var http = require('http');
 var cheerio = require('cheerio');
 var Q = require('q');
+var moment = require('moment');
 
 var movie = require('./movie');
 var appConfig = require('./appConfig');
+var weeklyMovie = require('./weeklyMovie');
+var weeklyMovieUtil = require('../util/weeklyMovieUtil');
 
 var initEntity = {
 	doInitialize: doInitialize
@@ -15,6 +18,9 @@ module.exports = initEntity;
 var movieIds = [];
 var index = 0;
 var titleSplitter = null;
+var movieNames = [];
+var firstDayOfWeek = null;
+var lastDayOfWeek = null;
 
 function doInitialize() {
 	var latestBOUrl = 'http://www.imdb.com/chart/';
@@ -23,7 +29,12 @@ function doInitialize() {
 		.then(afterProcessBO)
 		.then(fetchLatestTM)
 		.then(processData)
-		.then(afterProcessTM);
+		.then(afterProcessTM)
+		.then(initWeeklyMovie);
+}
+
+function initWeeklyMovie() {
+	return weeklyMovieUtil.fetchWeeklyMovie(new Date());
 }
 
 function processData(html) {

@@ -45,19 +45,19 @@ function handleError404() {
 };
 
 // error handlers
-if (app.get('env') === 'development') {
-	app.use(function(err, req, res, next) {
-		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
+// if (app.get('env') === 'development') {
+// 	app.use(function(err, req, res, next) {
+// 		res.status(err.status || 500);
+// 		res.render('error', {
+// 			message: err.message,
 
-			// will print stacktrace
-			error: err
+// 			// will print stacktrace
+// 			error: err
 
-			// no stacktraces leaked to user
-			// error: {}
-		});
-	});
-}
+// 			// no stacktraces leaked to user
+// 			// error: {}
+// 		});
+// 	});
+// }
 
 module.exports = app;
