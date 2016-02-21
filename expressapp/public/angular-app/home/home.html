@@ -100,6 +100,7 @@
 				<h3 class="section-subheading text-muted">Latest Update : Sunday, Dec 12 2015</h3>
 			</div>
 		</div>
+		<div ng-show="!(vm.listBO && vm.listBO.length > 0)" class="row" ng-include src="'angular-app/static-html/spinner.html'"></div>
 		<div ng-repeat="list in vm.listBO" class="row">
 			<div ng-repeat="d in list"
 				class="col-md-4 col-sm-6 portfolio-item">
@@ -167,6 +168,7 @@
 			</div>
 		</div>
 		<div class="row">
+			<div ng-show="!(vm.listTM && vm.listTM.length > 0)" class="row" ng-include src="'angular-app/static-html/spinner.html'"></div>
 			<div ng-repeat="d in vm.listTM" 
 				ng-class="{'col-sm-offset-1': $index === 0}"
 				class="col-sm-2">
