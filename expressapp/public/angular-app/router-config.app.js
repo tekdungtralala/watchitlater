@@ -34,7 +34,7 @@
 				controllerAs: 'vm',
 				resolve: {
 					loadCtrl: function($ocLazyLoad) {
-						return $ocLazyLoad.load(['BoxOfficeCtrl'], {serie: true});
+						return $ocLazyLoad.load(['boxOfficeSrvc', 'homeservice', 'BoxOfficeCtrl'], {serie: true});
 					}
 				}
 			});

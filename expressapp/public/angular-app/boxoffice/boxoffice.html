@@ -17,24 +17,70 @@
 				{{vm.dateInfo}}
 			</div>
 			<uib-datepicker 
+				ng-disabled="!vm.movieList"
 				ng-model="vm.selectedDate" 
 				ng-change="vm.dateChanged()"
+				max-date="::vm.maxDate"
+				min-date="::vm.minDate"
 				show-weeks="true" 
 				class="well well-sm col-sm-offset-4 col-md-4 text-center app-selecteddate" 
 				custom-class="getDayClass(date, mode)">
 			</uib-datepicker>
 		</div>
-		<div class="col-sm-offset-4 col-md-4 text-center">
-			<div class="btn-group" role="group" aria-label="...">
-				<button ng-click="vm.changedDate(-7)"
-					type="button" class="btn btn-default">
-					<span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span> Prev Week
-				</button>
-				<button ng-click="vm.changedDate(7)"
-					type="button" class="btn btn-default">
-					Next Week <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>
-				</button>
+
+		<div class="row">
+			<div class="col-sm-offset-4 col-md-4 text-center">
+				<div class="btn-group" role="group" aria-label="...">
+					<button ng-click="vm.changedDate(-7)"
+						ng-disabled="!vm.movieList"
+						type="button" class="btn btn-default">
+						<span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span> Prev Week
+					</button>
+					<button ng-click="vm.changedDate(7)"
+						ng-disabled="!vm.movieList"
+						type="button" class="btn btn-default">
+						Next Week <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>
+					</button>
+				</div>
 			</div>
+		</div>
+
+		<div class="row"
+			ng-show="!vm.movieList">
+			<div class="row" ng-include src="'angular-app/static-html/spinner.html'"></div>
+			<div class="row text-center" ng-show="vm.takeMoreTime">
+				<div class="alert alert-info col-sm-offset-4 col-sm-4" role="alert">
+					It will take more time, please be patient :)
+				</div>
+			</div>
+		</div>
+		<div class="row"
+			ng-show="vm.movieList">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+							<th>#</th>
+							<th>Title</th>
+							<th>Released</th>
+							<th>Director</th>
+							<th>Rating</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="d in vm.movieList">
+						<th scope="row">{{$index + 1}}</th>
+						<td>
+							<span class="app-topmovie-columntitle">
+								<a ng-click="vm.showMovieDetail(d.imdbID)"
+									href="">{{::d.Title}}</a>
+							</span>
+						</td>
+						<td class="col-sm-2">{{::d.Released}}</td>
+						<td class="col-sm-2">{{::d.Director}}</td>
+						<td class="col-sm-1">{{::d.imdbRating}}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</section>
 

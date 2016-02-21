@@ -22,6 +22,9 @@
 		}, {
 			name: 'homeservice',
 			files: ['/angular-app/service/home.service.js']
+		}, {
+			name: 'boxOfficeSrvc',
+			files: ['/angular-app/service/boxoffice.service.js']
 		}];
 
 		$ocLazyLoadProvider.config({ modules: modules });
