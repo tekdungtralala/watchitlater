@@ -31,7 +31,7 @@
 		function activate() {
 			dateChanged();
 
-			vm.minDate = moment("2005-1-1", "YYYY-MM-DD")._d;
+			vm.minDate = moment('2005-1-1', 'YYYY-MM-DD')._d;
 		}
 
 		function showMovieDetail(movieId) {

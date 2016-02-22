@@ -2,6 +2,10 @@
 	"excludeFiles": [
 		"Gruntfile.js",
 		"expressapp/public/angular-app/**/*.min.js",
+		"expressapp/public/angular-app/*.min.js",
+		"expressapp/public/angular-app-build",
+		"expressapp/public/vendors.js",
+		"expressapp/public/vendors.min.js",
 		"node_modules/**",
 		"expressapp/public/bower_components/**",
 		"expressapp/public/static-assets/**",

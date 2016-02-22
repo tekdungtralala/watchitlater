@@ -31,10 +31,11 @@
 
 		function generateLocation(destPath) {
 			if (window.isProd) {
-					var arr = destPath.split('angular-app');
-					var newPath = arr[0] + 'angular-app-build' + arr[1];
-					return newPath.replace('.js', '.min.js');
+				var arr = destPath.split('angular-app');
+				var newPath = arr[0] + 'angular-app-build' + arr[1];
+				return newPath.replace('.js', '.min.js');
 			}
+
 			return destPath;
 		}
 	};

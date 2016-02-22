@@ -10,7 +10,8 @@
 		var service = {
 			getWeeklymovie: getWeeklymovie,
 			postWeeklymovie: postWeeklymovie
-		}
+		};
+		return service;
 
 		function postWeeklymovie(date) {
 			var apiUrl = '/api/weeklymovie?date=' + date;
@@ -33,7 +34,6 @@
 		function getData(result) {
 			return result.data;
 		}
-
-		return service;
 	}
+
 })();

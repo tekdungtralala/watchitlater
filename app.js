@@ -38,7 +38,7 @@ app.get('/box-office', renderIndexPage);
 app.use(handleError404);
 
 function renderIndexPage(req, res) {
-	var isProd = "PROD" === process.env.PROFILE;
+	var isProd = 'PROD' === process.env.PROFILE;
 	res.render('index', {
 		isProd: isProd
 	});
