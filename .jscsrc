@@ -1,5 +1,7 @@
 {
 	"excludeFiles": [
+		"Gruntfile.js",
+		"expressapp/public/angular-app/**/*.min.js",
 		"node_modules/**",
 		"expressapp/public/bower_components/**",
 		"expressapp/public/static-assets/**",

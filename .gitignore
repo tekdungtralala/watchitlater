@@ -4,3 +4,9 @@ stash
 npm-debug.log
 
 expressapp/public/bower_components
+
+expressapp/public/vendors.js
+expressapp/public/vendors.min.js
+
+expressapp/public/angular-app/**/*.min.js
+expressapp/public/angular-app-build/**

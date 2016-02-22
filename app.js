@@ -1,3 +1,4 @@
+var debug = require('debug')('watchitlater:server');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -37,7 +38,10 @@ app.get('/box-office', renderIndexPage);
 app.use(handleError404);
 
 function renderIndexPage(req, res) {
-	res.render('index');
+	var isProd = "PROD" === process.env.PROFILE;
+	res.render('index', {
+		isProd: isProd
+	});
 };
 
 function handleError404(res) {

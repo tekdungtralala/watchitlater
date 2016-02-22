@@ -44,7 +44,7 @@ function startApp() {
 
 
 	var initEntity = require('../expressapp/entity/initEntity');
-	initEntity.doInitialize();
+	// initEntity.doInitialize();
 
 	try {
 		new CronJob('0 0 0 * * 0', function() {

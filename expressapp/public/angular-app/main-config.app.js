@@ -9,25 +9,34 @@
 
 		var modules = [{
 			name: 'HomeCtrl',
-			files: ['/angular-app/home/home.controller.js']
+			files: [generateLocation('/angular-app/home/home.controller.js')]
 		}, {
 			name: 'TopMovieCtrl',
-			files: ['/angular-app/topmovie/topmovie.controller.js']
+			files: [generateLocation('/angular-app/topmovie/topmovie.controller.js')]
 		}, {
 			name: 'BoxOfficeCtrl',
-			files: ['/angular-app/boxoffice/boxoffice.controller.js']
+			files: [generateLocation('/angular-app/boxoffice/boxoffice.controller.js')]
 		}, {
 			name: 'MovieDetailCtrl',
-			files: ['/angular-app/home/movieDetail.controller.js']
+			files: [generateLocation('/angular-app/home/movieDetail.controller.js')]
 		}, {
 			name: 'homeservice',
-			files: ['/angular-app/service/home.service.js']
+			files: [generateLocation('/angular-app/service/home.service.js')]
 		}, {
 			name: 'boxOfficeSrvc',
-			files: ['/angular-app/service/boxoffice.service.js']
+			files: [generateLocation('/angular-app/service/boxoffice.service.js')]
 		}];
 
 		$ocLazyLoadProvider.config({ modules: modules });
+
+		function generateLocation(destPath) {
+			if (window.isProd) {
+					var arr = destPath.split('angular-app');
+					var newPath = arr[0] + 'angular-app-build' + arr[1];
+					return newPath.replace('.js', '.min.js');
+			}
+			return destPath;
+		}
 	};
 
 })();
