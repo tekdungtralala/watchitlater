@@ -26,18 +26,6 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		pkg : grunt.file.readJSON('package.json'),
-		shell: {
-			local: {
-				command: function () {
-					return 'DOINITDATA=false PROFILE=DEV PORT=8090 DEBUG=watchitlater:* npm start';
-				}
-			},
-			server: {
-				command: function () {
-					return 'DOINITDATA=true PROFILE=PROD PORT=8090 DEBUG=watchitlater:* npm start';
-				}
-			}
-		},
 		uglify : {
 			options: {
 				mangle: false
@@ -63,15 +51,8 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-shell');
 
 	grunt.registerTask('default', [
-		'uglify',
-		'shell:local'
-	]);
-
-	grunt.registerTask('server', [
-		'uglify',
-		'shell:server'
+		'uglify'
 	]);
 }
