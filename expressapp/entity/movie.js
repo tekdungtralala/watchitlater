@@ -2,6 +2,7 @@ var debug = require('debug')('watchitlater:server');
 var Q = require('q');
 var mongoose = require('mongoose');
 var appConfig = require('./appConfig');
+var appUtil = require('../util/appUtil');
 
 var MovieSchema = new mongoose.Schema({
 	created: {
@@ -10,6 +11,9 @@ var MovieSchema = new mongoose.Schema({
 	},
 	updated: {
 		type: Array
+	},
+	isImageReady: {
+		type: Boolean,
 	},
 	Title: {
 		type: String,
@@ -63,6 +67,10 @@ var MovieSchema = new mongoose.Schema({
 		type: String,
 		trim: true
 	},
+	PosterImdb: {
+		type: String,
+		trim: true
+	},
 	Metascore: {
 		type: String,
 		trim: true
@@ -86,10 +94,39 @@ var movieModule = {
 	createOrUpdate: createOrUpdate,
 	getLatestBoxOffice: getLatestBoxOffice,
 	getLatestTopMovie: getLatestTopMovie,
-	findByImdbIDs: findByImdbIDs
+	findByImdbIDs: findByImdbIDs,
+	isHasMovieWOImage: isHasMovieWOImage,
+	findMoviesWOImage: findMoviesWOImage
 };
 
 module.exports = movieModule;
+
+function findMoviesWOImage() {
+	debug("findMoviesWOImage()");
+	var deferred = Q.defer();
+
+	var query = {isImageReady: false};
+
+	Movie.find(query, null, null, function(err, doc) {
+		if (err) debug('error ', err);
+		debug('  movies = ' + doc.length);
+		deferred.resolve(doc);
+	});
+
+	return deferred.promise;
+}
+
+function isHasMovieWOImage() {
+	debug('movie isHasMovieWOImage()');
+	var deferred = Q.defer();
+	Movie.count({isImageReady: false}, function(err, c) {
+		if (err) debug('error ', err);
+		debug('  total=' + c);
+		deferred.resolve(c)
+	});
+
+	return deferred.promise;
+}
 
 function findByImdbIDs(imdbIds, skip, limit) {
 	debug('movie findByImdbIDs() imdbIds.length = ' + imdbIds.length);
@@ -145,8 +182,17 @@ function createOrUpdate(data) {
 		data.imdbRating = 0.0;
 	}
 
-	if (!isValidateUrl(data.Poster)) {
-		data.Poster = '/static-assets/img/not-found.png';
+	// first saved image
+	if (!(data.isImageReady && data.isImageReady === true)) {
+		data.isImageReady = false;
+		data.PosterImdb = data.Poster;
+		data.Poster = '/static-assets/img/image-not-ready.png';
+
+		// image url is not valid, set isImageReady = true
+		if (!appUtil.isValidateUrl(data.PosterImdb)) {
+			data.Poster = '/static-assets/img/not-found.png';
+			data.isImageReady = true;
+		}
 	}
 
 	var deferred = Q.defer();
@@ -167,10 +213,6 @@ function createOrUpdate(data) {
 	}
 
 	return deferred.promise;
-}
-
-function isValidateUrl(value) {
-	return /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
 }
 
 function isFloat(n) {

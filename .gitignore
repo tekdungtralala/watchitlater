@@ -10,3 +10,5 @@ expressapp/public/vendors.min.js
 
 expressapp/public/angular-app/**/*.min.js
 expressapp/public/angular-app-build/**
+
+expressapp/public/static-assets/imdb-img/

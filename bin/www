@@ -45,20 +45,46 @@ function startApp() {
 
 	var initEntity = require('../expressapp/entity/initEntity');
 	var doInitData = 'true' === process.env.DOINITDATA;
-	debug('doInitData : ' + doInitData);
+	var stillWorking = true;
+	debug('doInitData start =' + doInitData);
 	if (doInitData) {
-		initEntity.doInitialize();
+		initEntity
+			.doInitialize()
+			.then(function() {
+				debug('doInitData finish')
+				stillWorking = false;
+			});
+	} else {
+		stillWorking = false;
 	}
 		
 
 	try {
 		new CronJob('0 0 0 * * 0', function() {
-			debug('CronJob do work ', new Date());
+			debug('CronJob do work initEntity.doInitialize()', new Date());
 			initEntity.doInitialize();
 		}, null, true);
 
 	} catch (ex) {
 		debug("cron pattern not valid");
+	}
+
+	var movieUtil = require('../expressapp/util/movieUtil');
+	try {
+		new CronJob('*/30 * * * * *', function() {
+			if (!stillWorking) {
+				stillWorking = true;
+				debug('START fetch image', new Date());
+				movieUtil
+					.checkMovies()
+					.then(function() {
+						debug('  FINISH fetch image');
+						stillWorking = false;
+					});
+			}
+		}, null, true);
+	} catch (ex) {
+		debug("error");
 	}
 }
 

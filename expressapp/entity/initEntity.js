@@ -24,6 +24,7 @@ var firstDayOfWeek = null;
 var lastDayOfWeek = null;
 
 function doInitialize() {
+	var d = Q.defer();
 	var latestBOUrl = 'http://www.imdb.com/chart/';
 	Q.fcall(fetchlatestBO)
 		.then(processData)
@@ -31,7 +32,12 @@ function doInitialize() {
 		.then(fetchLatestTM)
 		.then(processData)
 		.then(afterProcessTM)
-		.then(initWeeklyMovie);
+		.then(initWeeklyMovie)
+		.then(function() {
+			d.resolve();
+		});
+
+	return d.promise;
 }
 
 function initWeeklyMovie() {
