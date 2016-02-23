@@ -202,7 +202,9 @@ function createOrUpdate(newData) {
 		newData.PosterImdb = newData.Poster;
 		newData.Poster = '/static-assets/img/image-not-ready.png';
 
-		Movie.create(newData, resolvePromize);
+		Movie.create(newData, function(err, d) {
+			resolvePromize(d);
+		});
 	}
 
 	function updateData(oldData) {
@@ -225,11 +227,13 @@ function createOrUpdate(newData) {
 		newData.Poster = Poster;
 		newData.isImageReady = isImageReady;
 
-		Movie.update(query, newData, opt, resolvePromize);
+		Movie.update(query, newData, opt, function() {
+			resolvePromize(newData);
+		});
 	}
 
-	function resolvePromize() {
-		deferred.resolve();
+	function resolvePromize(d) {
+		deferred.resolve(d);
 	}
 
 	return deferred.promise;
