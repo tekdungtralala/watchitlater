@@ -8,6 +8,8 @@
 	function TopMovieCtrl($scope, homeservice) {
 		var vm = this;
 		// vm.listMovie = [];
+		vm.showLoading = true;
+
 		vm.showMovieDetail = showMovieDetail;
 
 		activate();
@@ -22,6 +24,7 @@
 		}
 
 		function afterGetData(result) {
+			vm.showLoading = false;
 			_.orderBy(result, ['imdbRating'], ['desc']);
 			vm.listMovie = result;
 		}

@@ -5,8 +5,9 @@
 <section class="app-home-section">
 	<h4>Top Movies</h4>
 	<div class="container">
-		<div ng-show="!(vm.listMovie && vm.listMovie.length > 0)" class="row" ng-include src="'angular-app/static-html/spinner.html'"></div>
-		<table class="table table-striped">
+		<div ng-show="vm.showLoading" class="row" ng-include src="'angular-app/static-html/spinner.html'"></div>
+		<table ng-show="!vm.showLoading"
+			class="table table-striped">
 			<thead>
 				<tr>
 						<th>#</th>
