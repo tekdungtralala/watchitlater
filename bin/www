@@ -44,7 +44,12 @@ function startApp() {
 
 
 	var initEntity = require('../expressapp/entity/initEntity');
-	// initEntity.doInitialize();
+	var doInitData = 'true' === process.env.DOINITDATA;
+	debug('doInitData : ' + doInitData);
+	if (doInitData) {
+		initEntity.doInitialize();
+	}
+		
 
 	try {
 		new CronJob('0 0 0 * * 0', function() {
