@@ -24,8 +24,27 @@ module.exports = function(grunt) {
 	];
 	var angularInitMin = 'expressapp/public/angular-app/app.min.js';
 
+	var cssFiles = [
+		'expressapp/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
+		'expressapp/public/bower_components/angular-busy/dist/angular-busy.min.css',
+		'expressapp/public/bower_components/bootstrap-social/bootstrap-social.css',
+		'expressapp/public/static-assets/css/agency.css',
+		'expressapp/public/stylesheets/app.css'
+	];
+
 	grunt.initConfig({
 		pkg : grunt.file.readJSON('package.json'),
+		cssmin: {
+			options: {
+				shorthandCompacting: false,
+				roundingPrecision: -1
+			},
+			target: {
+				files: {
+					'expressapp/public/stylesheets/app.min.css': cssFiles
+				}
+			}
+		},
 		uglify : {
 			options: {
 				mangle: false
@@ -51,8 +70,10 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	grunt.registerTask('default', [
-		'uglify'
+		'uglify',
+		'cssmin'
 	]);
 }
