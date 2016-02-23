@@ -172,44 +172,64 @@ function getLatestBoxOffice() {
 		.then(getMovieData);
 }
 
-function createOrUpdate(data) {
-	debug('movie createOrUpdate() ' + data.imdbID + ', ' + data.Title);
+function createOrUpdate(newData) {
+	debug('movie createOrUpdate() ' + newData.imdbID + ', ' + newData.Title);
 
-	var ratingNumber = Number(data.imdbRating);
+	var ratingNumber = Number(newData.imdbRating);
 	if (isFloat(ratingNumber)) {
-		data.imdbRating = ratingNumber;
+		newData.imdbRating = ratingNumber;
 	} else {
-		data.imdbRating = 0.0;
-	}
-
-	// first saved image
-	if (!(data.isImageReady && data.isImageReady === true)) {
-		data.isImageReady = false;
-		data.PosterImdb = data.Poster;
-		data.Poster = '/static-assets/img/image-not-ready.png';
-
-		// image url is not valid, set isImageReady = true
-		if (!appUtil.isValidateUrl(data.PosterImdb)) {
-			data.Poster = '/static-assets/img/not-found.png';
-			data.isImageReady = true;
-		}
+		newData.imdbRating = 0.0;
 	}
 
 	var deferred = Q.defer();
-	var query = {imdbID: data.imdbID};
-	var opt = {upsert: true};
-	if (data.imdbID && data.Title) {
-		Movie.findOneAndUpdate(query, data, opt, function(err) {
-			if (err)
-				debug('  error ', err);
-			else
-				debug('  saved ');
-			deferred.resolve(data);
-		});
-	} else {
-		setTimeout(function() {
-			deferred.resolve();
-		}, 1);
+	var query = {imdbID: newData.imdbID};
+	Movie.findOne(query, function(err, oldData) {
+		if (err) debug('  error ', err);
+
+		if (oldData) {
+			debug('  finded will update');
+			updateData(oldData);
+		} else {
+			debug('  empty will created');
+			createData();
+		};
+
+	});
+
+	function createData() {
+		newData.isImageReady = false;
+		newData.PosterImdb = newData.Poster;
+		newData.Poster = '/static-assets/img/image-not-ready.png';
+
+		Movie.create(newData, resolvePromize);
+	}
+
+	function updateData(oldData) {
+		var opt = {
+			safe: true,
+			upsert: true,
+			multi: false,
+			overwrite: true
+		};
+		var isImageReady = null;
+		var Poster = null;
+		if (newData.isImageReady && true === newData.isImageReady) {
+			Poster = newData.Poster;
+			isImageReady = true;
+		} else {
+			Poster = oldData.Poster;
+			isImageReady = oldData.isImageReady;
+		}
+
+		newData.Poster = Poster;
+		newData.isImageReady = isImageReady;
+
+		Movie.update(query, newData, opt, resolvePromize);
+	}
+
+	function resolvePromize() {
+		deferred.resolve();
 	}
 
 	return deferred.promise;
