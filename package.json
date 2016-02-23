@@ -15,6 +15,7 @@
     "express-handlebars": "^3.0.0",
     "grunt": "^0.4.5",
     "grunt-contrib-uglify": "^0.11.1",
+    "grunt-shell": "^1.1.2",
     "jade": "~1.11.0",
     "mongoose": "^4.4.3",
     "morgan": "~1.6.1",
