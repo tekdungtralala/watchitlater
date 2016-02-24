@@ -56,6 +56,88 @@
 
 	</head>
 	<body data-ng-app="app" id="page-top" class="index">
-		<ui-view/>	
+		<ui-view/>
+
+		<script type="text/ng-template" id="template/header-page1.html">
+			<nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header page-scroll">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a ui-sref="home" class="navbar-brand page-scroll" href="">
+							<span >Watch it later</span>
+						</a>
+					</div>
+
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav navbar-right">
+							<li >
+								<a ui-sref="box-office" class="page-scroll" href="">Box Office</a>
+							</li>
+							<li>
+								<a ui-sref="top-movie" class="page-scroll" href="">Top Movie</a>
+							</li>
+							<li ng-show="!loggedUser.email">
+								<a class="page-scroll" href="">Sign In</a>
+							</li>
+							<li ng-show="loggedUser.email">
+								<a class="page-scroll" href="">My Account</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</script>
+
+		<script type="text/ng-template" id="template/spinner.html">
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="template/footer.html">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<span class="copyright"></span>
+						<ul class="list-inline quicklinks">
+							<li>
+								<a href="https://www.upwork.com/freelancers/~016d109302643b6455">My Upwork Profile</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<ul class="list-inline social-buttons">
+							<li><a href="https://github.com/tekdungtralala/watchitlater"><i class="fa fa-github"></i></a>
+							</li>
+							<li><a href="https://www.facebook.com/WiwitAdityaSaputra"><i class="fa fa-facebook"></i></a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<ul class="list-inline quicklinks">
+							<li>
+								<a href="http://startbootstrap.com/template-overviews/agency/">Theme</a>
+							</li>
+							<li>
+								<a href="http://www.imdb.com/">Imdb</a>
+							</li>
+							<li>
+								<a href="http://www.boxofficemojo.com/">boxofficemojo</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</script>	
 	</body>
 </html>

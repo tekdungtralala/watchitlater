@@ -1,11 +1,11 @@
-<div id="footer" ng-include src="'angular-app/static-html/header-page1.html'"></div>
+<div id="footer" ng-include src="'template/header-page1.html'"></div>
 
 <div class="app-topmovie-nav"/>
 
 <section class="app-home-section">
 	<h4>Top Movies</h4>
 	<div class="container">
-		<div ng-show="vm.showLoading" class="row" ng-include src="'angular-app/static-html/spinner.html'"></div>
+		<div ng-show="vm.showLoading" class="row" ng-include src="'template/spinner.html'"></div>
 		<table ng-show="!vm.showLoading"
 			class="table table-striped">
 			<thead>
@@ -35,4 +35,4 @@
 	</div>
 </section>
 
-<footer id="footer" ng-include src="'angular-app/static-html/footer.html'"></footer>
+<footer id="footer" ng-include src="'template/footer.html'"></footer>

@@ -6,7 +6,7 @@
 			color: black;
 		}
 	</style>
-	<div ng-include src="'angular-app/static-html/header-page1.html'"></div>
+	<div ng-include src="'template/header-page1.html'"></div>
 
 	<div class="app-topmovie-nav"/>
 
@@ -47,7 +47,7 @@
 
 		<div class="row"
 			ng-show="!vm.movieList">
-			<div class="row" ng-include src="'angular-app/static-html/spinner.html'"></div>
+			<div class="row" ng-include src="'template/spinner.html'"></div>
 			<div class="row text-center" ng-show="vm.takeMoreTime">
 				<div class="alert alert-info col-sm-offset-4 col-sm-4" role="alert">
 					It will take more time, please be patient :)
@@ -84,5 +84,5 @@
 		</div>
 	</section>
 
-	<footer id="footer" ng-include src="'angular-app/static-html/footer.html'"></footer>
+	<footer id="footer" ng-include src="'template/footer.html'"></footer>
 </div>
