@@ -36,7 +36,7 @@ app.get('/top-movie', renderIndexPage);
 app.get('/box-office', renderIndexPage);
 
 // catch 404 and forward to error handler
-app.use(handleError404);
+// app.use(handleError404);
 
 function renderIndexPage(req, res) {
 	var isProd = 'PROD' === process.env.PROFILE;

@@ -21,6 +21,12 @@
 					window.auth2.attachClickHandler(document.getElementById('google-signin-btn1'));
 					window.auth2.isSignedIn.listen(googleSignedListener);
 
+					function testSignOut() {
+						window.auth2.signOut().then(function() {
+							console.log('User signed out.');
+						});
+					};
+
 					function googleSignedListener(isLogged) {
 						var profile = window.auth2.currentUser.get().getBasicProfile();
 						var data = {
@@ -40,6 +46,7 @@
 								$rootScope.loggedUser.fullName = data.socialNetwok.fullName;
 								$rootScope.loggedUser.email = data.email;
 							});
+							// testSignOut();
 						} else {
 							$rootScope.$apply(function() {
 								$rootScope.loggedUser = {};

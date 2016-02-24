@@ -14,10 +14,4 @@
 		// 'cgBusy',
 	]);
 
-	// function testSignOut() {
-	// 	window.auth2.signOut().then(function() {
-	// 		console.log('User signed out.');
-	// 	});
-	// };
-
 })();

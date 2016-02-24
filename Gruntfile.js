@@ -28,6 +28,10 @@ module.exports = function(grunt) {
 		'expressapp/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
 		'expressapp/public/bower_components/angular-busy/dist/angular-busy.min.css',
 		'expressapp/public/bower_components/bootstrap-social/bootstrap-social.css',
+
+		'expressapp/public/static-assets/fonts/Kaushan-Script/css/fonts.css',
+		'expressapp/public/bower_components/font-awesome/css/font-awesome.min.css',
+		
 		'expressapp/public/static-assets/css/agency.css',
 		'expressapp/public/stylesheets/app.css'
 	];
