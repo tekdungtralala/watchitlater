@@ -14,12 +14,12 @@
 		<h4>Weekly Box Office</h4>
 		<div class="row text-center">
 			<div>
-				{{vm.dateInfo}} ___ {{vm.disabledPrevBtn}} - {{vm.disabledNextBtn}}
+				{{vm.dateInfo}}
 			</div>
 			<uib-datepicker 
 				ng-disabled="!vm.movieList"
 				ng-model="vm.selectedDate" 
-				ng-change="vm.dateChanged()"
+				ng-change="vm.dateChanged(true)"
 				max-date="::vm.maxDate"
 				min-date="::vm.minDate._d"
 				show-weeks="true" 

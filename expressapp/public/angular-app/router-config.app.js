@@ -28,7 +28,7 @@
 				}
 			})
 			.state('box-office', {
-				url: '/box-office',
+				url: '/box-office?date',
 				templateUrl: '/angular-app/boxoffice/boxoffice.html',
 				controller: 'BoxOfficeCtrl',
 				controllerAs: 'vm',

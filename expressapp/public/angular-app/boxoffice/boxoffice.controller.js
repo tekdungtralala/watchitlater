@@ -5,8 +5,9 @@
 		.module('app')
 		.controller('BoxOfficeCtrl', BoxOfficeCtrl);
 
-	function BoxOfficeCtrl($scope, boxOfficeSrvc, homeservice) {
+	function BoxOfficeCtrl($scope, $stateParams, $state, boxOfficeSrvc, homeservice) {
 		var vm = this;
+		var DATE_FORMAT = 'YYYY-M-D';
 		var rangeMap = [
 			{firstRange: -2, lastRange: 4},
 			{firstRange: -3, lastRange: 3},
@@ -16,6 +17,7 @@
 			{firstRange: 0, lastRange: 6},
 			{firstRange: 1, lastRange: 5}
 		];
+
 		vm.maxDate = new Date();
 		vm.selectedDate = new Date();
 		vm.minDate = null;
@@ -31,9 +33,15 @@
 
 		activate();
 		function activate() {
-			dateChanged();
+			vm.minDate = moment('2005-1-1', DATE_FORMAT);
 
-			vm.minDate = moment('2005-1-1', 'YYYY-MM-DD');
+			var date = moment($stateParams.date, DATE_FORMAT, true);
+			if (!date.isValid()) {
+				$state.go('box-office', {date: moment(new Date()).format(DATE_FORMAT)}, {reload: true});
+			} else {
+				vm.selectedDate = date._d;
+				updateMovieList(moment(vm.selectedDate).format(DATE_FORMAT));
+			}
 		}
 
 		function showMovieDetail(movieId) {
@@ -41,19 +49,24 @@
 		}
 
 		function dateChanged() {
+			$state.go('box-office', {date: moment(vm.selectedDate).format(DATE_FORMAT)}, {reload: true});
+		}
+
+		function changeWeek(newDate) {
+			vm.selectedDate = moment(vm.selectedDate).add(newDate, 'day')._d;
+			dateChanged();
+		}
+
+		function updateMovieList(dateStr) {
 			vm.disabledPrevBtn = true;
 			vm.disabledNextBtn = true;
 
 			var dr = getDateRange();
 			vm.dateInfo = moment(dr.fdow).format('MMM D') + ' - ' + moment(dr.ldow).format('MMM D');
-			updateMovieList();
-		}
 
-		function updateMovieList() {
-			var date = moment(vm.selectedDate).format('YYYY-MM-DD');
 			vm.movieList = null;
 			boxOfficeSrvc
-				.getWeeklymovie(date)
+				.getWeeklymovie(dateStr)
 				.then(afterGetData);
 		}
 
@@ -68,7 +81,7 @@
 			if (_.isEmpty(result)) {
 				vm.disabledPrevBtn = true;
 				vm.disabledNextBtn = true;
-				var date = moment(vm.selectedDate).format('YYYY-MM-DD');
+				var date = moment(vm.selectedDate).format(DATE_FORMAT);
 				vm.movieList = null;
 				vm.takeMoreTime = true;
 				boxOfficeSrvc
@@ -81,11 +94,6 @@
 			vm.movieList = result;
 			vm.takeMoreTime = false;
 			updateNextPrevBtn();
-		}
-
-		function changeWeek(newDate) {
-			vm.selectedDate = moment(vm.selectedDate).add(newDate, 'day')._d;
-			dateChanged();
 		}
 
 		function getDateRange() {
