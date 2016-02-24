@@ -6,8 +6,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs  = require('express-handlebars');
+var fs = require('fs');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'expressapp/views/handlebars'));
@@ -39,9 +41,54 @@ app.use(handleError404);
 
 function renderIndexPage(req, res) {
 	var isProd = 'PROD' === process.env.PROFILE;
-	res.render('index', {
-		isProd: isProd
-	});
+	var data = {
+		isProd: isProd,
+		angularModule: null,
+		cssmin: null
+	};
+	
+	function afterReadVendor(err, vendorModule) {
+		if (err) {
+			debug('error reading vendors.min.js');
+			res.send('under service');
+		} else {
+			processResponse(vendorModule)
+		}
+	};
+
+	function processResponse(vendorModule) {
+		data.vendorModule = vendorModule;
+		if (isProd) {
+			var angularPath = 'expressapp/public/angular-app/app.min.js';
+			fs.readFile(angularPath, {}, afterReadAngular);
+		} else {
+			res.render('index', data);
+		}
+	};
+
+	function afterReadAngular(err, angularModule) {
+		if (err) {
+			debug('error reading angular.min.js');
+			res.send('under service');
+		} else {
+			data.angularModule = angularModule;
+			var cssminpath = 'expressapp/public/stylesheets/app.min.css';
+			fs.readFile(cssminpath, {}, afterReadCss);
+		}
+	};
+
+	function afterReadCss(err, cssmin) {
+		if (err) {
+			debug('error reading all.min.css');
+			res.send('under service');
+		} else {
+			data.cssmin = cssmin;
+			res.render('index', data);
+		}
+	}
+
+	var vendorPath = 'expressapp/public/vendors.min.js';
+	fs.readFile(vendorPath, {}, afterReadVendor);
 };
 
 function handleError404(res) {

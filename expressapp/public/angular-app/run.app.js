@@ -11,41 +11,43 @@
 		$rootScope.loggedUser.email = null;
 
 		function loadGoogleAPI() {
-			gapi.load('auth2', function() {
-				window.auth2 = gapi.auth2.init({
-					client_id: '282630936768-vh37jnihfbm59s8jmkrr4eu7hl577r8r.apps.googleusercontent.com',
-					cookiepolicy: 'single_host_origin'
-				});
-				// placed in home.html
-				window.auth2.attachClickHandler(document.getElementById('google-signin-btn1'));
-				window.auth2.isSignedIn.listen(googleSignedListener);
+			if (window.gapi) {
+				window.gapi.load('auth2', function() {
+					window.auth2 = gapi.auth2.init({
+						client_id: '282630936768-vh37jnihfbm59s8jmkrr4eu7hl577r8r.apps.googleusercontent.com',
+						cookiepolicy: 'single_host_origin'
+					});
+					// placed in home.html
+					window.auth2.attachClickHandler(document.getElementById('google-signin-btn1'));
+					window.auth2.isSignedIn.listen(googleSignedListener);
 
-				function googleSignedListener(isLogged) {
-					var profile = window.auth2.currentUser.get().getBasicProfile();
-					var data = {
-						email: profile.getEmail(),
-						socialNetwok: {
-							fullName: profile.getName(),
-							id: profile.getId(),
-							imageUrl: profile.getImageUrl(),
-							type: profile.getEmail()
+					function googleSignedListener(isLogged) {
+						var profile = window.auth2.currentUser.get().getBasicProfile();
+						var data = {
+							email: profile.getEmail(),
+							socialNetwok: {
+								fullName: profile.getName(),
+								id: profile.getId(),
+								imageUrl: profile.getImageUrl(),
+								type: profile.getEmail()
+							}
+						};
+
+						postSignIn(data);
+
+						if (isLogged) {
+							$rootScope.$apply(function() {
+								$rootScope.loggedUser.fullName = data.socialNetwok.fullName;
+								$rootScope.loggedUser.email = data.email;
+							});
+						} else {
+							$rootScope.$apply(function() {
+								$rootScope.loggedUser = {};
+							});
 						}
-					};
-
-					postSignIn(data);
-
-					if (isLogged) {
-						$rootScope.$apply(function() {
-							$rootScope.loggedUser.fullName = data.socialNetwok.fullName;
-							$rootScope.loggedUser.email = data.email;
-						});
-					} else {
-						$rootScope.$apply(function() {
-							$rootScope.loggedUser = {};
-						});
 					}
-				}
-			});
+				});
+			}
 
 			function postSignIn(data) {
 				var req = {
