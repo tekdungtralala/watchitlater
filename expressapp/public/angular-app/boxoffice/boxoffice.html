@@ -14,14 +14,14 @@
 		<h4>Weekly Box Office</h4>
 		<div class="row text-center">
 			<div>
-				{{vm.dateInfo}}
+				{{vm.dateInfo}} ___ {{vm.disabledPrevBtn}} - {{vm.disabledNextBtn}}
 			</div>
 			<uib-datepicker 
 				ng-disabled="!vm.movieList"
 				ng-model="vm.selectedDate" 
 				ng-change="vm.dateChanged()"
 				max-date="::vm.maxDate"
-				min-date="::vm.minDate"
+				min-date="::vm.minDate._d"
 				show-weeks="true" 
 				class="well well-sm col-sm-offset-4 col-md-4 text-center app-selecteddate" 
 				custom-class="getDayClass(date, mode)">
@@ -31,13 +31,13 @@
 		<div class="row">
 			<div class="col-sm-offset-4 col-md-4 text-center">
 				<div class="btn-group" role="group" aria-label="...">
-					<button ng-click="vm.changedDate(-7)"
-						ng-disabled="!vm.movieList"
+					<button ng-click="vm.changeWeek(-7)"
+						ng-disabled="vm.disabledPrevBtn"
 						type="button" class="btn btn-default">
 						<span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span> Prev Week
 					</button>
-					<button ng-click="vm.changedDate(7)"
-						ng-disabled="!vm.movieList"
+					<button ng-click="vm.changeWeek(7)"
+						ng-disabled="vm.disabledNextBtn"
 						type="button" class="btn btn-default">
 						Next Week <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>
 					</button>

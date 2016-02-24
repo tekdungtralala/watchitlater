@@ -22,8 +22,10 @@
 		vm.dateInfo = null;
 		vm.movieList = [];
 		vm.takeMoreTime = false;
+		vm.disabledPrevBtn = false;
+		vm.disabledNextBtn = false;
 
-		vm.changedDate = changedDate;
+		vm.changeWeek = changeWeek;
 		vm.dateChanged = dateChanged;
 		vm.showMovieDetail = showMovieDetail;
 
@@ -31,7 +33,7 @@
 		function activate() {
 			dateChanged();
 
-			vm.minDate = moment('2005-1-1', 'YYYY-MM-DD')._d;
+			vm.minDate = moment('2005-1-1', 'YYYY-MM-DD');
 		}
 
 		function showMovieDetail(movieId) {
@@ -39,6 +41,9 @@
 		}
 
 		function dateChanged() {
+			vm.disabledPrevBtn = true;
+			vm.disabledNextBtn = true;
+
 			var dr = getDateRange();
 			vm.dateInfo = moment(dr.fdow).format('MMM D') + ' - ' + moment(dr.ldow).format('MMM D');
 			updateMovieList();
@@ -52,9 +57,17 @@
 				.then(afterGetData);
 		}
 
+		function updateNextPrevBtn() {
+			vm.disabledPrevBtn = moment(getDateRange().fdow).add(-1, 'day').diff(vm.minDate, 'day') <= 0;;
+			vm.disabledNextBtn = moment(getDateRange().ldow).add(1, 'day').diff(moment(new Date()), 'day') >= 0;
+		}
+
 		function afterGetData(result) {
 			vm.movieList = result;
+			updateNextPrevBtn();
 			if (_.isEmpty(result)) {
+				vm.disabledPrevBtn = true;
+				vm.disabledNextBtn = true;
 				var date = moment(vm.selectedDate).format('YYYY-MM-DD');
 				vm.movieList = null;
 				vm.takeMoreTime = true;
@@ -67,9 +80,10 @@
 		function afterPostData(result) {
 			vm.movieList = result;
 			vm.takeMoreTime = false;
+			updateNextPrevBtn();
 		}
 
-		function changedDate(newDate) {
+		function changeWeek(newDate) {
 			vm.selectedDate = moment(vm.selectedDate).add(newDate, 'day')._d;
 			dateChanged();
 		}
