@@ -13,7 +13,6 @@ module.exports = function(grunt) {
 		'expressapp/public/bower_components/lodash/dist/lodash.min.js',
 		'expressapp/public/bower_components/moment/min/moment.min.js',
 	];
-	var vendorjs = 'expressapp/public/vendors.js';
 	var vendorminjs = 'expressapp/public/vendors.min.js';
 
 	var angularInit = [
@@ -26,36 +25,31 @@ module.exports = function(grunt) {
 
 	var cssFiles = [
 		'expressapp/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
-		'expressapp/public/bower_components/angular-busy/dist/angular-busy.min.css',
 		'expressapp/public/bower_components/bootstrap-social/bootstrap-social.css',
-
-		'expressapp/public/static-assets/fonts/Kaushan-Script/css/fonts.css',
 		'expressapp/public/bower_components/font-awesome/css/font-awesome.min.css',
-		
+		'expressapp/public/static-assets/fonts/Kaushan-Script/css/fonts.css',
 		'expressapp/public/static-assets/css/agency.css',
 		'expressapp/public/stylesheets/app.css'
 	];
 
 	grunt.initConfig({
 		pkg : grunt.file.readJSON('package.json'),
-		cssmin: {
+		concat: {
 			options: {
-				shorthandCompacting: false,
-				roundingPrecision: -1
+				separator: '\n',
 			},
-			target: {
-				files: {
-					'expressapp/public/stylesheets/app.min.css': cssFiles
-				}
+			jsVendorFiles: {
+				src : jsVendorFiles,
+				dest : vendorminjs
+			},
+			cssFilse: {
+				src : cssFiles,
+				dest : 'expressapp/public/stylesheets/app.min.css'
 			}
 		},
 		uglify : {
 			options: {
 				mangle: false
-			},
-			vendorminjs : {
-				src : jsVendorFiles,
-				dest : vendorminjs
 			},
 			angularInitMin : {
 				src : angularInit,
@@ -74,10 +68,10 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 
 	grunt.registerTask('default', [
+		'concat',
 		'uglify',
-		'cssmin'
 	]);
 }
