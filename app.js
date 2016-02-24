@@ -10,7 +10,6 @@ var fs = require('fs');
 
 var app = express();
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'expressapp/views/handlebars'));
 // jade template
@@ -46,13 +45,13 @@ function renderIndexPage(req, res) {
 		angularModule: null,
 		cssmin: null
 	};
-	
+
 	function afterReadVendor(err, vendorModule) {
 		if (err) {
 			debug('error reading vendors.min.js');
 			res.send('under service');
 		} else {
-			processResponse(vendorModule)
+			processResponse(vendorModule);
 		}
 	};
 

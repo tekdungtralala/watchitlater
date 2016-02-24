@@ -4,7 +4,7 @@ var _ = require('lodash');
 var request = require('request');
 var fs = require('fs');
 
-var movie = require("../entity/movie");
+var movie = require('../entity/movie');
 var appUtil = require('../util/appUtil');
 
 var movieModule = {
@@ -51,22 +51,23 @@ function checkMovies() {
 				d.resolve();
 			} else {
 				debug('  start download');
-				request.get({url: url, encoding: 'binary'}, function (err, response, body) {
+				request.get({url: url, encoding: 'binary'}, function(err, response, body) {
 					fs.writeFile(imagePath, body, 'binary', function(err) {
 						if (err)
 							d.reject();
 						else
 							d.resolve();
-					}); 
+					});
 				});
 			}
 		});
+
 		return d.promise;
 	}
 
 	function processFetchImage() {
 		if (index >= movies.length) {
-			debug('  finish checkMovies()')
+			debug('  finish checkMovies()');
 			deferred.resolve();
 		}
 
@@ -85,7 +86,7 @@ function checkMovies() {
 
 	function afterFindMovies(result) {
 		movies = result;
-		debug('  movies.length = ' + movies.length)
+		debug('  movies.length = ' + movies.length);
 	}
 
 	function findMovies() {
@@ -93,14 +94,14 @@ function checkMovies() {
 		movie
 			.findMoviesWOImage()
 			.then(afterFindMovies)
-			.then(processFetchImage)
+			.then(processFetchImage);
 	}
 
 	function afterCountMovie(result) {
 		debug('  result=' + result);
 
 		if (result === 0)
-			deferred.resolve()
+			deferred.resolve();
 		else
 			findMovies();
 	}

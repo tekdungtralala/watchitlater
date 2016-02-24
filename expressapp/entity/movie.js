@@ -13,7 +13,7 @@ var MovieSchema = new mongoose.Schema({
 		type: Array
 	},
 	isImageReady: {
-		type: Boolean,
+		type: Boolean
 	},
 	Title: {
 		type: String,
@@ -102,7 +102,7 @@ var movieModule = {
 module.exports = movieModule;
 
 function findMoviesWOImage() {
-	debug("findMoviesWOImage()");
+	debug('findMoviesWOImage()');
 	var deferred = Q.defer();
 
 	var query = {isImageReady: false};
@@ -122,7 +122,7 @@ function isHasMovieWOImage() {
 	Movie.count({isImageReady: false}, function(err, c) {
 		if (err) debug('error ', err);
 		debug('  total=' + c);
-		deferred.resolve(c)
+		deferred.resolve(c);
 	});
 
 	return deferred.promise;
