@@ -18,8 +18,8 @@
 						cookiepolicy: 'single_host_origin'
 					});
 					// placed in home.html
-					window.auth2.attachClickHandler(document.getElementById('google-signin-btn1'));
-					window.auth2.isSignedIn.listen(googleSignedListener);
+					// window.auth2.attachClickHandler(document.getElementById('google-signin-btn1'));
+					// window.auth2.isSignedIn.listen(googleSignedListener);
 
 					function testSignOut() {
 						window.auth2.signOut().then(function() {

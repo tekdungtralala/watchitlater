@@ -35,8 +35,8 @@
 				}
 			})
 			.rendered.then(function() {
-				if (window.auth2 && window.auth2.attachClickHandler)
-					window.auth2.attachClickHandler(document.getElementById('google-signin-btn2'));
+				// if (window.auth2 && window.auth2.attachClickHandler)
+				// 	window.auth2.attachClickHandler(document.getElementById('google-signin-btn2'));
 			});
 
 			function getMovieList() {
