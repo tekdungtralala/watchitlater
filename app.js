@@ -61,7 +61,7 @@ function renderIndexPage(req, res) {
 			var angularPath = 'expressapp/public/angular-app/app.min.js';
 			fs.readFile(angularPath, {}, afterReadAngular);
 		} else {
-			res.render('index', data);
+			res.render('index-ts', data);
 		}
 	};
 
@@ -82,7 +82,7 @@ function renderIndexPage(req, res) {
 			res.send('under service');
 		} else {
 			data.cssmin = cssmin;
-			res.render('index', data);
+			res.render('index-ts', data);
 		}
 	}
 

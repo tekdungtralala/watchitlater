@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<base href="/">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<!-- Google Singin component -->
+		<meta name="google-signin-scope" content="profile email">
+		<meta name="google-signin-client_id" content="282630936768-vh37jnihfbm59s8jmkrr4eu7hl577r8r.apps.googleusercontent.com">
+		<script src="https://apis.google.com/js/api:client.js"></script>
+
+		<title>Watch it later</title>
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+				<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+				<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<script type="text/javascript">{{{vendorModule}}}</script>
+
+		{{#if isProd}}
+			<style type="text/css">{{{cssmin}}}</style>
+			<script>
+				window.isProd = true;
+			</script>
+			<script type="text/javascript">{{{angularModule}}}</script>
+		{{else}}
+			<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+			<link href="bower_components/bootstrap-social/bootstrap-social.css" rel="stylesheet" type="text/css">
+			<link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+			<link href='static-assets/fonts/Kaushan-Script/css/fonts.css' rel='stylesheet' type='text/css'>
+			<link href="static-assets/css/agency.css" rel="stylesheet">
+			<link href="stylesheets/app.css" rel="stylesheet">
+
+			<script>
+				window.isProd = false;
+			</script>
+			<script src="angular-app-ts/init.app.js"></script>
+			<script src="angular-app-ts/main-config.app.js"></script>
+			<script src="angular-app-ts/router-config.app.js"></script>
+			<script src="angular-app-ts/run.app.js"></script>
+		{{/if}}
+
+		
+
+	</head>
+	<body data-ng-app="app" id="page-top" class="index">
+		<ui-view/>
+
+		<script type="text/ng-template" id="template/header-page1.html">
+			<nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header page-scroll">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a ui-sref="home" class="navbar-brand page-scroll" href="">
+							<span >Watch it later</span>
+						</a>
+					</div>
+
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav navbar-right">
+							<li >
+								<a ui-sref="box-office" class="page-scroll" href="">Box Office</a>
+							</li>
+							<li>
+								<a ui-sref="top-movie" class="page-scroll" href="">Top Movie</a>
+							</li>
+							<li ng-show="!loggedUser.email">
+								<a class="page-scroll" href="">Sign In</a>
+							</li>
+							<li ng-show="loggedUser.email">
+								<a class="page-scroll" href="">My Account</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</script>
+
+		<script type="text/ng-template" id="template/spinner.html">
+			<div class="spinner">
+				<div class="rect1"></div>
+				<div class="rect2"></div>
+				<div class="rect3"></div>
+				<div class="rect4"></div>
+				<div class="rect5"></div>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="template/footer.html">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<span class="copyright"></span>
+						<ul class="list-inline quicklinks">
+							<li>
+								<a href="https://www.upwork.com/freelancers/~016d109302643b6455" target="blank">My Upwork Profile</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<ul class="list-inline social-buttons">
+							<li><a href="https://github.com/tekdungtralala/watchitlater" target="blank"><i class="fa fa-github"></i></a>
+							</li>
+							<li><a href="https://www.facebook.com/WiwitAdityaSaputra" target="blank"><i class="fa fa-facebook"></i></a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<ul class="list-inline quicklinks">
+							<li>
+								<a href="http://startbootstrap.com/template-overviews/agency/" target="blank">Theme</a>
+							</li>
+							<li>
+								<a href="http://www.imdb.com/" target="blank">Imdb</a>
+							</li>
+							<li>
+								<a href="http://www.boxofficemojo.com/" target="blank">boxofficemojo</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</script>	
+	</body>
+</html>
