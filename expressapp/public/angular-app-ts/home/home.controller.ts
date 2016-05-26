@@ -6,12 +6,27 @@ module angularApp {
     class HomeCtrl {
         protected movieList: Movie[] = [];
         public listBO: Array<Movie[]> = [];
+        public listTM: Movie[] = [];
 
         static $inject = ["homeservice"];
         constructor(private homeService: IHomeService) {
-            this.homeService
-                .getLatestBoxOffice()
-                .then(this.afterGetLatestBO);
+            
+            let arrayPromise: Array<ng.IPromise<any>>;
+            arrayPromise = [
+                this.homeService.getLatestBoxOffice(),
+                this.homeService.getLatestTopMovie(0, 5)
+            ];
+            
+            this.homeService.ready(arrayPromise).then(this.afterGetResult);
+        }
+        
+        afterGetResult = (result: Array<Movie[]>): void => {
+            this.afterGetLatestBO(result[0]);
+            this.afterGetLatestTM(result[1]);
+        }
+        
+        afterGetLatestTM = (result: Movie[]): void => {
+            this.listTM = result;
         }
         
         afterGetLatestBO = (result: Movie[]) : void => {
@@ -26,7 +41,7 @@ module angularApp {
         }
         
         addToMovieList = (movies: Movie[]): void => {
-            _.forEach(movies, function (m: Movie) {
+            _.forEach(movies, (m: Movie) => {
                 this.movieList.push(m);
             })
         }

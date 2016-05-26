@@ -7,6 +7,14 @@ var angularApp;
             this.homeService = homeService;
             this.movieList = [];
             this.listBO = [];
+            this.listTM = [];
+            this.afterGetResult = function (result) {
+                _this.afterGetLatestBO(result[0]);
+                _this.afterGetLatestTM(result[1]);
+            };
+            this.afterGetLatestTM = function (result) {
+                _this.listTM = result;
+            };
             this.afterGetLatestBO = function (result) {
                 _this.listBO[0] = _.slice(result, 0, 3);
                 _this.addToMovieList(_this.listBO[0]);
@@ -17,12 +25,15 @@ var angularApp;
             };
             this.addToMovieList = function (movies) {
                 _.forEach(movies, function (m) {
-                    this.movieList.push(m);
+                    _this.movieList.push(m);
                 });
             };
-            this.homeService
-                .getLatestBoxOffice()
-                .then(this.afterGetLatestBO);
+            var arrayPromise;
+            arrayPromise = [
+                this.homeService.getLatestBoxOffice(),
+                this.homeService.getLatestTopMovie(0, 5)
+            ];
+            this.homeService.ready(arrayPromise).then(this.afterGetResult);
         }
         HomeCtrl.$inject = ["homeservice"];
         return HomeCtrl;

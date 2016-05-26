@@ -2,17 +2,51 @@
 
 module angularApp {  
     export interface IHomeService {
-        getLatestBoxOffice(): ng.IPromise<Movie[]>;
+        getLatestBoxOffice(): ng.IPromise<Movie[]>
+        getLatestTopMovie(skip: number, limit: number): ng.IPromise<Movie[]>
+        ready(arrayPromise: Array<ng.IPromise<any>>): ng.IPromise<any>
     }
 
-    class Homeservice implements IHomeService{
-        static $inject = ["$http"];
-		constructor(private $http : ng.IHttpService) {	
+    class Homeservice implements IHomeService {
+        private isPrimed: boolean = false;
+        private primePromise: ng.IPromise<any>;
+        
+        static $inject = ["$q", "$http"];
+		constructor(private $q: ng.IQService, private $http: ng.IHttpService) {	
 		}
         
         getLatestBoxOffice(): ng.IPromise<Movie[]>{
             let apiUrl: string = '/api/weeklymovie';
             return this.$http.get(apiUrl).then(this.getData);
+        }
+        
+        getLatestTopMovie(skip: number, limit: number): ng.IPromise<Movie[]> {
+            skip = skip ? skip : 0;
+            limit = limit ? limit : 0;
+            let apiUrl: string = '/api/getLatestTopMovie?skip=' + skip + '&limit=' + limit;
+            return this.$http.get(apiUrl).then(this.getData);
+        }
+        
+        ready(arrayPromise: Array<ng.IPromise<any>>): ng.IPromise<Array<any>> {
+            let readyPromise: ng.IPromise<any> = this.primePromise || this.prime();
+            
+            return readyPromise
+                .then(() => {
+                    return this.$q.all(arrayPromise);
+                })
+        }
+        
+        success = (): void => {
+            this.isPrimed = true; 
+        }
+        
+        prime = (): ng.IPromise<any> => {
+            if (this.primePromise) {
+                return this.primePromise;
+            }
+            
+            this.primePromise = this.$q.when(true).then(this.success);
+            return this.primePromise;
         }
         
         getData<T>(result: HttpResult<T>): T {
