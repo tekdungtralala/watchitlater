@@ -2,6 +2,7 @@
 
 module angularApp {  
     export interface IHomeService {
+        showMovieDetail(movieList: Movie[], movieId: string): void
         getLatestBoxOffice(): ng.IPromise<Movie[]>
         getLatestTopMovie(skip: number, limit: number): ng.IPromise<Movie[]>
         ready(arrayPromise: Array<ng.IPromise<any>>): ng.IPromise<any>
@@ -11,9 +12,44 @@ module angularApp {
         private isPrimed: boolean = false;
         private primePromise: ng.IPromise<any>;
         
-        static $inject = ["$q", "$http"];
-		constructor(private $q: ng.IQService, private $http: ng.IHttpService) {	
+        static $inject = ["$q", "$http", "$uibModal", "$ocLazyLoad"];
+		constructor(
+            private $q: ng.IQService, 
+            private $http: ng.IHttpService, 
+            private $uibModal: angular.ui.bootstrap.IModalService,
+            private $ocLazyLoad: oc.ILazyLoad) {
 		}
+        
+        showMovieDetail(movieList: Movie[], movieId: string): void {
+            this.$uibModal.open({
+				templateUrl: 'angular-app/home/movieDetail.html',
+				controller: 'MovieDetailCtrl',
+				controllerAs: 'vm',
+				size: 'lg',
+				backdrop: 'static',
+                resolve: {
+					movieList: getMovieList,
+					loadMovieDetailCtrl: this.loadMovieDetailCtrl,
+					movieId: function() {
+                        console.log('getMovieId ', movieId);
+						return movieId;
+					}
+                }
+            })
+            .rendered.then(() => {
+                
+            });
+            
+            function getMovieList(): Movie[] {
+                console.log('getMovieList ', movieList)
+                return movieList;
+            }
+        }
+        
+        loadMovieDetailCtrl = () : ng.IPromise<any> => {
+            console.log('sdfdsfs')
+            return this.$ocLazyLoad.load('MovieDetailCtrl');
+        }
         
         getLatestBoxOffice(): ng.IPromise<Movie[]>{
             let apiUrl: string = '/api/weeklymovie';

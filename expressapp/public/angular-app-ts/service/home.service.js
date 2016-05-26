@@ -1,11 +1,17 @@
 var angularApp;
 (function (angularApp) {
     var Homeservice = (function () {
-        function Homeservice($q, $http) {
+        function Homeservice($q, $http, $uibModal, $ocLazyLoad) {
             var _this = this;
             this.$q = $q;
             this.$http = $http;
+            this.$uibModal = $uibModal;
+            this.$ocLazyLoad = $ocLazyLoad;
             this.isPrimed = false;
+            this.loadMovieDetailCtrl = function () {
+                console.log('sdfdsfs');
+                return _this.$ocLazyLoad.load('MovieDetailCtrl');
+            };
             this.success = function () {
                 _this.isPrimed = true;
             };
@@ -17,6 +23,29 @@ var angularApp;
                 return _this.primePromise;
             };
         }
+        Homeservice.prototype.showMovieDetail = function (movieList, movieId) {
+            this.$uibModal.open({
+                templateUrl: 'angular-app/home/movieDetail.html',
+                controller: 'MovieDetailCtrl',
+                controllerAs: 'vm',
+                size: 'lg',
+                backdrop: 'static',
+                resolve: {
+                    movieList: getMovieList,
+                    loadMovieDetailCtrl: this.loadMovieDetailCtrl,
+                    movieId: function () {
+                        console.log('getMovieId ', movieId);
+                        return movieId;
+                    }
+                }
+            })
+                .rendered.then(function () {
+            });
+            function getMovieList() {
+                console.log('getMovieList ', movieList);
+                return movieList;
+            }
+        };
         Homeservice.prototype.getLatestBoxOffice = function () {
             var apiUrl = '/api/weeklymovie';
             return this.$http.get(apiUrl).then(this.getData);
@@ -38,7 +67,7 @@ var angularApp;
         Homeservice.prototype.getData = function (result) {
             return result.data;
         };
-        Homeservice.$inject = ["$q", "$http"];
+        Homeservice.$inject = ["$q", "$http", "$uibModal", "$ocLazyLoad"];
         return Homeservice;
     }());
     angular

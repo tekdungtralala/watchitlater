@@ -8,6 +8,9 @@ var angularApp;
             this.movieList = [];
             this.listBO = [];
             this.listTM = [];
+            this.viewMovieDetail = function (movieId) {
+                _this.homeService.showMovieDetail(_this.movieList, movieId);
+            };
             this.afterGetResult = function (result) {
                 _this.afterGetLatestBO(result[0]);
                 _this.afterGetLatestTM(result[1]);

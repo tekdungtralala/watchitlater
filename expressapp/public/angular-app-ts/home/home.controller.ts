@@ -1,7 +1,7 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 
 module angularApp {
-    "use strict";   
+    "use strict";
 
     class HomeCtrl {
         protected movieList: Movie[] = [];
@@ -18,6 +18,10 @@ module angularApp {
             ];
             
             this.homeService.ready(arrayPromise).then(this.afterGetResult);
+        }
+        
+        viewMovieDetail = (movieId: string): void => {
+            this.homeService.showMovieDetail(this.movieList, movieId);
         }
         
         afterGetResult = (result: Array<Movie[]>): void => {
