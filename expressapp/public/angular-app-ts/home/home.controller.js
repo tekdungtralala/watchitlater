@@ -2,9 +2,10 @@ var angularApp;
 (function (angularApp) {
     "use strict";
     var HomeCtrl = (function () {
-        function HomeCtrl(homeService) {
+        function HomeCtrl(homeService, $document) {
             var _this = this;
             this.homeService = homeService;
+            this.$document = $document;
             this.movieList = [];
             this.listBO = [];
             this.listTM = [];
@@ -31,6 +32,9 @@ var angularApp;
                     _this.movieList.push(m);
                 });
             };
+            this.scrollToElmt = function (elmtId) {
+                _this.$document.duScrollToElementAnimated(angular.element(document.getElementById(elmtId)), 0, 700);
+            };
             var arrayPromise;
             arrayPromise = [
                 this.homeService.getLatestBoxOffice(),
@@ -38,7 +42,7 @@ var angularApp;
             ];
             this.homeService.ready(arrayPromise).then(this.afterGetResult);
         }
-        HomeCtrl.$inject = ["homeservice"];
+        HomeCtrl.$inject = ["homeservice", "$document"];
         return HomeCtrl;
     }());
     angular

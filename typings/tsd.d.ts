@@ -4,3 +4,4 @@
 /// <reference path="oclazyload/oclazyload.d.ts" />
 /// <reference path="lodash/lodash.d.ts" />
 /// <reference path="angular-ui-bootstrap/angular-ui-bootstrap.d.ts" />
+/// <reference path="angular-scroll/angular-scroll.d.ts" />

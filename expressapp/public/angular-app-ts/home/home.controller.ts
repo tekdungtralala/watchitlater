@@ -8,8 +8,9 @@ module angularApp {
         public listBO: Array<Movie[]> = [];
         public listTM: Movie[] = [];
 
-        static $inject = ["homeservice"];
-        constructor(private homeService: IHomeService) {
+        static $inject = ["homeservice", "$document"];
+        constructor(private homeService: IHomeService,
+            private $document: duScroll.IDocumentService) {
             
             let arrayPromise: Array<ng.IPromise<any>>;
             arrayPromise = [
@@ -48,6 +49,10 @@ module angularApp {
             _.forEach(movies, (m: Movie) => {
                 this.movieList.push(m);
             })
+        }
+        
+        scrollToElmt = (elmtId: string): void => {
+            this.$document.duScrollToElementAnimated(angular.element(document.getElementById(elmtId)), 0, 700);
         }
     }
 
