@@ -26,7 +26,17 @@ module angularApp {
                 }
             }
         })
-        ;
+        .state('box-office', {
+            url: '/box-office?date',
+            templateUrl: '/angular-app/boxoffice/boxoffice.html',
+            controller: 'BoxOfficeCtrl',
+            controllerAs: 'vm',
+            resolve: {
+                loadCtrl: function($ocLazyLoad: oc.ILazyLoad) {
+                    return $ocLazyLoad.load(['boxOfficeSrvc', 'homeservice', 'BoxOfficeCtrl'], {serie: true});
+                }
+            }
+        });
 	}
 
 	angular.module('app').config(routerConfig);

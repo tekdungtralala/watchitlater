@@ -12,10 +12,12 @@
 		"expressapp/public/angular-app-ts/models/httpresult.ts",
 		
 		"expressapp/public/angular-app-ts/service/home.service.ts",
+		"expressapp/public/angular-app-ts/service/boxoffice.service.ts",
 		
 		"expressapp/public/angular-app-ts/home/home.controller.ts",
 		"expressapp/public/angular-app-ts/home/movieDetail.controller.ts",
 		
+		"expressapp/public/angular-app-ts/boxoffice/boxoffice.controller.ts",
 		"expressapp/public/angular-app-ts/topmovie/topmovie.controller.ts",
 	
 		"expressapp/public/angular-app-ts/init.app.ts",

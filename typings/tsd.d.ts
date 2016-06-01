@@ -5,3 +5,5 @@
 /// <reference path="lodash/lodash.d.ts" />
 /// <reference path="angular-ui-bootstrap/angular-ui-bootstrap.d.ts" />
 /// <reference path="angular-scroll/angular-scroll.d.ts" />
+/// <reference path="moment/moment-node.d.ts" />
+/// <reference path="moment/moment.d.ts" />
