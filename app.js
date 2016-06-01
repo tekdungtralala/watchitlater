@@ -39,6 +39,13 @@ app.get('/box-office', renderIndexPage);
 // app.use(handleError404);
 
 function renderIndexPage(req, res) {
+	var indexView = 'index-ts';
+	debug('renderIndexPage view = ', req.query.viewAs);
+	if (req.query.viewAs === 'angularjs')
+		indexView = 'index';
+	else if (req.query.viewAs === 'typescript')
+		indexView = 'index-ts';
+
 	var isProd = 'PROD' === process.env.PROFILE;
 	var data = {
 		isProd: isProd,
@@ -61,7 +68,7 @@ function renderIndexPage(req, res) {
 			var angularPath = 'expressapp/public/angular-app/app.min.js';
 			fs.readFile(angularPath, {}, afterReadAngular);
 		} else {
-			res.render('index-ts', data);
+			res.render(indexView, data);
 		}
 	};
 
@@ -82,7 +89,7 @@ function renderIndexPage(req, res) {
 			res.send('under service');
 		} else {
 			data.cssmin = cssmin;
-			res.render('index-ts', data);
+			res.render(indexView, data);
 		}
 	}
 
