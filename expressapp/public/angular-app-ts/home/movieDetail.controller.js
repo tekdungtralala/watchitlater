@@ -7,6 +7,9 @@ var angularApp;
             this.$uibModalInstance = $uibModalInstance;
             this.movieList = movieList;
             this.movieId = movieId;
+            this.closeDialog = function () {
+                _this.$uibModalInstance.dismiss('cancel');
+            };
             this.findMovie = function (movieId) {
                 var prev, next, index;
                 _.forEach(_this.movieList, function (m, i) {

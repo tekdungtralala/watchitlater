@@ -31,7 +31,6 @@ module angularApp {
 					movieList: getMovieList,
 					loadMovieDetailCtrl: this.loadMovieDetailCtrl,
 					movieId: function() {
-                        console.log('getMovieId ', movieId);
 						return movieId;
 					}
                 }
@@ -41,13 +40,11 @@ module angularApp {
             });
             
             function getMovieList(): Movie[] {
-                console.log('getMovieList ', movieList)
                 return movieList;
             }
         }
         
         loadMovieDetailCtrl = () : ng.IPromise<any> => {
-            console.log('sdfdsfs')
             return this.$ocLazyLoad.load('MovieDetailCtrl');
         }
         

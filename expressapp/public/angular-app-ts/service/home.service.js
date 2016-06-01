@@ -9,7 +9,6 @@ var angularApp;
             this.$ocLazyLoad = $ocLazyLoad;
             this.isPrimed = false;
             this.loadMovieDetailCtrl = function () {
-                console.log('sdfdsfs');
                 return _this.$ocLazyLoad.load('MovieDetailCtrl');
             };
             this.success = function () {
@@ -34,7 +33,6 @@ var angularApp;
                     movieList: getMovieList,
                     loadMovieDetailCtrl: this.loadMovieDetailCtrl,
                     movieId: function () {
-                        console.log('getMovieId ', movieId);
                         return movieId;
                     }
                 }
@@ -42,7 +40,6 @@ var angularApp;
                 .rendered.then(function () {
             });
             function getMovieList() {
-                console.log('getMovieList ', movieList);
                 return movieList;
             }
         };

@@ -16,6 +16,10 @@ module angularApp {
             this.findMovie(movieId);
         }
         
+        closeDialog = (): void => {
+            this.$uibModalInstance.dismiss('cancel');
+        }
+        
         findMovie = (movieId: string): void => {
             let prev: number, next: number, index: number;
             
