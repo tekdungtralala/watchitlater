@@ -1,0 +1,38 @@
+<div id="footer" ng-include src="'template/header-page1.html'"></div>
+
+<div class="app-topmovie-nav"/>
+
+<section class="app-home-section">
+	<h4>Top Movies</h4>
+	<div class="container">
+		<div ng-show="vm.showLoading" class="row" ng-include src="'template/spinner.html'"></div>
+		<table ng-show="!vm.showLoading"
+			class="table table-striped">
+			<thead>
+				<tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>Released</th>
+						<th>Director</th>
+						<th>Rating</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="d in vm.listMovie">
+					<th scope="row">{{$index + 1}}</th>
+					<td>
+						<span class="app-topmovie-columntitle">
+							<a ng-click="vm.showMovieDetail(d.imdbID)"
+								href="">{{::d.Title}}</a>
+						</span>
+					</td>
+					<td class="col-sm-2">{{::d.Released}}</td>
+					<td class="col-sm-2">{{::d.Director}}</td>
+					<td class="col-sm-1">{{::d.imdbRating}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+
+<footer id="footer" ng-include src="'template/footer.html'"></footer>

@@ -22,7 +22,7 @@ module angularApp {
         
         showMovieDetail(movieList: Movie[], movieId: string): void {
             this.$uibModal.open({
-				templateUrl: 'angular-app/home/movieDetail.html',
+				templateUrl: 'angular-app-ts/home/movieDetail.html',
 				controller: 'MovieDetailCtrl',
 				controllerAs: 'vm',
 				size: 'lg',

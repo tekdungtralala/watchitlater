@@ -4,7 +4,7 @@ var angularApp;
     function routerConfig($stateProvider) {
         $stateProvider.state('home', {
             url: '/home',
-            templateUrl: '/angular-app/home/home.html',
+            templateUrl: '/angular-app-ts/home/home.html',
             controller: 'HomeCtrl',
             controllerAs: 'vm',
             resolve: {
@@ -15,7 +15,7 @@ var angularApp;
         })
             .state('top-movie', {
             url: '/top-movie',
-            templateUrl: '/angular-app/topmovie/topmovie.html',
+            templateUrl: '/angular-app-ts/topmovie/topmovie.html',
             controller: 'TopMovieCtrl',
             controllerAs: 'vm',
             resolve: {
@@ -26,7 +26,7 @@ var angularApp;
         })
             .state('box-office', {
             url: '/box-office?date',
-            templateUrl: '/angular-app/boxoffice/boxoffice.html',
+            templateUrl: '/angular-app-ts/boxoffice/boxoffice.html',
             controller: 'BoxOfficeCtrl',
             controllerAs: 'vm',
             resolve: {

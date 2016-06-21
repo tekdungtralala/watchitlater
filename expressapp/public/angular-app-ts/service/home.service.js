@@ -24,7 +24,7 @@ var angularApp;
         }
         Homeservice.prototype.showMovieDetail = function (movieList, movieId) {
             this.$uibModal.open({
-                templateUrl: 'angular-app/home/movieDetail.html',
+                templateUrl: 'angular-app-ts/home/movieDetail.html',
                 controller: 'MovieDetailCtrl',
                 controllerAs: 'vm',
                 size: 'lg',
