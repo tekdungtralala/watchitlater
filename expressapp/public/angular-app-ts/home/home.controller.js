@@ -9,6 +9,12 @@ var angularApp;
             this.movieList = [];
             this.listBO = [];
             this.listTM = [];
+            this.attachSNSHandler = function () {
+                window.gapi.load('auth2', function () {
+                    console.log('loaded');
+                    window.auth2.attachClickHandler(document.getElementById('google-signin-btn-home'));
+                });
+            };
             this.viewMovieDetail = function (movieId) {
                 _this.homeService.showMovieDetail(_this.movieList, movieId);
             };
@@ -42,6 +48,7 @@ var angularApp;
                 this.homeService.getLatestTopMovie(0, 5)
             ];
             this.homeService.ready(arrayPromise).then(this.afterGetResult);
+            this.attachSNSHandler();
         }
         HomeCtrl.$inject = ["homeservice", "$document"];
         return HomeCtrl;

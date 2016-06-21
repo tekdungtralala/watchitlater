@@ -57,7 +57,7 @@ module angularApp {
             }
         }
         
-        showMovieDetail = (movieId: string) {
+        showMovieDetail = (movieId: string) => {
             this.homeservice.showMovieDetail(this.movieList, movieId);
         }
         

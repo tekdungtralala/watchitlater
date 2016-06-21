@@ -8,8 +8,8 @@
 		"pretty": true
 	},
 	"files": [
-		"expressapp/public/angular-app-ts/models/movie.ts",
-		"expressapp/public/angular-app-ts/models/httpresult.ts",
+		"expressapp/public/angular-app-ts/models/angular-app-interfaces.ts",
+		"expressapp/public/angular-app-ts/models/SNS-Interfaces.ts",
 		
 		"expressapp/public/angular-app-ts/service/home.service.ts",
 		"expressapp/public/angular-app-ts/service/boxoffice.service.ts",

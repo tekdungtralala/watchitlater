@@ -3,6 +3,8 @@
 module angularApp {
     "use strict";
 
+    declare var window: AppWindow;
+
     class HomeCtrl {
         protected movieList: Movie[] = [];
         public listBO: Array<Movie[]> = [];
@@ -19,6 +21,14 @@ module angularApp {
             ];
             
             this.homeService.ready(arrayPromise).then(this.afterGetResult);
+            this.attachSNSHandler();
+        }
+
+        attachSNSHandler = () => {
+            window.gapi.load('auth2', function() {
+                console.log('loaded')
+                window.auth2.attachClickHandler(document.getElementById('google-signin-btn-home'));
+            });
         }
         
         viewMovieDetail = (movieId: string): void => {

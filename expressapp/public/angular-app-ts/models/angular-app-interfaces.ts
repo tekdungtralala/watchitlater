@@ -1,6 +1,11 @@
 /// <reference path="../../../../typings/tsd.d.ts" />
 
 module angularApp {
+    export class AppWindow extends Window {
+        gapi: GoogleAPI
+        auth2: GoogleAuth
+    }
+
     export class Movie {
         Actors: string
         Awards: string
@@ -22,5 +27,10 @@ module angularApp {
         imdbID: string
         imdbRating: number
         isImageReady: boolean
+    }
+
+    export class HttpResult<T> {
+        data: T
+        status: number
     }
 }
