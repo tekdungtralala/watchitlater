@@ -32,6 +32,7 @@ module angularApp {
         
         afterGetLatestTM = (result: Movie[]): void => {
             this.listTM = result;
+            this.addToMovieList(this.listTM);
         }
         
         afterGetLatestBO = (result: Movie[]) : void => {

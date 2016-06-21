@@ -18,6 +18,7 @@ var angularApp;
             };
             this.afterGetLatestTM = function (result) {
                 _this.listTM = result;
+                _this.addToMovieList(_this.listTM);
             };
             this.afterGetLatestBO = function (result) {
                 _this.listBO[0] = _.slice(result, 0, 3);
