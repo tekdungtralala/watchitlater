@@ -13,6 +13,26 @@ var angularApp;
         return AppWindow;
     }(Window));
     angularApp.AppWindow = AppWindow;
+    var LoggedUser = (function () {
+        function LoggedUser(fullName, email) {
+            this.fullName = fullName;
+            this.email = email;
+        }
+        return LoggedUser;
+    }());
+    angularApp.LoggedUser = LoggedUser;
+    var SocialNetwokType = (function () {
+        function SocialNetwokType() {
+        }
+        return SocialNetwokType;
+    }());
+    angularApp.SocialNetwokType = SocialNetwokType;
+    var AppUser = (function () {
+        function AppUser() {
+        }
+        return AppUser;
+    }());
+    angularApp.AppUser = AppUser;
     var Movie = (function () {
         function Movie() {
         }

@@ -1,7 +1,7 @@
 var angularApp;
 (function (angularApp) {
     "use strict";
-    function appRun($rootScope) {
+    function appRun($rootScope, $http) {
         runSNSListener();
         startScrollListener();
         function startScrollListener() {
@@ -39,12 +39,37 @@ var angularApp;
                     cookiepolicy: 'single_host_origin'
                 });
                 window.auth2.isSignedIn.listen(function (isSigin) {
+                    $rootScope.loggedUser = null;
                     if (isSigin) {
-                        var email = window.auth2.currentUser.get().getBasicProfile().getEmail();
-                        console.log('email : ', email);
+                        var profile = window.auth2.currentUser.get().getBasicProfile();
+                        var data = {
+                            email: profile.getEmail(),
+                            socialNetwok: {
+                                fullName: profile.getName(),
+                                id: profile.getId(),
+                                imageUrl: profile.getImageUrl(),
+                                type: 'GOOGLE'
+                            }
+                        };
+                        postUserSignIn(data);
+                        $rootScope.loggedUser = {
+                            fullName: data.socialNetwok.fullName,
+                            email: data.email
+                        };
                     }
                 });
             });
+        }
+        function postUserSignIn(data) {
+            var req = {
+                method: 'POST',
+                url: '/api/signin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+            return $http(req);
         }
     }
     angular.module('app').run(appRun);

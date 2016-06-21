@@ -3,14 +3,9 @@
 module angularApp {
 	"use strict";
 
-	declare var window: AppWindow;
-	
-	export interface AppRootScope extends angular.IRootScopeService {
-		showNavbar: boolean;
-	}
-	
+	declare var window: AppWindow;	
 
-	function appRun($rootScope: AppRootScope) {
+	function appRun($rootScope: AppRootScope, $http: ng.IHttpService) {
 		
 		runSNSListener();
 		startScrollListener();
@@ -56,16 +51,45 @@ module angularApp {
                 });
 
                 window.auth2.isSignedIn.listen(function(isSigin: boolean) {
+					$rootScope.loggedUser = null;
 					if (isSigin) {
-                    	let email: string = window.auth2.currentUser.get().getBasicProfile().getEmail();
-						console.log('email : ', email);
+						var profile = window.auth2.currentUser.get().getBasicProfile();
+						let data: AppUser = {
+							email: profile.getEmail(),
+							socialNetwok: {
+								fullName: profile.getName(),
+								id: profile.getId(),
+								imageUrl: profile.getImageUrl(),
+								type: 'GOOGLE'
+							}
+						};
+
+						postUserSignIn(data);
+
+						$rootScope.loggedUser = {
+							fullName: data.socialNetwok.fullName,
+							email: data.email  
+						};
+					}
 
                     // window.auth2.signOut().then(function() {
                     //     console.log('User signed out.');
                     // });
-					}
                 });
 			});
+		}
+
+		function postUserSignIn(data: AppUser) {
+			var req = {
+				method: 'POST',
+				url: '/api/signin',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: data
+			};
+
+			return $http(req);
 		}
 	}
 
