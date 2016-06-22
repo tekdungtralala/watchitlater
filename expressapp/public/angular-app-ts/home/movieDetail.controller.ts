@@ -2,6 +2,8 @@
 
 module angularApp {
     "use strict";
+
+    declare var window: AppWindow;
     
     class MovieDetailCtrl {
         public selectedMovie: Movie;
@@ -14,6 +16,15 @@ module angularApp {
             private movieId: string) {
             
             this.findMovie(movieId);
+            this.attachSNSHandler();
+        }
+
+        attachSNSHandler = () => {
+            setTimeout(function() {
+                window.gapi.load('auth2', function() {
+                    window.auth2.attachClickHandler(document.getElementById('google-signin-btn-movieDetail'));
+                });
+            }, 1);
         }
         
         closeDialog = (): void => {

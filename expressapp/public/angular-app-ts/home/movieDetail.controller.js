@@ -7,6 +7,13 @@ var angularApp;
             this.$uibModalInstance = $uibModalInstance;
             this.movieList = movieList;
             this.movieId = movieId;
+            this.attachSNSHandler = function () {
+                setTimeout(function () {
+                    window.gapi.load('auth2', function () {
+                        window.auth2.attachClickHandler(document.getElementById('google-signin-btn-movieDetail'));
+                    });
+                }, 1);
+            };
             this.closeDialog = function () {
                 _this.$uibModalInstance.dismiss('cancel');
             };
@@ -26,6 +33,7 @@ var angularApp;
                 _this.nextMovie = _this.movieList[next];
             };
             this.findMovie(movieId);
+            this.attachSNSHandler();
         }
         return MovieDetailCtrl;
     }());

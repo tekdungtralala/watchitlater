@@ -11,7 +11,6 @@ var angularApp;
             this.listTM = [];
             this.attachSNSHandler = function () {
                 window.gapi.load('auth2', function () {
-                    console.log('loaded');
                     window.auth2.attachClickHandler(document.getElementById('google-signin-btn-home'));
                 });
             };
