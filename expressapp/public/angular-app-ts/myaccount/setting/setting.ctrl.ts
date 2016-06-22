@@ -4,9 +4,21 @@ module angularApp {
 	"use strict";
 
 	class SettingCtrl {
-		constructor() {
+		static $inject = ['$state', 'myAccountSrvc'];
+		private loggedUser: LoggedUser;
+		constructor(
+			private $state: angular.ui.IStateService, 
+			private myAccountSrvc: IMyAccountSrvc) {
 
-			console.log('SettingCtrl')
+			myAccountSrvc.hasLoggedUser()
+				.then(this.activate)
+				.catch(function() {
+					$state.go('home');
+				})
+		}
+
+		activate = (): void => {
+			this.loggedUser = this.myAccountSrvc.getLoggedUser();
 		}
 	}
 

@@ -1,9 +1,10 @@
 var angularApp;
 (function (angularApp) {
     "use strict";
-    function appRun($rootScope, $http, myAccountSrvc) {
+    function appRun($rootScope, $http, $state, myAccountSrvc) {
         runSNSListener();
         startScrollListener();
+        $rootScope.state = $state;
         function startScrollListener() {
             var docElem = document.documentElement;
             var didScroll = false;

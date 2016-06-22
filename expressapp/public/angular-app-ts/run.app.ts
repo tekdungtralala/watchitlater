@@ -5,10 +5,16 @@ module angularApp {
 
 	declare var window: AppWindow;
 
-	function appRun($rootScope: AppRootScope, $http: ng.IHttpService, myAccountSrvc: IMyAccountSrvc) {
+	function appRun(
+		$rootScope: AppRootScope, 
+		$http: ng.IHttpService, 
+		$state: angular.ui.IStateService,
+		myAccountSrvc: IMyAccountSrvc) {
 		
 		runSNSListener();
 		startScrollListener();
+
+		$rootScope.state = $state;
 		
 		function startScrollListener(): void {
 			var docElem = document.documentElement;

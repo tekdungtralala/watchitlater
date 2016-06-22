@@ -28,6 +28,7 @@ module angularApp {
 	export interface AppRootScope extends angular.IRootScopeService {
 		showNavbar: boolean
 		loggedUser: LoggedUser
+		state: angular.ui.IStateService
 	}
 
 	export class SocialNetwokType {

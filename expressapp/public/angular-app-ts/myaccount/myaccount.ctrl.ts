@@ -4,12 +4,16 @@ module angularApp {
 	"use strict";
 
 	class MyAccountCtrl {
-		static $inject = ["$state"];
+		static $inject = ["$state", "myAccountSrvc"];
+		constructor(
+			private $state: angular.ui.IStateService,
+			private myAccountSrvc: IMyAccountSrvc) {
 
-		constructor(private $state: angular.ui.IStateService) {
-			// redirect to bookmark state 
-			if ('my-account' === $state.current.name)
+			// redirect to bookmark state
+			let stateName: string = $state.current.name; 		
+			if ('my-account' === stateName) {
 				$state.go('.bookmark');
+			}
 		}
 	}
 

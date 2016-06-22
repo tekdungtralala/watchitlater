@@ -6,6 +6,7 @@ module angularApp {
 	export interface IMyAccountSrvc {
 		runListener(): void
 		hasLoggedUser(): ng.IPromise<LoggedUser>
+		getLoggedUser(): LoggedUser
 	}
 
 	class MyAccountSrvc implements IMyAccountSrvc {

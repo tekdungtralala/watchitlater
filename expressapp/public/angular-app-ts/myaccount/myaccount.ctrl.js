@@ -2,12 +2,15 @@ var angularApp;
 (function (angularApp) {
     "use strict";
     var MyAccountCtrl = (function () {
-        function MyAccountCtrl($state) {
+        function MyAccountCtrl($state, myAccountSrvc) {
             this.$state = $state;
-            if ('my-account' === $state.current.name)
+            this.myAccountSrvc = myAccountSrvc;
+            var stateName = $state.current.name;
+            if ('my-account' === stateName) {
                 $state.go('.bookmark');
+            }
         }
-        MyAccountCtrl.$inject = ["$state"];
+        MyAccountCtrl.$inject = ["$state", "myAccountSrvc"];
         return MyAccountCtrl;
     }());
     angular

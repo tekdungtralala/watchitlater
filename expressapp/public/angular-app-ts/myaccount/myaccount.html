@@ -8,10 +8,10 @@
 
 	<section class="app-home-section">
         <ul class="nav nav-tabs app-nav">
-            <li role="presentation" class="active">
+            <li role="presentation" ng-class="{'active': state.current.name === 'my-account.bookmark'}">
                 <a ui-sref="my-account.bookmark" href="">Bookmark</a>
             </li>
-            <li role="presentation">
+            <li role="presentation" ng-class="{'active': state.current.name === 'my-account.setting'}">
                 <a ui-sref="my-account.setting" href="">Settings</a>
             </li>
         </ul>

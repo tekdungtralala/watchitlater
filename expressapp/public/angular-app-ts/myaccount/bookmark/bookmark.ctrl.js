@@ -2,10 +2,10 @@ var angularApp;
 (function (angularApp) {
     "use strict";
     var BookMarkCtrl = (function () {
-        function BookMarkCtrl(myAccountService, $state) {
-            this.myAccountService = myAccountService;
+        function BookMarkCtrl(myAccountSrvc, $state) {
+            this.myAccountSrvc = myAccountSrvc;
             this.$state = $state;
-            myAccountService.hasLoggedUser()
+            myAccountSrvc.hasLoggedUser()
                 .catch(function () {
                 $state.go('home');
             });

@@ -6,10 +6,10 @@ module angularApp {
 	class BookMarkCtrl {
 		static $inject = ['myAccountSrvc', '$state'];
 		constructor(
-			private myAccountService: IMyAccountSrvc, 
+			private myAccountSrvc: IMyAccountSrvc, 
 			private $state: angular.ui.IStateService) {
 
-			myAccountService.hasLoggedUser()
+			myAccountSrvc.hasLoggedUser()
 				.catch(function() {
 					$state.go('home');
 				})
