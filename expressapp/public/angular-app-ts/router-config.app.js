@@ -34,6 +34,38 @@ var angularApp;
                     return $ocLazyLoad.load(['boxOfficeSrvc', 'homeservice', 'BoxOfficeCtrl'], { serie: true });
                 }
             }
+        })
+            .state('my-account', {
+            url: '/my-account',
+            templateUrl: '/angular-app-ts/myaccount/myaccount.html',
+            controller: 'MyAccountCtrl',
+            controllerAs: 'vm',
+            resolve: {
+                loadCtrl: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load(['MyAccountCtrl'], { serie: true });
+                }
+            }
+        })
+            .state('my-account.bookmark', {
+            templateUrl: '/angular-app-ts/myaccount/bookmark/bookmark.html',
+            controller: 'BookMarkCtrl',
+            controllerAs: 'vm',
+            resolve: {
+                loadCtrl: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load(['BookMarkCtrl'], { serie: true });
+                }
+            }
+        })
+            .state('my-account.setting', {
+            url: '/setting',
+            templateUrl: '/angular-app-ts/myaccount/setting/setting.html',
+            controller: 'SettingCtrl',
+            controllerAs: 'vm',
+            resolve: {
+                loadCtrl: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load(['SettingCtrl'], { serie: true });
+                }
+            }
         });
     }
     angular.module('app').config(routerConfig);

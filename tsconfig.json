@@ -19,6 +19,10 @@
 		
 		"expressapp/public/angular-app-ts/boxoffice/boxoffice.controller.ts",
 		"expressapp/public/angular-app-ts/topmovie/topmovie.controller.ts",
+
+		"expressapp/public/angular-app-ts/myaccount/myaccount.ctrl.ts",
+		"expressapp/public/angular-app-ts/myaccount/bookmark/bookmark.ctrl.ts",
+		"expressapp/public/angular-app-ts/myaccount/setting/setting.ctrl.ts",
 	
 		"expressapp/public/angular-app-ts/init.app.ts",
 		"expressapp/public/angular-app-ts/main-config.app.ts",

@@ -149,3 +149,14 @@ header {
 .app-boxoffice .app-selecteddate {
 	margin-bottom: 0px;
 }
+
+
+.app-myaccount .app-nav li a {
+	color: #337ab7;
+}
+.app-myaccount .app-nav li.active a {
+	color: #000000;
+}
+.app-myaccount .app-content {
+	padding: 10px;
+}

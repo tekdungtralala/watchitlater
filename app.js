@@ -34,6 +34,7 @@ app.get('/', renderIndexPage);
 app.get('/home', renderIndexPage);
 app.get('/top-movie', renderIndexPage);
 app.get('/box-office', renderIndexPage);
+app.get('/my-account*', renderIndexPage);
 
 // catch 404 and forward to error handler
 // app.use(handleError404);

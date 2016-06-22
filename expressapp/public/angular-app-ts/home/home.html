@@ -34,7 +34,9 @@
 					<a ng-click="vm.scrollToElmt('signin');" class="page-scroll" href="">Sign In</a>
 				</li>
 				<li ng-show="loggedUser.email">
-					<a class="page-scroll" href="">My Account</a>
+					<a
+						ui-sref="my-account" 
+						class="page-scroll" href="">My Account</a>
 				</li>
 			</ul>
 		</div>

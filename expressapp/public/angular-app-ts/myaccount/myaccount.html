@@ -1,0 +1,24 @@
+<div class="app-myaccount">
+	<style>
+
+	</style>
+	<div ng-include src="'template/header-page1.html'"></div>
+
+    <div class="app-topmovie-nav"/>
+
+	<section class="app-home-section">
+        <ul class="nav nav-tabs app-nav">
+            <li role="presentation" class="active">
+                <a ui-sref="my-account.bookmark" href="">Bookmark</a>
+            </li>
+            <li role="presentation">
+                <a ui-sref="my-account.setting" href="">Settings</a>
+            </li>
+        </ul>
+        <div class="app-content">
+            <ui-view/>
+        </div>
+	</section>
+
+	<footer id="footer" ng-include src="'template/footer.html'"></footer>
+</div>

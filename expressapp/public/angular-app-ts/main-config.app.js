@@ -17,6 +17,15 @@ var angularApp;
                 name: 'MovieDetailCtrl',
                 files: ['/angular-app-ts/home/movieDetail.controller.js']
             }, {
+                name: 'MyAccountCtrl',
+                files: ['/angular-app-ts/myaccount/myaccount.ctrl.js']
+            }, {
+                name: 'BookMarkCtrl',
+                files: ['/angular-app-ts/myaccount/bookmark/bookmark.ctrl.js']
+            }, {
+                name: 'SettingCtrl',
+                files: ['/angular-app-ts/myaccount/setting/setting.ctrl.js']
+            }, {
                 name: 'homeservice',
                 files: ['/angular-app-ts/service/home.service.js']
             }, {
