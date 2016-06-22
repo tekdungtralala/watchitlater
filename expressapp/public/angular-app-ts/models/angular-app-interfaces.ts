@@ -6,8 +6,22 @@ module angularApp {
         auth2: GoogleAuth
     }
 
+    export enum AppUserState {
+        FINDING, LOGGED, NOTLOGGED
+    }
+
     export class LoggedUser {
-        constructor(public fullName: string, public email: string) {
+        public fullName: string;
+        public email: string;
+
+        constructor(fullName?: string, email?: string) {
+            this.fullName = fullName;
+            this.email = email;
+        }
+
+        hasLoggedUser() : boolean {
+            return this.fullName !== undefined && this.fullName !== null 
+                && this.email != undefined && this.email != null;
         }
     }
 

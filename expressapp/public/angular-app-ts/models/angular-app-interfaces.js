@@ -13,11 +13,21 @@ var angularApp;
         return AppWindow;
     }(Window));
     angularApp.AppWindow = AppWindow;
+    (function (AppUserState) {
+        AppUserState[AppUserState["FINDING"] = 0] = "FINDING";
+        AppUserState[AppUserState["LOGGED"] = 1] = "LOGGED";
+        AppUserState[AppUserState["NOTLOGGED"] = 2] = "NOTLOGGED";
+    })(angularApp.AppUserState || (angularApp.AppUserState = {}));
+    var AppUserState = angularApp.AppUserState;
     var LoggedUser = (function () {
         function LoggedUser(fullName, email) {
             this.fullName = fullName;
             this.email = email;
         }
+        LoggedUser.prototype.hasLoggedUser = function () {
+            return this.fullName !== undefined && this.fullName !== null
+                && this.email != undefined && this.email != null;
+        };
         return LoggedUser;
     }());
     angularApp.LoggedUser = LoggedUser;

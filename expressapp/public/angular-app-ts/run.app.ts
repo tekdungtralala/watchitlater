@@ -3,9 +3,9 @@
 module angularApp {
 	"use strict";
 
-	declare var window: AppWindow;	
+	declare var window: AppWindow;
 
-	function appRun($rootScope: AppRootScope, $http: ng.IHttpService) {
+	function appRun($rootScope: AppRootScope, $http: ng.IHttpService, myAccountSrvc: IMyAccountSrvc) {
 		
 		runSNSListener();
 		startScrollListener();
@@ -50,46 +50,8 @@ module angularApp {
                     cookiepolicy: 'single_host_origin'
                 });
 
-                window.auth2.isSignedIn.listen(function(isSigin: boolean) {
-					$rootScope.loggedUser = null;
-					if (isSigin) {
-						var profile = window.auth2.currentUser.get().getBasicProfile();
-						let data: AppUser = {
-							email: profile.getEmail(),
-							socialNetwok: {
-								fullName: profile.getName(),
-								id: profile.getId(),
-								imageUrl: profile.getImageUrl(),
-								type: 'GOOGLE'
-							}
-						};
-
-						postUserSignIn(data);
-
-						$rootScope.loggedUser = {
-							fullName: data.socialNetwok.fullName,
-							email: data.email  
-						};
-					}
-
-                    // window.auth2.signOut().then(function() {
-                    //     console.log('User signed out.');
-                    // });
-                });
+				myAccountSrvc.runListener();
 			});
-		}
-
-		function postUserSignIn(data: AppUser) {
-			var req = {
-				method: 'POST',
-				url: '/api/signin',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				data: data
-			};
-
-			return $http(req);
 		}
 	}
 

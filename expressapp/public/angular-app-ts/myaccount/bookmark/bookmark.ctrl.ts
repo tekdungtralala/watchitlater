@@ -4,9 +4,15 @@ module angularApp {
     "use strict";
 
     class BookMarkCtrl {
-        constructor() {
+        static $inject = ['myAccountSrvc', '$state'];
+        constructor(
+            private myAccountService: IMyAccountSrvc, 
+            private $state: angular.ui.IStateService) {
 
-            console.log('BookMarkCtrl')
+            myAccountService.hasLoggedUser()
+                .catch(function() {
+                    $state.go('home');
+                })
         }
     }
 
