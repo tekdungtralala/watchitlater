@@ -1,16 +1,16 @@
 /// <reference path="../../../../../typings/tsd.d.ts" />
 
 module angularApp {
-    "use strict";
+	"use strict";
 
-    class SettingCtrl {
-        constructor() {
+	class SettingCtrl {
+		constructor() {
 
-            console.log('SettingCtrl')
-        }
-    }
+			console.log('SettingCtrl')
+		}
+	}
 
-    angular
-        .module('app')
-        .controller('SettingCtrl', SettingCtrl);
+	angular
+		.module('app')
+		.controller('SettingCtrl', SettingCtrl);
 }

@@ -45,10 +45,10 @@ module angularApp {
 		function runSNSListener() {
 			// google signin
 			window.gapi.load('auth2', function() {
-                window.auth2 = window.gapi.auth2.init({
-                    client_id: '282630936768-vh37jnihfbm59s8jmkrr4eu7hl577r8r.apps.googleusercontent.com',
-                    cookiepolicy: 'single_host_origin'
-                });
+				window.auth2 = window.gapi.auth2.init({
+					client_id: '282630936768-vh37jnihfbm59s8jmkrr4eu7hl577r8r.apps.googleusercontent.com',
+					cookiepolicy: 'single_host_origin'
+				});
 
 				myAccountSrvc.runListener();
 			});
