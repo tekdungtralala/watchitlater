@@ -49,6 +49,13 @@
 						</a>
 					</div>
 				</div>
+				<div class="form-group" ng-show="loggedUser.email">
+					<button
+						ng-click="vm.addToBookmark()" 
+						type="button" class="btn btn-default" aria-label="Left Align">
+						<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Add
+					</button>
+				</div>
 			</form>
 		</div>
 		<div class="col-sm-4 app-movieDetail-bodycenter">

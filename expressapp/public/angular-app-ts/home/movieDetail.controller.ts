@@ -11,7 +11,8 @@ module angularApp {
 		public nextMovie: Movie;
 		
 		constructor(
-			private $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance, 
+			private $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance,
+			private myAccountSrvc: IMyAccountSrvc, 
 			private movieList: Movie[], 
 			private movieId: string) {
 			
@@ -49,6 +50,10 @@ module angularApp {
 			
 			this.prevMovie = this.movieList[prev];
 			this.nextMovie = this.movieList[next];
+		}
+
+		addToBookmark = (): void => {
+			this.myAccountSrvc.addToBookmark(this.selectedMovie.imdbID);
 		}
 	}
 	

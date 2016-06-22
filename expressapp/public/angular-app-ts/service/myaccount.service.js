@@ -87,6 +87,19 @@ var angularApp;
             }
             return result.promise;
         };
+        MyAccountSrvc.prototype.addToBookmark = function (imdbId) {
+            var req = {
+                method: 'POST',
+                url: '/api/addToBookmark',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    imdbId: imdbId
+                }
+            };
+            return this.$http(req);
+        };
         MyAccountSrvc.$inject = ['$rootScope', '$http', '$q'];
         return MyAccountSrvc;
     }());

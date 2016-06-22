@@ -7,6 +7,7 @@ module angularApp {
 		runListener(): void
 		hasLoggedUser(): ng.IPromise<LoggedUser>
 		getLoggedUser(): LoggedUser
+		addToBookmark(imdbId: string): ng.IPromise<boolean>
 	}
 
 	class MyAccountSrvc implements IMyAccountSrvc {
@@ -110,6 +111,20 @@ module angularApp {
 					});
 			}
 			return result.promise;
+		}
+
+		addToBookmark(imdbId: string): ng.IPromise<boolean> {
+			var req = {
+				method: 'POST',
+				url: '/api/addToBookmark',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				data: {
+					imdbId: imdbId
+				}
+			};
+			return this.$http(req);
 		}
 	}
 

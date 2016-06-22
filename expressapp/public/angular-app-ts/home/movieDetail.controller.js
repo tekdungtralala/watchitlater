@@ -2,9 +2,10 @@ var angularApp;
 (function (angularApp) {
     "use strict";
     var MovieDetailCtrl = (function () {
-        function MovieDetailCtrl($uibModalInstance, movieList, movieId) {
+        function MovieDetailCtrl($uibModalInstance, myAccountSrvc, movieList, movieId) {
             var _this = this;
             this.$uibModalInstance = $uibModalInstance;
+            this.myAccountSrvc = myAccountSrvc;
             this.movieList = movieList;
             this.movieId = movieId;
             this.attachSNSHandler = function () {
@@ -31,6 +32,9 @@ var angularApp;
                 next = (next >= _this.movieList.length) ? 0 : next;
                 _this.prevMovie = _this.movieList[prev];
                 _this.nextMovie = _this.movieList[next];
+            };
+            this.addToBookmark = function () {
+                _this.myAccountSrvc.addToBookmark(_this.selectedMovie.imdbID);
             };
             this.findMovie(movieId);
             this.attachSNSHandler();
