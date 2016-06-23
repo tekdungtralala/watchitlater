@@ -12,7 +12,7 @@ var angularApp;
             this.addToBookmark = function (imdbId) {
                 var req = {
                     method: 'POST',
-                    url: '/api/bookmarks',
+                    url: '/api/bookmarks?' + _this.addRandomParam(),
                     data: {
                         imdbId: imdbId
                     }
@@ -27,10 +27,16 @@ var angularApp;
                 return _this.bookmarks;
             };
             this.updateBookmark = function () {
-                _this.$http.get('/api/bookmarks').then(_this.getData).then(_this.processData);
+                _this.$http.get('/api/bookmarks?' + _this.addRandomParam()).then(_this.getData).then(_this.processData);
             };
             this.processData = function (results) {
                 _this.bookmarks = results;
+            };
+            this.addRandomParam = function () {
+                return 'randomInt=' + _this.getRandomInt(0, 100);
+            };
+            this.getRandomInt = function (min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
             };
         }
         MyAccountSrvc.prototype.runListener = function () {

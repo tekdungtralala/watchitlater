@@ -119,7 +119,7 @@ module angularApp {
 		addToBookmark = (imdbId: string): ng.IPromise<boolean> => {
 			var req = {
 				method: 'POST',
-				url: '/api/bookmarks',
+				url: '/api/bookmarks?' + this.addRandomParam(),
 				data: {
 					imdbId: imdbId
 				}
@@ -136,7 +136,7 @@ module angularApp {
 		}
 
 		updateBookmark = (): void => {
-			this.$http.get('/api/bookmarks').then(this.getData).then(this.processData);
+			this.$http.get('/api/bookmarks?' + this.addRandomParam()).then(this.getData).then(this.processData);
 		}
 
 		processData = (results: Array<string>): void => {
@@ -145,6 +145,14 @@ module angularApp {
 
 		getData<T>(result: HttpResult<T>): T {
 			return result.data;
+		}
+
+		addRandomParam = (): string => {
+			return 'randomInt=' + this.getRandomInt(0, 100);
+		}
+
+		getRandomInt = (min: number, max: number): number => {
+			return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
 	}
 
