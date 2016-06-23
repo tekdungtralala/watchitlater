@@ -11,8 +11,8 @@ var router = express.Router();
 router.get('/getLatestBoxOffice', homePageApi.getLatestBoxOffice);
 router.get('/getLatestTopMovie', homePageApi.getLatestTopMovie);
 router.get('/weeklymovie', weeklyMovieApi.weeklymovieGet);
-router.post('/addToBookmark', bookmarkApi.addToBookmark);
-router.get('/getAllBookmarks', bookmarkApi.getAllBookmarks);
+router.post('/bookmarks', bookmarkApi.addToBookmark);
+router.get('/bookmarks', bookmarkApi.getAllBookmarks);
 
 router.post('/signin', function(req, res, next) {
 	var userData = req.body;
