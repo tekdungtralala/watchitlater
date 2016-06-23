@@ -45,6 +45,7 @@ function saveOrUpdate(data) {
 	var deferred = Q.defer();
 	var query = {email: data.email};
 	var opt = {upsert: true};
+
 	User.findOneAndUpdate(query, data, opt, function(err, data) {
 		if (err)
 			debug('  error ', err);
