@@ -7,6 +7,7 @@ var angularApp;
         'ui.router',
         'ui.bootstrap',
         'duScroll',
-        'oc.lazyLoad'
+        'oc.lazyLoad',
+        'frapontillo.bootstrap-switch'
     ]);
 })(angularApp || (angularApp = {}));

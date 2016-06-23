@@ -8,6 +8,7 @@ module angularApp {
 		hasLoggedUser(): ng.IPromise<z>
 		getLoggedUser(): LoggedUser
 		addToBookmark(imdbId: string): ng.IPromise<boolean>
+		getBookmarks(): Array<String>
 	}
 
 	class MyAccountSrvc implements IMyAccountSrvc {
@@ -130,11 +131,15 @@ module angularApp {
 				});
 		}
 
+		getBookmarks = (): Array<String> =>{
+			return this.bookmarks;
+		}
+
 		updateBookmark = (): void => {
 			this.$http.get('/api/bookmarks').then(this.getData).then(this.processData);
 		}
 
-		processData(results: Array<string>): void {
+		processData = (results: Array<string>): void => {
 			this.bookmarks = results;
 		}
 

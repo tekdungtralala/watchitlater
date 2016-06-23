@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 	var jsVendorFiles = [
 		'expressapp/public/bower_components/jquery/dist/jquery.min.js',
 		'expressapp/public/bower_components/bootstrap/dist/js/bootstrap.min.js',
+		'expressapp/public/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js',
 		'expressapp/public/bower_components/angular/angular.min.js',
 		'expressapp/public/bower_components/angular-sanitize/angular-sanitize.min.js',
 		'expressapp/public/bower_components/angular-ui-router/release/angular-ui-router.min.js',
@@ -12,6 +13,7 @@ module.exports = function(grunt) {
 		'expressapp/public/bower_components/oclazyload/dist/ocLazyLoad.min.js',
 		'expressapp/public/bower_components/lodash/dist/lodash.min.js',
 		'expressapp/public/bower_components/moment/min/moment.min.js',
+		'expressapp/public/bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js'
 	];
 	var vendorminjs = 'expressapp/public/vendors.min.js';
 
@@ -25,6 +27,7 @@ module.exports = function(grunt) {
 
 	var cssFiles = [
 		'expressapp/public/bower_components/bootstrap/dist/css/bootstrap.min.css',
+		'expressapp/public/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 		'expressapp/public/bower_components/bootstrap-social/bootstrap-social.css',
 		'expressapp/public/bower_components/font-awesome/css/font-awesome.min.css',
 		'expressapp/public/static-assets/fonts/Kaushan-Script/css/fonts.css',

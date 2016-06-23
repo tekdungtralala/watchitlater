@@ -32,9 +32,15 @@ var angularApp;
                 next = (next >= _this.movieList.length) ? 0 : next;
                 _this.prevMovie = _this.movieList[prev];
                 _this.nextMovie = _this.movieList[next];
+                _this.bookmarked = _.findIndex(_this.myAccountSrvc.getBookmarks(), function (m) {
+                    return m === movieId;
+                }) >= 0;
             };
-            this.addToBookmark = function () {
-                _this.myAccountSrvc.addToBookmark(_this.selectedMovie.imdbID);
+            this.bookmarkSwitch = function () {
+                if (_this.bookmarked)
+                    _this.myAccountSrvc.addToBookmark(_this.selectedMovie.imdbID);
+                else
+                    console.log('will un bookmark');
             };
             this.findMovie(movieId);
             this.attachSNSHandler();

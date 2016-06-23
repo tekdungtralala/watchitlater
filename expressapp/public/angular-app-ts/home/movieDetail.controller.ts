@@ -9,6 +9,7 @@ module angularApp {
 		public selectedMovie: Movie;
 		public prevMovie: Movie;
 		public nextMovie: Movie;
+		public bookmarked: boolean;
 		
 		constructor(
 			private $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance,
@@ -50,10 +51,17 @@ module angularApp {
 			
 			this.prevMovie = this.movieList[prev];
 			this.nextMovie = this.movieList[next];
+
+			this.bookmarked = _.findIndex(this.myAccountSrvc.getBookmarks(), function (m: string) {
+				return m === movieId;
+			}) >= 0;
 		}
 
-		addToBookmark = (): void => {
-			this.myAccountSrvc.addToBookmark(this.selectedMovie.imdbID);
+		bookmarkSwitch = (): void => {
+			if (this.bookmarked)
+				this.myAccountSrvc.addToBookmark(this.selectedMovie.imdbID);
+			else
+				console.log('will un bookmark');
 		}
 	}
 	

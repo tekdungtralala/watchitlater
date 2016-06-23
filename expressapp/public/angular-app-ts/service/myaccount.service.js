@@ -23,8 +23,14 @@ var angularApp;
                     return true;
                 });
             };
+            this.getBookmarks = function () {
+                return _this.bookmarks;
+            };
             this.updateBookmark = function () {
                 _this.$http.get('/api/bookmarks').then(_this.getData).then(_this.processData);
+            };
+            this.processData = function (results) {
+                _this.bookmarks = results;
             };
         }
         MyAccountSrvc.prototype.runListener = function () {
@@ -105,9 +111,6 @@ var angularApp;
                 });
             }
             return result.promise;
-        };
-        MyAccountSrvc.prototype.processData = function (results) {
-            this.bookmarks = results;
         };
         MyAccountSrvc.prototype.getData = function (result) {
             return result.data;

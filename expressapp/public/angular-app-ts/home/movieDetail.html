@@ -50,11 +50,16 @@
 					</div>
 				</div>
 				<div class="form-group" ng-show="loggedUser.email">
-					<button
-						ng-click="vm.addToBookmark()" 
-						type="button" class="btn btn-default" aria-label="Left Align">
-						<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> Add
-					</button>
+					Bookmarked : <input
+						type="checkbox"
+						ng-model="vm.bookmarked"
+
+						bs-switch
+						switch-change="vm.bookmarkSwitch()"
+						switch-animate="true"
+						switch-on-text="Y"
+						switch-off-text="N"
+						/>
 				</div>
 			</form>
 		</div>
