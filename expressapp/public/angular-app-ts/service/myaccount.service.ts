@@ -118,14 +118,8 @@ module angularApp {
 		}
 
 		addToBookmark = (imdbId: string): ng.IPromise<boolean> => {
-			var req = {
-				method: 'POST',
-				url: '/api/bookmarks?' + this.addRandomParam(),
-				data: {
-					imdbId: imdbId
-				}
-			};
-			return this.$http(req)
+			var data = {imdbId: imdbId};
+			return this.$http.post('/api/bookmarks?' + this.addRandomParam(), data)
 				.then(this.updateBookmark)
 				.then(function() {
 					return true;
@@ -157,7 +151,7 @@ module angularApp {
 		}
 
 		addRandomParam = (): string => {
-			return '&randomInt=' + this.getRandomInt(0, 100);
+			return '&randomInt=' + this.getRandomInt(0, 10000);
 		}
 
 		getRandomInt = (min: number, max: number): number => {

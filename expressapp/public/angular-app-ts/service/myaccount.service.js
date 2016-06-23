@@ -10,14 +10,8 @@ var angularApp;
             this.gglUsrState = angularApp.AppUserState.FINDING;
             this.bookmarks = [];
             this.addToBookmark = function (imdbId) {
-                var req = {
-                    method: 'POST',
-                    url: '/api/bookmarks?' + _this.addRandomParam(),
-                    data: {
-                        imdbId: imdbId
-                    }
-                };
-                return _this.$http(req)
+                var data = { imdbId: imdbId };
+                return _this.$http.post('/api/bookmarks?' + _this.addRandomParam(), data)
                     .then(_this.updateBookmark)
                     .then(function () {
                     return true;
@@ -40,7 +34,7 @@ var angularApp;
                 _this.bookmarks = results;
             };
             this.addRandomParam = function () {
-                return '&randomInt=' + _this.getRandomInt(0, 100);
+                return '&randomInt=' + _this.getRandomInt(0, 10000);
             };
             this.getRandomInt = function (min, max) {
                 return Math.floor(Math.random() * (max - min + 1)) + min;

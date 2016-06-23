@@ -14,6 +14,7 @@ router.get('/weeklymovie', weeklyMovieApi.weeklymovieGet);
 router.post('/bookmarks', bookmarkApi.addToBookmark);
 router.get('/bookmarks', bookmarkApi.getAllBookmarks);
 router.delete('/bookmarks', bookmarkApi.removeFromBookmark);
+router.get('/bookmarks/movie', bookmarkApi.getBookmarkedMovie);
 
 router.post('/signin', function(req, res, next) {
 	var userData = req.body;

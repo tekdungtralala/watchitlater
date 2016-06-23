@@ -53,7 +53,7 @@ function saveOrUpdate(userId, movieId) {
 			debug('  error ', err);
 		else
 			debug('  saved ');
-		deferred.resolve(data);
+		deferred.resolve(true);
 	});
 	return deferred.promise;
 }
