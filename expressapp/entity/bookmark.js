@@ -23,7 +23,8 @@ var Bookmark = mongoose.model('Bookmark', BookmarkSchema);
 
 var bookmarkModule = {
 	saveOrUpdate: saveOrUpdate,
-	findBookmarks: findBookmarks
+	findBookmarks: findBookmarks,
+	removeBookmark: removeBookmark
 };
 module.exports = bookmarkModule;
 
@@ -54,6 +55,22 @@ function saveOrUpdate(userId, movieId) {
 			debug('  saved ');
 		deferred.resolve(data);
 	});
+	return deferred.promise;
+}
+
+function removeBookmark(userId, movieId) {
+	debug('Bookmark removeBookmark() ' + movieId, userId);
+	var deferred = Q.defer();
+	var query = {userId: userId, movieId: movieId};
+
+	Bookmark.findOneAndRemove(query, null, function(err) {
+		if (err)
+			debug('  error ', err);
+		else
+			debug('  saved ');
+		deferred.resolve(true);
+	});
+
 	return deferred.promise;
 }
 

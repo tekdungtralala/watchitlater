@@ -40,7 +40,7 @@ var angularApp;
                 if (_this.bookmarked)
                     _this.myAccountSrvc.addToBookmark(_this.selectedMovie.imdbID);
                 else
-                    console.log('will un bookmark');
+                    _this.myAccountSrvc.removeFromBookmark(_this.selectedMovie.imdbID);
             };
             this.findMovie(movieId);
             this.attachSNSHandler();

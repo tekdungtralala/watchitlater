@@ -61,7 +61,7 @@ module angularApp {
 			if (this.bookmarked)
 				this.myAccountSrvc.addToBookmark(this.selectedMovie.imdbID);
 			else
-				console.log('will un bookmark');
+				this.myAccountSrvc.removeFromBookmark(this.selectedMovie.imdbID);
 		}
 	}
 	

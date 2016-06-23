@@ -23,6 +23,13 @@ var angularApp;
                     return true;
                 });
             };
+            this.removeFromBookmark = function (movieId) {
+                return _this.$http.delete('/api/bookmarks?movieId=' + movieId + _this.addRandomParam())
+                    .then(_this.updateBookmark)
+                    .then(function () {
+                    return true;
+                });
+            };
             this.getBookmarks = function () {
                 return _this.bookmarks;
             };
@@ -33,7 +40,7 @@ var angularApp;
                 _this.bookmarks = results;
             };
             this.addRandomParam = function () {
-                return 'randomInt=' + _this.getRandomInt(0, 100);
+                return '&randomInt=' + _this.getRandomInt(0, 100);
             };
             this.getRandomInt = function (min, max) {
                 return Math.floor(Math.random() * (max - min + 1)) + min;

@@ -9,6 +9,7 @@ module angularApp {
 		getLoggedUser(): LoggedUser
 		addToBookmark(imdbId: string): ng.IPromise<boolean>
 		getBookmarks(): Array<String>
+		removeFromBookmark(movieId: string): ng.IPromise<boolean>
 	}
 
 	class MyAccountSrvc implements IMyAccountSrvc {
@@ -131,6 +132,14 @@ module angularApp {
 				});
 		}
 
+		removeFromBookmark = (movieId: string): ng.IPromise<boolean> => {
+			return this.$http.delete('/api/bookmarks?movieId=' + movieId + this.addRandomParam())
+				.then(this.updateBookmark)
+				.then(function() {
+					return true;
+				});
+		}
+
 		getBookmarks = (): Array<String> =>{
 			return this.bookmarks;
 		}
@@ -148,7 +157,7 @@ module angularApp {
 		}
 
 		addRandomParam = (): string => {
-			return 'randomInt=' + this.getRandomInt(0, 100);
+			return '&randomInt=' + this.getRandomInt(0, 100);
 		}
 
 		getRandomInt = (min: number, max: number): number => {

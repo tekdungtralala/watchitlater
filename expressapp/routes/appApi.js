@@ -13,6 +13,7 @@ router.get('/getLatestTopMovie', homePageApi.getLatestTopMovie);
 router.get('/weeklymovie', weeklyMovieApi.weeklymovieGet);
 router.post('/bookmarks', bookmarkApi.addToBookmark);
 router.get('/bookmarks', bookmarkApi.getAllBookmarks);
+router.delete('/bookmarks', bookmarkApi.removeFromBookmark);
 
 router.post('/signin', function(req, res, next) {
 	var userData = req.body;
