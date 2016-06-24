@@ -64,6 +64,8 @@ module angularApp {
 		imdbID: string
 		imdbRating: number
 		isImageReady: boolean
+
+		showInBookmark: boolean = true
 	}
 
 	export class HttpResult<T> {

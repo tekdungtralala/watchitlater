@@ -45,6 +45,7 @@ var angularApp;
     angularApp.AppUser = AppUser;
     var Movie = (function () {
         function Movie() {
+            this.showInBookmark = true;
         }
         return Movie;
     }());

@@ -9,31 +9,21 @@ var angularApp;
             this.$state = $state;
             this.showLoading = true;
             this.movies = [];
-            this.removedMovies = [];
             this.activate = function () {
                 _this.showLoading = false;
                 _this.myAccountSrvc.getBookmarkMovies().then(_this.afterGetMovies);
             };
             this.afterGetMovies = function (movies) {
-                _this.movies = movies;
+                _this.movies = _.clone(movies);
+                _.forEach(_this.movies, function (m) {
+                    m.showInBookmark = true;
+                });
             };
             this.showMovieDetail = function (movieId) {
                 _this.homeService.showMovieDetail(_this.movies, movieId, _this.bookmarkChangeCB);
             };
-            this.bookmarkChangeCB = function (addOrRmv, movieId) {
-                console.log('bookmarkChangeCB  ', addOrRmv, movieId);
-                if (addOrRmv) {
-                    var tmp = _.remove(_this.removedMovies, function (m) {
-                        return m.imdbID === movieId;
-                    })[0];
-                    _this.movies.push(tmp);
-                }
-                else {
-                    var tmp = _.remove(_this.movies, function (m) {
-                        return m.imdbID === movieId;
-                    })[0];
-                    _this.removedMovies.push(tmp);
-                }
+            this.bookmarkChangeCB = function (showOrHide, movieId) {
+                _this.activate();
             };
             myAccountSrvc.hasLoggedUser()
                 .then(this.activate)

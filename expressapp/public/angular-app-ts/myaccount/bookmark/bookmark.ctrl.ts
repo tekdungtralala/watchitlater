@@ -6,7 +6,6 @@ module angularApp {
 	class BookMarkCtrl {
 		private showLoading: boolean = true;
 		private movies: Movie[] = [];
-		private removedMovies: Movie[] = [];
 
 		static $inject = ['homeservice', 'myAccountSrvc', '$state'];
 		constructor(
@@ -27,28 +26,18 @@ module angularApp {
 		}
 
 		afterGetMovies = (movies: Movie[]): void => {
-			this.movies = movies;
+			this.movies = _.clone(movies);
+			_.forEach(this.movies, function(m: Movie) {
+				m.showInBookmark = true;
+			})
 		}
 
 		showMovieDetail = (movieId: string): void => {
 			this.homeService.showMovieDetail(this.movies, movieId, this.bookmarkChangeCB);
 		}
 
-		bookmarkChangeCB = (addOrRmv: boolean, movieId: string) : void => {
-			console.log('bookmarkChangeCB  ',addOrRmv , movieId);
-			if (addOrRmv) {
-				let tmp: Movie = _.remove(this.removedMovies, function(m) {
-					return m.imdbID === movieId;
-				})[0];
-
-				this.movies.push(tmp);
-			} else {
-				let tmp: Movie = _.remove(this.movies, function(m) {
-					return m.imdbID === movieId;
-				})[0];
-
-				this.removedMovies.push(tmp);
-			}
+		bookmarkChangeCB = (showOrHide: boolean, movieId: string) : void => {
+			this.activate();
 		}
 	}
 
