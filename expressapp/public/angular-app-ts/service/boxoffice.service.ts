@@ -14,13 +14,7 @@ module angularApp {
 		}
 		
 		postWeeklymovie(date: string): ng.IPromise<Movie[]>{
-			let headers: angular.IHttpRequestConfigHeaders;
-			headers['Content-Type'] = 'application/json';
-			let config: angular.IRequestConfig;
-			config.method = 'POST';
-			config.url = '/api/weeklymovie?date=' + date;
-			config.headers = headers;
-			return this.$http(config).then(this.getData);
+			return this.$http.post('/api/weeklymovie?date=' + date, {}).then(this.getData);
 		}
 		
 		getWeeklymovie(date: string): ng.IPromise<Movie[]> {

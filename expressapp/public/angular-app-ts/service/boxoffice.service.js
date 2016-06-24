@@ -5,13 +5,7 @@ var angularApp;
             this.$http = $http;
         }
         BoxOfficeSrvc.prototype.postWeeklymovie = function (date) {
-            var headers;
-            headers['Content-Type'] = 'application/json';
-            var config;
-            config.method = 'POST';
-            config.url = '/api/weeklymovie?date=' + date;
-            config.headers = headers;
-            return this.$http(config).then(this.getData);
+            return this.$http.post('/api/weeklymovie?date=' + date, {}).then(this.getData);
         };
         BoxOfficeSrvc.prototype.getWeeklymovie = function (date) {
             var apiUrl = '/api/weeklymovie?date=' + date;

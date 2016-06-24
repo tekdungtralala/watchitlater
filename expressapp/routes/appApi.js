@@ -11,6 +11,7 @@ var router = express.Router();
 router.get('/getLatestBoxOffice', homePageApi.getLatestBoxOffice);
 router.get('/getLatestTopMovie', homePageApi.getLatestTopMovie);
 router.get('/weeklymovie', weeklyMovieApi.weeklymovieGet);
+router.post('/weeklymovie', weeklyMovieApi.weeklymoviePost);
 
 router.get('/bookmarks', bookmarkApi.getAllBookmarked);
 router.post('/bookmarks', bookmarkApi.addToBookmarked);

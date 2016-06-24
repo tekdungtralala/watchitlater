@@ -66,7 +66,14 @@
 							<th>Rating</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody ng-show="vm.movieList.length === 0">
+					<tr>
+						<td colspan="5">
+							Sorry, movie list is not available. Please try another week.
+						</td>
+					</tr>
+				</tbody>
+				<tbody ng-show="vm.movieList.length > 0">
 					<tr ng-repeat="d in vm.movieList">
 						<th scope="row">{{$index + 1}}</th>
 						<td>
