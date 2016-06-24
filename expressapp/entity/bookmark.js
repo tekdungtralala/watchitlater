@@ -16,39 +16,49 @@ var BookmarkSchema = new mongoose.Schema({
 		type: String,
 		trim: true,
 		required: true
+	},
+	status: {
+		type: String,
+		trim: true,
+		required: true
 	}
 });
 
 var Bookmark = mongoose.model('Bookmark', BookmarkSchema);
 
 var bookmarkModule = {
-	saveOrUpdate: saveOrUpdate,
-	findBookmarks: findBookmarks,
-	removeBookmark: removeBookmark
+	findBookmared: findBookmared,
+	changeToBookmarked: changeToBookmarked,
+
+	changeToUnbookmark: changeToUnbookmark,
+
+	findWatched: findWatched,
+	changeToWatched: changeToWatched
 };
 module.exports = bookmarkModule;
 
-function findBookmarks(userId) {
-	debug('Bookmark findBookmarks()');
+
+function findBookmared(userId) {
+	debug('Bookmark findBookmared()');
 
 	var deferred = Q.defer();
-	var query = {userId: userId};
+	var query = {userId: userId, status: 'bookmarked'};
 	Bookmark.find(query, null, null, function(err, doc) {
 		if (err) debug('error ', err);
-		debug('  bookmarks = ' + doc.length);
+		debug('  total data = ' + doc.length);
 		deferred.resolve(doc);
 	});
 
 	return deferred.promise;
 }
 
-function saveOrUpdate(userId, movieId) {
-	debug('Bookmark saveOrUpdate() ' + movieId, userId);
+function changeToBookmarked(userId, movieId) {
+	debug('Bookmark changeToBookmarked() ' + movieId, userId);
 	var deferred = Q.defer();
 	var query = {userId: userId, movieId: movieId};
-	var opt = {upsert: true};
+	var data = {userId: userId, movieId: movieId, status: 'bookmarked'};
 
-	Bookmark.findOneAndUpdate(query, query, opt, function(err, data) {
+	Bookmark.update(query, data, {upsert: true}, function(err) {
 		if (err)
 			debug('  error ', err);
 		else
@@ -58,12 +68,13 @@ function saveOrUpdate(userId, movieId) {
 	return deferred.promise;
 }
 
-function removeBookmark(userId, movieId) {
-	debug('Bookmark removeBookmark() ' + movieId, userId);
+function changeToUnbookmark(userId, movieId) {
+	debug('Bookmark changeToUnbookmark() ' + movieId, userId);
 	var deferred = Q.defer();
 	var query = {userId: userId, movieId: movieId};
+	var data = {userId: userId, movieId: movieId, status: 'un-bookmark'};
 
-	Bookmark.findOneAndRemove(query, null, function(err) {
+	Bookmark.update(query, data, {upsert: true}, function(err) {
 		if (err)
 			debug('  error ', err);
 		else
@@ -74,3 +85,32 @@ function removeBookmark(userId, movieId) {
 	return deferred.promise;
 }
 
+function findWatched(userId) {
+	debug('Bookmark findWatched()');
+
+	var deferred = Q.defer();
+	var query = {userId: userId, status: 'watched'};
+	Bookmark.find(query, null, null, function(err, doc) {
+		if (err) debug('error ', err);
+		debug('  total data = ' + doc.length);
+		deferred.resolve(doc);
+	});
+
+	return deferred.promise;
+}
+
+function changeToWatched(userId, movieId) {
+	debug('Bookmark changeToWatched() ' + movieId, userId);
+	var deferred = Q.defer();
+	var query = {userId: userId, movieId: movieId};
+	var data = {userId: userId, movieId: movieId, status: 'watched'};
+
+	Bookmark.update(query, data, {upsert: true}, function(err) {
+		if (err)
+			debug('  error ', err);
+		else
+			debug('  saved ');
+		deferred.resolve(true);
+	});
+	return deferred.promise;
+}

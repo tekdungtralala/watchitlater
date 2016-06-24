@@ -4,16 +4,21 @@ var movie = require('../entity/movie');
 var _ = require('lodash');
 
 var moduleexports = {
-	addToBookmark: addToBookmark,
+	getAllBookmarked: getAllBookmarked,
+	addToBookmarked: addToBookmarked,
+	getBookmarkedMovie: getBookmarkedMovie,
+
 	removeFromBookmark: removeFromBookmark,
-	getAllBookmarks: getAllBookmarks,
-	getBookmarkedMovie: getBookmarkedMovie
+	
+	getAllWatched: getAllWatched,
+	addToWatched: addToWatched,
+	getWatchedMovie: getWatchedMovie
 };
 
 module.exports = moduleexports;
 
-function getAllBookmarks(req, res, next) {
-	debug('bookmarkApi getAllBookmarks()');
+function getAllBookmarked(req, res, next) {
+	debug('bookmarkApi getAllBookmarked()');
 	if (req.session && req.session.loggedUser && req.session.loggedUser.userId) {
 		function sendData(result) {
 			debug('   send response : ');
@@ -24,39 +29,22 @@ function getAllBookmarks(req, res, next) {
 			res.send(output);
 		}
 
-		bookmark.findBookmarks(req.session.loggedUser.userId).then(sendData);
+		bookmark.findBookmared(req.session.loggedUser.userId).then(sendData);
 	} else {
 		debug('   not processed');
 		res.send({});
 	}
 }
 
-function removeFromBookmark(req, res, next) {
-	debug('bookmarkApi removeFromBookmark()');
-	var movieId = req.query.movieId
-
-	if (movieId && req.session && req.session.loggedUser && req.session.loggedUser.userId) {
-		function sendData(result) {
-			debug('   send response : ');
-			res.send({});
-		}
-
-		bookmark.removeBookmark(req.session.loggedUser.userId, movieId).then(sendData);
-	} else {
-		debug('   not processed');
-		res.send({});
-	}
-}
-
-function addToBookmark(req, res, next) {
-	debug('bookmarkApi addToBookmark()');
+function addToBookmarked(req, res, next) {
+	debug('bookmarkApi addToBookmarked()');
 	var movieId = req.body.imdbId;
 	if (movieId && req.session && req.session.loggedUser && req.session.loggedUser.userId) {
 		function sendData() {
 			debug('   send response : ');
 			res.send({});
 		}
-		bookmark.saveOrUpdate(req.session.loggedUser.userId, movieId).then(sendData);
+		bookmark.changeToBookmarked(req.session.loggedUser.userId, movieId).then(sendData);
 	} else {
 		debug('   not processed');
 		res.send({});
@@ -81,7 +69,83 @@ function getBookmarkedMovie(req, res, next) {
 			movie.findByImdbIDs(movieIds).then(sendData);
 		}
 
-		bookmark.findBookmarks(req.session.loggedUser.userId).then(afterGetMovieIds);
+		bookmark.findBookmared(req.session.loggedUser.userId).then(afterGetMovieIds);
+	} else {
+		debug('   not processed');
+		res.send({});
+	}
+}
+
+function removeFromBookmark(req, res, next) {
+	debug('bookmarkApi removeFromBookmark()');
+	var movieId = req.query.movieId
+
+	if (movieId && req.session && req.session.loggedUser && req.session.loggedUser.userId) {
+		function sendData(result) {
+			debug('   send response : ');
+			res.send({});
+		}
+
+		bookmark.changeToUnbookmark(req.session.loggedUser.userId, movieId).then(sendData);
+	} else {
+		debug('   not processed');
+		res.send({});
+	}
+}
+
+function getAllWatched(req, res, next) {
+	debug('bookmarkApi getAllWatched()');
+	if (req.session && req.session.loggedUser && req.session.loggedUser.userId) {
+		function sendData(result) {
+			debug('   send response : ');
+			var output = [];
+			_.forEach(result, function(r) {
+				output.push(r.movieId);
+			});
+			res.send(output);
+		}
+
+		bookmark.findWatched(req.session.loggedUser.userId).then(sendData);
+	} else {
+		debug('   not processed');
+		res.send({});
+	}
+}
+
+function addToWatched(req, res, next) {
+	debug('bookmarkApi addToWatched()');
+	var movieId = req.body.imdbId;
+	if (movieId && req.session && req.session.loggedUser && req.session.loggedUser.userId) {
+		function sendData() {
+			debug('   send response : ');
+			res.send({});
+		}
+		bookmark.changeToWatched(req.session.loggedUser.userId, movieId).then(sendData);
+	} else {
+		debug('   not processed');
+		res.send({});
+	}
+}
+
+function getWatchedMovie(req, res, next) {
+	debug('bookmarkApi getWatchedMovie()');
+
+	if (req.session && req.session.loggedUser && req.session.loggedUser.userId) {
+		function sendData(result) {
+			debug('   send response : ');
+			res.send(result);
+		}
+
+		function afterGetMovieIds(result) {
+			var movieIds = [];
+			_.forEach(result, function (bm) {
+				movieIds.push(bm.movieId);
+			});
+
+			movie.findByImdbIDs(movieIds).then(sendData);
+		}
+
+		bookmark.findWatched(req.session.loggedUser.userId).then(afterGetMovieIds);
 	} else {
 		debug('   not processed');
 		res.send({});

@@ -11,10 +11,16 @@ var router = express.Router();
 router.get('/getLatestBoxOffice', homePageApi.getLatestBoxOffice);
 router.get('/getLatestTopMovie', homePageApi.getLatestTopMovie);
 router.get('/weeklymovie', weeklyMovieApi.weeklymovieGet);
-router.post('/bookmarks', bookmarkApi.addToBookmark);
-router.get('/bookmarks', bookmarkApi.getAllBookmarks);
-router.delete('/bookmarks', bookmarkApi.removeFromBookmark);
+
+router.get('/bookmarks', bookmarkApi.getAllBookmarked);
+router.post('/bookmarks', bookmarkApi.addToBookmarked);
 router.get('/bookmarks/movie', bookmarkApi.getBookmarkedMovie);
+
+router.delete('/bookmarks', bookmarkApi.removeFromBookmark);
+
+router.get('/watched', bookmarkApi.getAllWatched);
+router.post('/watched', bookmarkApi.addToWatched);
+router.get('/watched/movie', bookmarkApi.getWatchedMovie);
 
 router.post('/signin', function(req, res, next) {
 	var userData = req.body;
