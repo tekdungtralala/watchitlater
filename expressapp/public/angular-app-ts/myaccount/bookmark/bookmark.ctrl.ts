@@ -5,14 +5,18 @@ module angularApp {
 
 	class BookMarkCtrl {
 		private showLoading: boolean = true;
+		private selectedMovieId: string = null;
 		private movies: Movie[] = [];
+		private modalInstance: angular.ui.bootstrap.IModalServiceInstance;
 
-		static $inject = ['bookmarkSrvc', 'homeservice', 'myAccountSrvc', '$state'];
+		static $inject = ['bookmarkSrvc', 'homeservice', 'myAccountSrvc', '$state', '$uibModal', '$scope'];
 		constructor(
 			private bookmarkSrvc: IBookmarkSrvc,
 			private homeService: IHomeService,
 			private myAccountSrvc: IMyAccountSrvc, 
-			private $state: angular.ui.IStateService) {
+			private $state: angular.ui.IStateService,
+			private $uibModal: angular.ui.bootstrap.IModalService, 
+			private $scope: ng.IScope) {
 
 			myAccountSrvc.hasLoggedUser()
 				.then(this.activate)
@@ -37,8 +41,30 @@ module angularApp {
 			this.homeService.showMovieDetail(this.movies, movieId, this.bookmarkChangeCB);
 		}
 
-		bookmarkChangeCB = (showOrHide: boolean, movieId: string) : void => {
+		bookmarkChangeCB = () : void => {
 			this.activate();
+		}
+
+		preUnbookmark = (movieId: string): void => {
+			this.selectedMovieId = movieId;
+
+			let t = this;
+			this.modalInstance = this.$uibModal.open({
+				animation: true,
+				templateUrl: 'watchedConfirm.html',
+				size: 'sm',
+				scope: t.$scope,
+				backdrop: 'static'
+			});
+		}
+
+		doWatched = (movieId: string): void => {
+			this.doCancel();
+			this.bookmarkSrvc.addToWatched(this.selectedMovieId).then(this.activate);
+		}
+
+		doCancel = (): void => {
+			if (this.modalInstance && this.modalInstance.dismiss) this.modalInstance.dismiss();
 		}
 	}
 

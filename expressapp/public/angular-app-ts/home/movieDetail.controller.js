@@ -37,6 +37,10 @@ var angularApp;
                 _this.bookmarked = _.findIndex(_this.bookmarkSrvc.getBookmarks(), function (m) {
                     return m === movieId;
                 }) >= 0;
+                _this.watched = _.findIndex(_this.bookmarkSrvc.getWatched(), function (m) {
+                    return m === movieId;
+                }) >= 0;
+                _this.firestLoad = true;
             };
             this.bookmarkSwitch = function () {
                 if (_this.firestLoad) {
@@ -44,15 +48,26 @@ var angularApp;
                     return;
                 }
                 if (_this.bookmarked) {
-                    _this.bookmarkSrvc.addToBookmark(_this.selectedMovie.imdbID);
-                    if (_this.bookmarkChangeCB)
-                        _this.bookmarkChangeCB(true, _this.selectedMovie.imdbID);
+                    _this.bookmarkSrvc.addToBookmark(_this.selectedMovie.imdbID)
+                        .then(_this.callCbIfAvailable);
                 }
                 else {
-                    _this.bookmarkSrvc.removeFromBookmark(_this.selectedMovie.imdbID);
-                    if (_this.bookmarkChangeCB)
-                        _this.bookmarkChangeCB(false, _this.selectedMovie.imdbID);
+                    _this.bookmarkSrvc
+                        .removeFromBookmark(_this.selectedMovie.imdbID)
+                        .then(_this.callCbIfAvailable);
                 }
+            };
+            this.moveToBookmark = function () {
+                _this.bookmarkSrvc.addToBookmark(_this.selectedMovie.imdbID)
+                    .then(_this.callCbIfAvailable)
+                    .then(_this.updateCurrentMovie);
+            };
+            this.callCbIfAvailable = function () {
+                if (_this.bookmarkChangeCB)
+                    _this.bookmarkChangeCB();
+            };
+            this.updateCurrentMovie = function () {
+                _this.findMovie(_this.selectedMovie.imdbID);
             };
             this.findMovie(movieId);
             this.attachSNSHandler();

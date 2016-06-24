@@ -2,7 +2,7 @@
 
 module angularApp {  
 	export interface IHomeService {
-		showMovieDetail(movieList: Movie[], movieId: string, bookmarkChangeCB?: (addOrRmv: boolean, movieId: string) => void): void
+		showMovieDetail(movieList: Movie[], movieId: string, bookmarkChangeCB?: () => void): void
 		getLatestBoxOffice(): ng.IPromise<Movie[]>
 		getLatestTopMovie(skip: number, limit: number): ng.IPromise<Movie[]>
 		ready(arrayPromise: Array<ng.IPromise<any>>): ng.IPromise<any>
@@ -20,7 +20,7 @@ module angularApp {
 			private $ocLazyLoad: oc.ILazyLoad) {
 		}
 		
-		showMovieDetail(movieList: Movie[], movieId: string, bookmarkChangeCB?:(addOrRmv: boolean, movieId: string) => void): void {
+		showMovieDetail(movieList: Movie[], movieId: string, bookmarkChangeCB?:() => void): void {
 			this.$uibModal.open({
 				templateUrl: 'angular-app-ts/home/movieDetail.html',
 				controller: 'MovieDetailCtrl',

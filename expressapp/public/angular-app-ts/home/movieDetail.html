@@ -50,16 +50,26 @@
 					</div>
 				</div>
 				<div class="form-group" ng-show="loggedUser.email">
-					Bookmarked : <input
-						type="checkbox"
-						ng-model="vm.bookmarked"
+					<span ng-show="!vm.watched">
+						Bookmarked : 
+						<input
+							type="checkbox"
+							ng-model="vm.bookmarked"
 
-						bs-switch
-						switch-change="vm.bookmarkSwitch()"
-						switch-animate="true"
-						switch-on-text="Y"
-						switch-off-text="N"
+							bs-switch
+							switch-change="vm.bookmarkSwitch()"
+							switch-animate="true"
+							switch-on-text="Y"
+							switch-off-text="N"
 						/>
+					</span>
+					<span ng-show="vm.watched">
+						You has been watched this moovie.<br/>
+						wanna move to bookmark agin ?<br/>
+						<button
+							ng-click="vm.moveToBookmark()" 
+							type="button" class="btn btn-default btn-sm">Yes, move it</button>
+					</span>
 				</div>
 			</form>
 		</div>

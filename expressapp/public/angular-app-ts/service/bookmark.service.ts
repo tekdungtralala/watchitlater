@@ -8,20 +8,24 @@ module angularApp {
 		getBookmarks(): Array<String>
 		getBookmarkMovies(): ng.IPromise<Movie[]>
 
+		getWatched(): Array<String>
+
 		addToBookmark(imdbId: string): ng.IPromise<boolean>
 		removeFromBookmark(movieId: string): ng.IPromise<boolean>
+		addToWatched(imdbId: string): ng.IPromise<boolean>
 
 		updateBookmark(): void
 	}
 
 	class BookmarkSrvc implements IBookmarkSrvc {
 		private bookmarks: Array<String> = [];
+		private allWatched: Array<String> = [];
 
 		static $inject = ['$http'];
 		constructor(private $http: ng.IHttpService) {
 		}
 
-		getBookmarks = (): Array<String> =>{
+		getBookmarks = (): Array<String> => {
 			return this.bookmarks;
 		}
 
@@ -38,6 +42,10 @@ module angularApp {
 				});
 		}
 
+		getWatched = (): Array<String> => {
+			return this.allWatched;
+		}
+
 		removeFromBookmark = (movieId: string): ng.IPromise<boolean> => {
 			return this.$http.delete('/api/bookmarks?movieId=' + movieId + this.addRandomParam())
 				.then(this.updateBookmark)
@@ -46,12 +54,33 @@ module angularApp {
 				});
 		}
 
-		updateBookmark = (): void => {
-			this.$http.get('/api/bookmarks?' + this.addRandomParam()).then(this.getData).then(this.processData);
+		addToWatched = (imdbId: string): ng.IPromise<boolean> => {
+			var data = {imdbId: imdbId};
+			return this.$http.post('/api/watched?' + this.addRandomParam(), data)
+				.then(this.updateBookmark)
+				.then(function() {
+					return true;
+				});
 		}
 
-		processData = (results: Array<string>): void => {
+		updateBookmark = (): ng.IPromise<boolean> => {
+			return this.$http.get('/api/bookmarks?' + this.addRandomParam())
+				.then(this.getData)
+				.then(this.processBookmarks)
+				.then(this.updateWatched);
+		}
+
+		updateWatched = (): ng.IPromise<boolean> => {
+			return this.$http.get('/api/watched?' + this.addRandomParam()).then(this.getData).then(this.processWatched);
+		}
+
+		processBookmarks = (results: Array<string>): void => {
 			this.bookmarks = results;
+		}
+
+		processWatched = (results: Array<string>): boolean => {
+			this.allWatched = results;
+			return true;
 		}
 
 getData = <T>(result: HttpResult<T>): T => {

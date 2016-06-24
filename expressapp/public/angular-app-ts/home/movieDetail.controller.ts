@@ -10,6 +10,7 @@ module angularApp {
 		public prevMovie: Movie;
 		public nextMovie: Movie;
 		public bookmarked: boolean;
+		public watched: boolean;
 
 		private firestLoad = true;
 		
@@ -18,7 +19,7 @@ module angularApp {
 			private $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance, 
 			private movieList: Movie[], 
 			private movieId: string,
-			private bookmarkChangeCB: (addOrRmv: boolean, movieId: string) => void) {
+			private bookmarkChangeCB: () => void) {
 			
 			this.findMovie(movieId);
 			this.attachSNSHandler();
@@ -58,6 +59,12 @@ module angularApp {
 			this.bookmarked = _.findIndex(this.bookmarkSrvc.getBookmarks(), function (m: string) {
 				return m === movieId;
 			}) >= 0;
+
+			this.watched = _.findIndex(this.bookmarkSrvc.getWatched(), function (m: string) {
+				return m === movieId;
+			}) >= 0;
+
+			this.firestLoad = true;
 		}
 
 		bookmarkSwitch = (): void => {
@@ -67,12 +74,27 @@ module angularApp {
 			}
 
 			if (this.bookmarked) {
-				this.bookmarkSrvc.addToBookmark(this.selectedMovie.imdbID);
-				if (this.bookmarkChangeCB) this.bookmarkChangeCB(true, this.selectedMovie.imdbID);
+				this.bookmarkSrvc.addToBookmark(this.selectedMovie.imdbID)
+					.then(this.callCbIfAvailable);
 			} else {
-				this.bookmarkSrvc.removeFromBookmark(this.selectedMovie.imdbID);
-				if (this.bookmarkChangeCB) this.bookmarkChangeCB(false, this.selectedMovie.imdbID);
+				this.bookmarkSrvc
+					.removeFromBookmark(this.selectedMovie.imdbID)
+					.then(this.callCbIfAvailable);
 			}
+		}
+
+		moveToBookmark = (): void => {
+			this.bookmarkSrvc.addToBookmark(this.selectedMovie.imdbID)
+				.then(this.callCbIfAvailable)
+				.then(this.updateCurrentMovie);
+		}
+
+		callCbIfAvailable = (): void => {
+			if (this.bookmarkChangeCB) this.bookmarkChangeCB();
+		}
+
+		updateCurrentMovie = (): void => {
+			this.findMovie(this.selectedMovie.imdbID);
 		}
 	}
 	
