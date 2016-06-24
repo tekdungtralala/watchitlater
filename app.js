@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs  = require('express-handlebars');
 var fs = require('fs');
-var session = require('express-session');
+var cookieSession = require('cookie-session');
 
 var app = express();
 
@@ -27,8 +27,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'expressapp/public')));
 
-// express-session
-app.use(session({secret: 'watchitlater-secret-session', cookie: { maxAge: 60000 }, resave: true, saveUninitialized: true }))
+// cookie-session
+app.use(cookieSession({
+	name: 'session',
+	keys: ['watchitlater-session']
+}))
 
 
 // Rest api
