@@ -9,6 +9,7 @@ module angularApp {
 		getBookmarkMovies(): ng.IPromise<Movie[]>
 
 		getWatched(): Array<String>
+		getWatchedMovies(): ng.IPromise<Movie[]>
 
 		addToBookmark(imdbId: string): ng.IPromise<boolean>
 		removeFromBookmark(movieId: string): ng.IPromise<boolean>
@@ -33,6 +34,14 @@ module angularApp {
 			return this.$http.get('/api/bookmarks/movie').then(this.getData);
 		}
 
+		getWatched = (): Array<String> => {
+			return this.allWatched;
+		}
+
+		getWatchedMovies = (): ng.IPromise<Movie[]> => {
+			return this.$http.get('/api/watched/movie').then(this.getData);
+		}
+
 		addToBookmark = (imdbId: string): ng.IPromise<boolean> => {
 			var data = {imdbId: imdbId};
 			return this.$http.post('/api/bookmarks?' + this.addRandomParam(), data)
@@ -40,10 +49,6 @@ module angularApp {
 				.then(function() {
 					return true;
 				});
-		}
-
-		getWatched = (): Array<String> => {
-			return this.allWatched;
 		}
 
 		removeFromBookmark = (movieId: string): ng.IPromise<boolean> => {

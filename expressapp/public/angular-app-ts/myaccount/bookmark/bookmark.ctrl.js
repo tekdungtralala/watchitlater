@@ -10,21 +10,37 @@ var angularApp;
             this.$state = $state;
             this.$uibModal = $uibModal;
             this.$scope = $scope;
-            this.showLoading = true;
+            this.showBookmarkLoading = true;
+            this.showWatchedLoading = true;
+            this.watchedOpened = false;
             this.selectedMovieId = null;
             this.movies = [];
+            this.watchedMovies = [];
             this.activate = function () {
-                _this.showLoading = false;
-                _this.bookmarkSrvc.getBookmarkMovies().then(_this.afterGetMovies);
+                _this.showBookmarkLoading = false;
+                _this.bookmarkSrvc.getBookmarkMovies().then(_this.afterGetBookmarkMovies);
+                if (_this.watchedOpened) {
+                    _this.updateWatchedMovies();
+                }
             };
-            this.afterGetMovies = function (movies) {
-                _this.movies = _.clone(movies);
-                _.forEach(_this.movies, function (m) {
-                    m.showInBookmark = true;
-                });
+            this.toggleWatchedElmt = function (newValue) {
+                if (newValue) {
+                    _this.updateWatchedMovies();
+                }
             };
-            this.showMovieDetail = function (movieId) {
-                _this.homeService.showMovieDetail(_this.movies, movieId, _this.bookmarkChangeCB);
+            this.updateWatchedMovies = function () {
+                _this.showWatchedLoading = true;
+                _this.bookmarkSrvc.getWatchedMovies().then(_this.afterGetWatchedMovies);
+            };
+            this.afterGetBookmarkMovies = function (movies) {
+                _this.movies = movies;
+            };
+            this.afterGetWatchedMovies = function (movies) {
+                _this.showWatchedLoading = false;
+                _this.watchedMovies = movies;
+            };
+            this.showMovieDetail = function (movieId, listMovies) {
+                _this.homeService.showMovieDetail(listMovies, movieId, _this.bookmarkChangeCB);
             };
             this.bookmarkChangeCB = function () {
                 _this.activate();
@@ -48,11 +64,15 @@ var angularApp;
                 if (_this.modalInstance && _this.modalInstance.dismiss)
                     _this.modalInstance.dismiss();
             };
+            this.moveToBookmark = function (movieId) {
+                _this.bookmarkSrvc.addToBookmark(movieId).then(_this.activate);
+            };
             myAccountSrvc.hasLoggedUser()
                 .then(this.activate)
                 .catch(function () {
                 $state.go('home');
             });
+            $scope.$watch('vm.watchedOpened', this.toggleWatchedElmt);
         }
         BookMarkCtrl.$inject = ['bookmarkSrvc', 'homeservice', 'myAccountSrvc', '$state', '$uibModal', '$scope'];
         return BookMarkCtrl;

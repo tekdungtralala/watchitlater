@@ -4,9 +4,13 @@ module angularApp {
 	"use strict";
 
 	class BookMarkCtrl {
-		private showLoading: boolean = true;
+		private showBookmarkLoading: boolean = true;
+		private showWatchedLoading: boolean = true;
+		private watchedOpened: boolean = false;
 		private selectedMovieId: string = null;
 		private movies: Movie[] = [];
+		private watchedMovies: Movie[] = [];
+
 		private modalInstance: angular.ui.bootstrap.IModalServiceInstance;
 
 		static $inject = ['bookmarkSrvc', 'homeservice', 'myAccountSrvc', '$state', '$uibModal', '$scope'];
@@ -23,22 +27,41 @@ module angularApp {
 				.catch(function() {
 					$state.go('home');
 				})
+
+			$scope.$watch('vm.watchedOpened', this.toggleWatchedElmt);
 		}
 
 		activate = (): void => {
-			this.showLoading = false;
-			this.bookmarkSrvc.getBookmarkMovies().then(this.afterGetMovies);
+			this.showBookmarkLoading = false;
+			this.bookmarkSrvc.getBookmarkMovies().then(this.afterGetBookmarkMovies);
+
+			if (this.watchedOpened) {
+				this.updateWatchedMovies();
+			}
 		}
 
-		afterGetMovies = (movies: Movie[]): void => {
-			this.movies = _.clone(movies);
-			_.forEach(this.movies, function(m: Movie) {
-				m.showInBookmark = true;
-			})
+		toggleWatchedElmt = (newValue: boolean): void => {
+			if (newValue) {
+				this.updateWatchedMovies();
+			}
 		}
 
-		showMovieDetail = (movieId: string): void => {
-			this.homeService.showMovieDetail(this.movies, movieId, this.bookmarkChangeCB);
+		updateWatchedMovies = (): void => {
+			this.showWatchedLoading = true;
+			this.bookmarkSrvc.getWatchedMovies().then(this.afterGetWatchedMovies);
+		}
+
+		afterGetBookmarkMovies = (movies: Movie[]): void => {
+			this.movies = movies;
+		}
+
+		afterGetWatchedMovies = (movies: Movie[]): void => {
+			this.showWatchedLoading = false;
+			this.watchedMovies = movies;
+		}
+
+		showMovieDetail = (movieId: string, listMovies: Movie[]): void => {
+			this.homeService.showMovieDetail(listMovies, movieId, this.bookmarkChangeCB);
 		}
 
 		bookmarkChangeCB = () : void => {
@@ -65,6 +88,10 @@ module angularApp {
 
 		doCancel = (): void => {
 			if (this.modalInstance && this.modalInstance.dismiss) this.modalInstance.dismiss();
+		}
+
+		moveToBookmark = (movieId: string): void => {
+			this.bookmarkSrvc.addToBookmark(movieId).then(this.activate);
 		}
 	}
 

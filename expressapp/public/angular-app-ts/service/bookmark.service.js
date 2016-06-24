@@ -12,6 +12,12 @@ var angularApp;
             this.getBookmarkMovies = function () {
                 return _this.$http.get('/api/bookmarks/movie').then(_this.getData);
             };
+            this.getWatched = function () {
+                return _this.allWatched;
+            };
+            this.getWatchedMovies = function () {
+                return _this.$http.get('/api/watched/movie').then(_this.getData);
+            };
             this.addToBookmark = function (imdbId) {
                 var data = { imdbId: imdbId };
                 return _this.$http.post('/api/bookmarks?' + _this.addRandomParam(), data)
@@ -19,9 +25,6 @@ var angularApp;
                     .then(function () {
                     return true;
                 });
-            };
-            this.getWatched = function () {
-                return _this.allWatched;
             };
             this.removeFromBookmark = function (movieId) {
                 return _this.$http.delete('/api/bookmarks?movieId=' + movieId + _this.addRandomParam())
