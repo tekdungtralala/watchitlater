@@ -82,10 +82,6 @@ module angularApp {
 						rootScope.loggedUser = null;
 					});
 				}
-
-				// window.auth2.signOut().then(function() {
-				//     console.log('User signed out.');
-				// });
 			});
 		}
 

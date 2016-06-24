@@ -2,6 +2,7 @@
 
 module angularApp {
 	"use strict";
+	declare var window: AppWindow;
 
 	class SettingCtrl {
 		static $inject = ['$state', 'myAccountSrvc'];
@@ -19,6 +20,13 @@ module angularApp {
 
 		activate = (): void => {
 			this.loggedUser = this.myAccountSrvc.getLoggedUser();
+		}
+
+		signout = (): void => {
+			let t = this;
+			window.auth2.signOut().then(function() {
+				t.$state.go('home');
+			});
 		}
 	}
 
