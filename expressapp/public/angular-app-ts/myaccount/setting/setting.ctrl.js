@@ -6,7 +6,9 @@ var angularApp;
             var _this = this;
             this.$state = $state;
             this.myAccountSrvc = myAccountSrvc;
+            this.showLoading = true;
             this.activate = function () {
+                _this.showLoading = false;
                 _this.loggedUser = _this.myAccountSrvc.getLoggedUser();
             };
             this.signout = function () {

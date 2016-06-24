@@ -7,9 +7,11 @@ var angularApp;
             this.homeService = homeService;
             this.myAccountSrvc = myAccountSrvc;
             this.$state = $state;
+            this.showLoading = true;
             this.movies = [];
             this.removedMovies = [];
             this.activate = function () {
+                _this.showLoading = false;
                 _this.myAccountSrvc.getBookmarkMovies().then(_this.afterGetMovies);
             };
             this.afterGetMovies = function (movies) {

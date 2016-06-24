@@ -5,8 +5,10 @@ module angularApp {
 	declare var window: AppWindow;
 
 	class SettingCtrl {
-		static $inject = ['$state', 'myAccountSrvc'];
+		private showLoading: boolean = true;
 		private loggedUser: LoggedUser;
+
+		static $inject = ['$state', 'myAccountSrvc'];
 		constructor(
 			private $state: angular.ui.IStateService, 
 			private myAccountSrvc: IMyAccountSrvc) {
@@ -19,6 +21,7 @@ module angularApp {
 		}
 
 		activate = (): void => {
+			this.showLoading = false;
 			this.loggedUser = this.myAccountSrvc.getLoggedUser();
 		}
 

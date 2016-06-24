@@ -4,6 +4,7 @@ module angularApp {
 	"use strict";
 
 	class BookMarkCtrl {
+		private showLoading: boolean = true;
 		private movies: Movie[] = [];
 		private removedMovies: Movie[] = [];
 
@@ -21,6 +22,7 @@ module angularApp {
 		}
 
 		activate = (): void => {
+			this.showLoading = false;
 			this.myAccountSrvc.getBookmarkMovies().then(this.afterGetMovies);
 		}
 
