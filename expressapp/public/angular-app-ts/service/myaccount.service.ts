@@ -10,6 +10,7 @@ module angularApp {
 		addToBookmark(imdbId: string): ng.IPromise<boolean>
 		getBookmarks(): Array<String>
 		removeFromBookmark(movieId: string): ng.IPromise<boolean>
+		getBookmarkMovies(): ng.IPromise<Movie[]>
 	}
 
 	class MyAccountSrvc implements IMyAccountSrvc {
@@ -136,6 +137,10 @@ module angularApp {
 
 		getBookmarks = (): Array<String> =>{
 			return this.bookmarks;
+		}
+
+		getBookmarkMovies = (): ng.IPromise<Movie[]> => {
+			return this.$http.get('/api/bookmarks/movie').then(this.getData);
 		}
 
 		updateBookmark = (): void => {

@@ -54,7 +54,7 @@ module angularApp {
 			controllerAs: 'vm',
 			resolve: {
 				loadCtrl: function($ocLazyLoad: oc.ILazyLoad) {
-					return $ocLazyLoad.load(['BookMarkCtrl'], {serie: true});
+					return $ocLazyLoad.load(['homeservice', 'BookMarkCtrl'], {serie: true});
 				}
 			}
 		})

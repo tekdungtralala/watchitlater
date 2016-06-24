@@ -52,7 +52,7 @@ var angularApp;
             controllerAs: 'vm',
             resolve: {
                 loadCtrl: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load(['BookMarkCtrl'], { serie: true });
+                    return $ocLazyLoad.load(['homeservice', 'BookMarkCtrl'], { serie: true });
                 }
             }
         })

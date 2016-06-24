@@ -27,6 +27,9 @@ var angularApp;
             this.getBookmarks = function () {
                 return _this.bookmarks;
             };
+            this.getBookmarkMovies = function () {
+                return _this.$http.get('/api/bookmarks/movie').then(_this.getData);
+            };
             this.updateBookmark = function () {
                 _this.$http.get('/api/bookmarks?' + _this.addRandomParam()).then(_this.getData).then(_this.processData);
             };
