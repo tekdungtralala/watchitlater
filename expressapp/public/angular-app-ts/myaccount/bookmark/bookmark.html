@@ -20,7 +20,7 @@
 			</tr>
 		</tbody>
 		<tbody ng-show="vm.movies.length > 0">
-			<tr ng-repeat="d in vm.movies | orderBy:'+Title'">
+			<tr ng-repeat="d in vm.movies | orderBy:'-imdbRating'">
 				<th scope="row">{{$index + 1}}</th>
 				<td>
 					<span class="app-topmovie-columntitle">
@@ -67,7 +67,7 @@
 				</tr>
 			</tbody>
 			<tbody ng-show="vm.watchedMovies.length > 0">
-				<tr ng-repeat="d in vm.watchedMovies | orderBy:'+Title'">
+				<tr ng-repeat="d in vm.watchedMovies | orderBy:'-imdbRating'">
 					<th scope="row">{{$index + 1}}</th>
 					<td>
 						<span class="app-topmovie-columntitle">
