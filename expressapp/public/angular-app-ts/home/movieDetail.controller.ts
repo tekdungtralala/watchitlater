@@ -10,12 +10,15 @@ module angularApp {
 		public prevMovie: Movie;
 		public nextMovie: Movie;
 		public bookmarked: boolean;
+
+		private firestLoad = true;
 		
 		constructor(
 			private $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance,
 			private myAccountSrvc: IMyAccountSrvc, 
 			private movieList: Movie[], 
-			private movieId: string) {
+			private movieId: string,
+			private bookmarkChangeCB: (addOrRmv: boolean, movieId: string) => void) {
 			
 			this.findMovie(movieId);
 			this.attachSNSHandler();
@@ -58,10 +61,18 @@ module angularApp {
 		}
 
 		bookmarkSwitch = (): void => {
-			if (this.bookmarked)
+			if (this.firestLoad) {
+				this.firestLoad = false;
+				return;
+			}
+
+			if (this.bookmarked) {
 				this.myAccountSrvc.addToBookmark(this.selectedMovie.imdbID);
-			else
+				if (this.bookmarkChangeCB) this.bookmarkChangeCB(true, this.selectedMovie.imdbID);
+			} else {
 				this.myAccountSrvc.removeFromBookmark(this.selectedMovie.imdbID);
+				if (this.bookmarkChangeCB) this.bookmarkChangeCB(false, this.selectedMovie.imdbID);
+			}
 		}
 	}
 	

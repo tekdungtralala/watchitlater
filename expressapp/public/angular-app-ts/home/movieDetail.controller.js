@@ -2,12 +2,14 @@ var angularApp;
 (function (angularApp) {
     "use strict";
     var MovieDetailCtrl = (function () {
-        function MovieDetailCtrl($uibModalInstance, myAccountSrvc, movieList, movieId) {
+        function MovieDetailCtrl($uibModalInstance, myAccountSrvc, movieList, movieId, bookmarkChangeCB) {
             var _this = this;
             this.$uibModalInstance = $uibModalInstance;
             this.myAccountSrvc = myAccountSrvc;
             this.movieList = movieList;
             this.movieId = movieId;
+            this.bookmarkChangeCB = bookmarkChangeCB;
+            this.firestLoad = true;
             this.attachSNSHandler = function () {
                 setTimeout(function () {
                     window.gapi.load('auth2', function () {
@@ -37,10 +39,20 @@ var angularApp;
                 }) >= 0;
             };
             this.bookmarkSwitch = function () {
-                if (_this.bookmarked)
+                if (_this.firestLoad) {
+                    _this.firestLoad = false;
+                    return;
+                }
+                if (_this.bookmarked) {
                     _this.myAccountSrvc.addToBookmark(_this.selectedMovie.imdbID);
-                else
+                    if (_this.bookmarkChangeCB)
+                        _this.bookmarkChangeCB(true, _this.selectedMovie.imdbID);
+                }
+                else {
                     _this.myAccountSrvc.removeFromBookmark(_this.selectedMovie.imdbID);
+                    if (_this.bookmarkChangeCB)
+                        _this.bookmarkChangeCB(false, _this.selectedMovie.imdbID);
+                }
             };
             this.findMovie(movieId);
             this.attachSNSHandler();

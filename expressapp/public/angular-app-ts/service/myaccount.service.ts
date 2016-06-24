@@ -5,7 +5,7 @@ module angularApp {
 
 	export interface IMyAccountSrvc {
 		runListener(): void
-		hasLoggedUser(): ng.IPromise<z>
+		hasLoggedUser(): ng.IPromise<LoggedUser>
 		getLoggedUser(): LoggedUser
 		addToBookmark(imdbId: string): ng.IPromise<boolean>
 		getBookmarks(): Array<String>

@@ -22,7 +22,7 @@ var angularApp;
                 return _this.primePromise;
             };
         }
-        Homeservice.prototype.showMovieDetail = function (movieList, movieId) {
+        Homeservice.prototype.showMovieDetail = function (movieList, movieId, bookmarkChangeCB) {
             this.$uibModal.open({
                 templateUrl: 'angular-app-ts/home/movieDetail.html',
                 controller: 'MovieDetailCtrl',
@@ -34,6 +34,9 @@ var angularApp;
                     loadMovieDetailCtrl: this.loadMovieDetailCtrl,
                     movieId: function () {
                         return movieId;
+                    },
+                    bookmarkChangeCB: function () {
+                        return bookmarkChangeCB;
                     }
                 }
             })
