@@ -1,40 +1,17 @@
 var angularApp;
 (function (angularApp) {
     var MyAccountSrvc = (function () {
-        function MyAccountSrvc($rootScope, $http, $q) {
+        function MyAccountSrvc(bookmarkSrvc, $rootScope, $http, $q) {
             var _this = this;
+            this.bookmarkSrvc = bookmarkSrvc;
             this.$rootScope = $rootScope;
             this.$http = $http;
             this.$q = $q;
             this.gglUsrDefer = null;
             this.gglUsrState = angularApp.AppUserState.FINDING;
             this.bookmarks = [];
-            this.addToBookmark = function (imdbId) {
-                var data = { imdbId: imdbId };
-                return _this.$http.post('/api/bookmarks?' + _this.addRandomParam(), data)
-                    .then(_this.updateBookmark)
-                    .then(function () {
-                    return true;
-                });
-            };
-            this.removeFromBookmark = function (movieId) {
-                return _this.$http.delete('/api/bookmarks?movieId=' + movieId + _this.addRandomParam())
-                    .then(_this.updateBookmark)
-                    .then(function () {
-                    return true;
-                });
-            };
-            this.getBookmarks = function () {
-                return _this.bookmarks;
-            };
-            this.getBookmarkMovies = function () {
-                return _this.$http.get('/api/bookmarks/movie').then(_this.getData);
-            };
-            this.updateBookmark = function () {
-                _this.$http.get('/api/bookmarks?' + _this.addRandomParam()).then(_this.getData).then(_this.processData);
-            };
-            this.processData = function (results) {
-                _this.bookmarks = results;
+            this.getData = function (result) {
+                return result.data;
             };
             this.addRandomParam = function () {
                 return '&randomInt=' + _this.getRandomInt(0, 10000);
@@ -70,7 +47,7 @@ var angularApp;
                         },
                         data: data
                     };
-                    return http(req).then(t.updateBookmark);
+                    return http(req).then(t.bookmarkSrvc.updateBookmark);
                 }
                 if (isSigin) {
                     var profile = window.auth2.currentUser.get().getBasicProfile();
@@ -122,10 +99,7 @@ var angularApp;
             }
             return result.promise;
         };
-        MyAccountSrvc.prototype.getData = function (result) {
-            return result.data;
-        };
-        MyAccountSrvc.$inject = ['$rootScope', '$http', '$q'];
+        MyAccountSrvc.$inject = ['bookmarkSrvc', '$rootScope', '$http', '$q'];
         return MyAccountSrvc;
     }());
     angular

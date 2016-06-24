@@ -2,8 +2,9 @@ var angularApp;
 (function (angularApp) {
     "use strict";
     var BookMarkCtrl = (function () {
-        function BookMarkCtrl(homeService, myAccountSrvc, $state) {
+        function BookMarkCtrl(bookmarkSrvc, homeService, myAccountSrvc, $state) {
             var _this = this;
+            this.bookmarkSrvc = bookmarkSrvc;
             this.homeService = homeService;
             this.myAccountSrvc = myAccountSrvc;
             this.$state = $state;
@@ -11,7 +12,7 @@ var angularApp;
             this.movies = [];
             this.activate = function () {
                 _this.showLoading = false;
-                _this.myAccountSrvc.getBookmarkMovies().then(_this.afterGetMovies);
+                _this.bookmarkSrvc.getBookmarkMovies().then(_this.afterGetMovies);
             };
             this.afterGetMovies = function (movies) {
                 _this.movies = _.clone(movies);
@@ -31,7 +32,7 @@ var angularApp;
                 $state.go('home');
             });
         }
-        BookMarkCtrl.$inject = ['homeservice', 'myAccountSrvc', '$state'];
+        BookMarkCtrl.$inject = ['bookmarkSrvc', 'homeservice', 'myAccountSrvc', '$state'];
         return BookMarkCtrl;
     }());
     angular

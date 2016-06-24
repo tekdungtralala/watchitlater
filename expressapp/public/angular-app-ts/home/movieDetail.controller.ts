@@ -14,8 +14,8 @@ module angularApp {
 		private firestLoad = true;
 		
 		constructor(
-			private $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance,
-			private myAccountSrvc: IMyAccountSrvc, 
+			private bookmarkSrvc: IBookmarkSrvc,
+			private $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance, 
 			private movieList: Movie[], 
 			private movieId: string,
 			private bookmarkChangeCB: (addOrRmv: boolean, movieId: string) => void) {
@@ -55,7 +55,7 @@ module angularApp {
 			this.prevMovie = this.movieList[prev];
 			this.nextMovie = this.movieList[next];
 
-			this.bookmarked = _.findIndex(this.myAccountSrvc.getBookmarks(), function (m: string) {
+			this.bookmarked = _.findIndex(this.bookmarkSrvc.getBookmarks(), function (m: string) {
 				return m === movieId;
 			}) >= 0;
 		}
@@ -67,10 +67,10 @@ module angularApp {
 			}
 
 			if (this.bookmarked) {
-				this.myAccountSrvc.addToBookmark(this.selectedMovie.imdbID);
+				this.bookmarkSrvc.addToBookmark(this.selectedMovie.imdbID);
 				if (this.bookmarkChangeCB) this.bookmarkChangeCB(true, this.selectedMovie.imdbID);
 			} else {
-				this.myAccountSrvc.removeFromBookmark(this.selectedMovie.imdbID);
+				this.bookmarkSrvc.removeFromBookmark(this.selectedMovie.imdbID);
 				if (this.bookmarkChangeCB) this.bookmarkChangeCB(false, this.selectedMovie.imdbID);
 			}
 		}

@@ -2,10 +2,10 @@ var angularApp;
 (function (angularApp) {
     "use strict";
     var MovieDetailCtrl = (function () {
-        function MovieDetailCtrl($uibModalInstance, myAccountSrvc, movieList, movieId, bookmarkChangeCB) {
+        function MovieDetailCtrl(bookmarkSrvc, $uibModalInstance, movieList, movieId, bookmarkChangeCB) {
             var _this = this;
+            this.bookmarkSrvc = bookmarkSrvc;
             this.$uibModalInstance = $uibModalInstance;
-            this.myAccountSrvc = myAccountSrvc;
             this.movieList = movieList;
             this.movieId = movieId;
             this.bookmarkChangeCB = bookmarkChangeCB;
@@ -34,7 +34,7 @@ var angularApp;
                 next = (next >= _this.movieList.length) ? 0 : next;
                 _this.prevMovie = _this.movieList[prev];
                 _this.nextMovie = _this.movieList[next];
-                _this.bookmarked = _.findIndex(_this.myAccountSrvc.getBookmarks(), function (m) {
+                _this.bookmarked = _.findIndex(_this.bookmarkSrvc.getBookmarks(), function (m) {
                     return m === movieId;
                 }) >= 0;
             };
@@ -44,12 +44,12 @@ var angularApp;
                     return;
                 }
                 if (_this.bookmarked) {
-                    _this.myAccountSrvc.addToBookmark(_this.selectedMovie.imdbID);
+                    _this.bookmarkSrvc.addToBookmark(_this.selectedMovie.imdbID);
                     if (_this.bookmarkChangeCB)
                         _this.bookmarkChangeCB(true, _this.selectedMovie.imdbID);
                 }
                 else {
-                    _this.myAccountSrvc.removeFromBookmark(_this.selectedMovie.imdbID);
+                    _this.bookmarkSrvc.removeFromBookmark(_this.selectedMovie.imdbID);
                     if (_this.bookmarkChangeCB)
                         _this.bookmarkChangeCB(false, _this.selectedMovie.imdbID);
                 }

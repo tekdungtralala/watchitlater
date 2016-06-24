@@ -7,8 +7,9 @@ module angularApp {
 		private showLoading: boolean = true;
 		private movies: Movie[] = [];
 
-		static $inject = ['homeservice', 'myAccountSrvc', '$state'];
+		static $inject = ['bookmarkSrvc', 'homeservice', 'myAccountSrvc', '$state'];
 		constructor(
+			private bookmarkSrvc: IBookmarkSrvc,
 			private homeService: IHomeService,
 			private myAccountSrvc: IMyAccountSrvc, 
 			private $state: angular.ui.IStateService) {
@@ -22,7 +23,7 @@ module angularApp {
 
 		activate = (): void => {
 			this.showLoading = false;
-			this.myAccountSrvc.getBookmarkMovies().then(this.afterGetMovies);
+			this.bookmarkSrvc.getBookmarkMovies().then(this.afterGetMovies);
 		}
 
 		afterGetMovies = (movies: Movie[]): void => {
