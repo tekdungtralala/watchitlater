@@ -12,17 +12,24 @@ module angularApp {
 		public bookmarked: boolean;
 		public watched: boolean;
 
-		private firestLoad = true;
+		private firestLoad: boolean;
 		
 		constructor(
 			private bookmarkSrvc: IBookmarkSrvc,
+			private $scope: ng.IScope,
 			private $uibModalInstance: angular.ui.bootstrap.IModalServiceInstance, 
 			private movieList: Movie[], 
 			private movieId: string,
 			private bookmarkChangeCB: () => void) {
 			
+			this.bookmarked = null;
+			this.runWatchListener();
 			this.findMovie(movieId);
 			this.attachSNSHandler();
+		}
+
+		runWatchListener = () => {
+			this.$scope.$watch('vm.bookmarked', this.bookmarkSwitch);
 		}
 
 		attachSNSHandler = () => {
@@ -38,8 +45,7 @@ module angularApp {
 		}
 		
 		findMovie = (movieId: string): void => {
-			let prev: number, next: number, index: number;
-			
+			let prev: number, next: number, index: number;			
 			_.forEach(this.movieList, (m: Movie, i: number) => {
 				if (movieId === m.imdbID) {
 					this.selectedMovie = m;
@@ -56,18 +62,18 @@ module angularApp {
 			this.prevMovie = this.movieList[prev];
 			this.nextMovie = this.movieList[next];
 
-			this.bookmarked = _.findIndex(this.bookmarkSrvc.getBookmarks(), function (m: string) {
+			let tmp: boolean = _.findIndex(this.bookmarkSrvc.getBookmarks(), function (m: string) {
 				return m === movieId;
 			}) >= 0;
+			this.firestLoad = tmp !== this.bookmarked;
+			this.bookmarked = tmp;
 
 			this.watched = _.findIndex(this.bookmarkSrvc.getWatched(), function (m: string) {
 				return m === movieId;
 			}) >= 0;
-
-			this.firestLoad = true;
 		}
 
-		bookmarkSwitch = (): void => {
+		bookmarkSwitch = (newBookmark: boolean): void => {
 			if (this.firestLoad) {
 				this.firestLoad = false;
 				return;

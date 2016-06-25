@@ -2,14 +2,17 @@ var angularApp;
 (function (angularApp) {
     "use strict";
     var MovieDetailCtrl = (function () {
-        function MovieDetailCtrl(bookmarkSrvc, $uibModalInstance, movieList, movieId, bookmarkChangeCB) {
+        function MovieDetailCtrl(bookmarkSrvc, $scope, $uibModalInstance, movieList, movieId, bookmarkChangeCB) {
             var _this = this;
             this.bookmarkSrvc = bookmarkSrvc;
+            this.$scope = $scope;
             this.$uibModalInstance = $uibModalInstance;
             this.movieList = movieList;
             this.movieId = movieId;
             this.bookmarkChangeCB = bookmarkChangeCB;
-            this.firestLoad = true;
+            this.runWatchListener = function () {
+                _this.$scope.$watch('vm.bookmarked', _this.bookmarkSwitch);
+            };
             this.attachSNSHandler = function () {
                 setTimeout(function () {
                     window.gapi.load('auth2', function () {
@@ -34,15 +37,16 @@ var angularApp;
                 next = (next >= _this.movieList.length) ? 0 : next;
                 _this.prevMovie = _this.movieList[prev];
                 _this.nextMovie = _this.movieList[next];
-                _this.bookmarked = _.findIndex(_this.bookmarkSrvc.getBookmarks(), function (m) {
+                var tmp = _.findIndex(_this.bookmarkSrvc.getBookmarks(), function (m) {
                     return m === movieId;
                 }) >= 0;
+                _this.firestLoad = tmp !== _this.bookmarked;
+                _this.bookmarked = tmp;
                 _this.watched = _.findIndex(_this.bookmarkSrvc.getWatched(), function (m) {
                     return m === movieId;
                 }) >= 0;
-                _this.firestLoad = true;
             };
-            this.bookmarkSwitch = function () {
+            this.bookmarkSwitch = function (newBookmark) {
                 if (_this.firestLoad) {
                     _this.firestLoad = false;
                     return;
@@ -69,6 +73,8 @@ var angularApp;
             this.updateCurrentMovie = function () {
                 _this.findMovie(_this.selectedMovie.imdbID);
             };
+            this.bookmarked = null;
+            this.runWatchListener();
             this.findMovie(movieId);
             this.attachSNSHandler();
         }
