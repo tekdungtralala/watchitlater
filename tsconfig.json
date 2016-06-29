@@ -1,13 +1,47 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
-		"module": "amd",
+		"module": "commonjs",
 		"noImplicitAny": true,
 		"removeComments": true,
 		"preserveConstEnums": true,
 		"pretty": true
 	},
 	"files": [
+		// express
+		"expressapp/www.ts",
+		"expressapp/app.ts",
+
+		"expressapp/server/facade/entity/AppConfig.ts",
+		"expressapp/server/facade/entity/Movie.ts",
+		"expressapp/server/facade/entity/User.ts",
+		"expressapp/server/facade/entity/WeeklyMovie.ts",
+		"expressapp/server/facade/entity/Bookmark.ts",
+
+		"expressapp/server/facade/model/iAppConfigModel.ts",
+		"expressapp/server/facade/model/iMovieModel.ts",
+		"expressapp/server/facade/model/iUserModel.ts",
+		"expressapp/server/facade/model/iWeeklyMovieModel.ts",
+		"expressapp/server/facade/model/iBookmarkModel.ts",
+
+		"expressapp/server/util/appInterface.ts",
+		"expressapp/server/util/appUtil.ts",
+		"expressapp/server/util/weeklyMovieUtil.ts",
+		"expressapp/server/util/movieUtil.ts",
+
+		"expressapp/server/facade/appConfig.ts",
+		"expressapp/server/facade/movie.ts",
+		"expressapp/server/facade/user.ts",
+		"expressapp/server/facade/weeklyMovie.ts",
+		"expressapp/server/facade/bookmark.ts",
+		"expressapp/server/facade/initEntity.ts",
+
+		"expressapp/server/routes/appApi.ts",
+		"expressapp/server/routes/bookmarkApi.ts",
+		"expressapp/server/routes/homePageApi.ts",
+		"expressapp/server/routes/weeklyMovieApi.ts",
+
+		// angular
 		"expressapp/public/angular-app-ts/models/angular-app-interfaces.ts",
 		"expressapp/public/angular-app-ts/models/SNS-Interfaces.ts",
 		
