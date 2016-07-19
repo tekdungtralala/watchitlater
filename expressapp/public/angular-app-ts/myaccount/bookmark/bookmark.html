@@ -1,44 +1,44 @@
 <h4>Bookmarked Movies</h4>
-<div class="container">
-	<div ng-show="vm.showBookmarkLoading" class="row" ng-include src="'template/spinner.html'"></div>
-	<table ng-show="!vm.showBookmarkLoading"
-		class="table table-striped">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Title</th>
-				<th>Released</th>
-				<th>Rating</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody ng-show="vm.movies.length === 0">
-			<tr>
-				<td colspan="5">
-					No Data
-				</td>
-			</tr>
-		</tbody>
-		<tbody ng-show="vm.movies.length > 0">
-			<tr ng-repeat="d in vm.movies | orderBy:'-imdbRating'">
-				<th scope="row">{{$index + 1}}</th>
-				<td>
-					<span class="app-topmovie-columntitle">
-						<a ng-click="vm.showMovieDetail(d.imdbID, vm.movies)"
-							href="">{{::d.Title}}</a>
-					</span>
-				</td>
-				<td class="col-sm-2">{{::d.Released}}</td>
-				<td class="col-sm-1">{{::d.imdbRating}}</td>
-				<td class="col-sm-1">
-					<button
-						ng-click="vm.preUnbookmark(d.imdbID)" 
-						type="button" class="btn btn-default btn-sm">Watched</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
+
+<div ng-show="vm.showBookmarkLoading" class="row" ng-include src="'template/spinner.html'"></div>
+<table ng-show="!vm.showBookmarkLoading"
+	class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Title</th>
+			<th>Released</th>
+			<th>Rating</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody ng-show="vm.movies.length === 0">
+		<tr>
+			<td colspan="5">
+				No Data
+			</td>
+		</tr>
+	</tbody>
+	<tbody ng-show="vm.movies.length > 0">
+		<tr ng-repeat="d in vm.movies | orderBy:'-imdbRating'">
+			<th scope="row">{{$index + 1}}</th>
+			<td>
+				<span class="app-topmovie-columntitle">
+					<a ng-click="vm.showMovieDetail(d.imdbID, vm.movies)"
+						href="">{{::d.Title}}</a>
+				</span>
+			</td>
+			<td class="col-sm-2">{{::d.Released}}</td>
+			<td class="col-sm-1">{{::d.imdbRating}}</td>
+			<td class="col-sm-1">
+				<button
+					ng-click="vm.preUnbookmark(d.imdbID)" 
+					type="button" class="btn btn-default btn-sm">Watched</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
 
 <uib-accordion>
     <uib-accordion-group is-open="vm.watchedOpened">
