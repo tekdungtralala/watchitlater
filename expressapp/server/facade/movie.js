@@ -97,10 +97,9 @@ function getLatestBoxOffice() {
         .then(getMovieData);
 }
 function createOrUpdate(newData) {
-    debug('createOrUpdate() ' + newData.imdbID + ' + ' + newData.Title);
-    var ratingNumber = Number(newData.imdbRating);
-    if (isFloat(ratingNumber)) {
-        newData.imdbRating = ratingNumber;
+    debug('createOrUpdate() imdbId: ' + newData.imdbID + ', title:' + newData.Title + ', rating: ' + newData.imdbRating);
+    if (newData.imdbRating && !isNaN(parseFloat(newData.imdbRating.toString())) && isFinite(newData.imdbRating)) {
+        newData.imdbRating = Number(newData.imdbRating);
     }
     else {
         newData.imdbRating = 0.0;

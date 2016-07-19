@@ -39,6 +39,7 @@ function fetchWeeklyMovie(date) {
             var movieName = movieNames[index];
             index++;
             var url = 'http://www.omdbapi.com/?t=' + movieName + '&y=&plot=full&r=json';
+            debug('omdbapi url = ' + url);
             appUtil.fetchHtml(url)
                 .then(processMovieData)
                 .then(afterSavedMovie)

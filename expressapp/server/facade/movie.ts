@@ -119,11 +119,10 @@ function getLatestBoxOffice(): Q.Promise<iMovieModel[]> {
 }
 
 function createOrUpdate(newData: iMovieModel): Q.Promise<iMovieModel> {
-	debug('createOrUpdate() ' + newData.imdbID + ' + ' + newData.Title);
+	debug('createOrUpdate() imdbId: ' + newData.imdbID + ', title:' + newData.Title + ', rating: ' + newData.imdbRating);
 
-	var ratingNumber = Number(newData.imdbRating);
-	if (isFloat(ratingNumber)) {
-		newData.imdbRating = ratingNumber;
+	if (newData.imdbRating && !isNaN(parseFloat(newData.imdbRating.toString())) && isFinite(newData.imdbRating)) {
+		newData.imdbRating = Number(newData.imdbRating);
 	} else {
 		newData.imdbRating = 0.0;
 	}
@@ -184,6 +183,7 @@ function createOrUpdate(newData: iMovieModel): Q.Promise<iMovieModel> {
 
 		newData.Poster = Poster;
 		newData.isImageReady = isImageReady;
+		
 
 		Movie.update(query, newData, opt, function(err) {
 			if (err) {
