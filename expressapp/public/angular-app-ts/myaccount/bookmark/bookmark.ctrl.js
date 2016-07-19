@@ -13,7 +13,7 @@ var angularApp;
             this.showBookmarkLoading = true;
             this.showWatchedLoading = true;
             this.watchedOpened = false;
-            this.selectedMovieId = null;
+            this.selectedMovie = null;
             this.movies = [];
             this.watchedMovies = [];
             this.activate = function () {
@@ -45,20 +45,33 @@ var angularApp;
             this.bookmarkChangeCB = function () {
                 _this.activate();
             };
-            this.preUnbookmark = function (movieId) {
-                _this.selectedMovieId = movieId;
+            this.preAddTowatched = function (movie) {
+                _this.selectedMovie = movie;
                 var t = _this;
                 _this.modalInstance = _this.$uibModal.open({
                     animation: true,
                     templateUrl: 'watchedConfirm.html',
-                    size: 'sm',
                     scope: t.$scope,
                     backdrop: 'static'
                 });
             };
-            this.doWatched = function (movieId) {
+            this.doAddWatched = function () {
                 _this.doCancel();
-                _this.bookmarkSrvc.addToWatched(_this.selectedMovieId).then(_this.activate);
+                _this.bookmarkSrvc.addToWatched(_this.selectedMovie.imdbID).then(_this.activate);
+            };
+            this.preUnBookmark = function (movie) {
+                _this.selectedMovie = movie;
+                var t = _this;
+                _this.modalInstance = _this.$uibModal.open({
+                    animation: true,
+                    templateUrl: 'unbookmarkConfirm.html',
+                    scope: t.$scope,
+                    backdrop: 'static'
+                });
+            };
+            this.doUnbookmark = function () {
+                _this.doCancel();
+                _this.bookmarkSrvc.removeFromBookmark(_this.selectedMovie.imdbID).then(_this.activate);
             };
             this.doCancel = function () {
                 if (_this.modalInstance && _this.modalInstance.dismiss)

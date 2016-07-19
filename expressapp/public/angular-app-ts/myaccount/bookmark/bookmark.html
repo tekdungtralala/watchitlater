@@ -30,10 +30,15 @@
 			</td>
 			<td class="col-sm-2">{{::d.Released}}</td>
 			<td class="col-sm-1">{{::d.imdbRating}}</td>
-			<td class="col-sm-1">
+			<td class="col-sm-2">
 				<button
-					ng-click="vm.preUnbookmark(d.imdbID)" 
+					ng-click="vm.preAddTowatched(d)" 
 					type="button" class="btn btn-default btn-sm">Watched</button>
+				<button
+					ng-click="vm.preUnBookmark(d)" 
+					type="button" class="btn btn-default btn-xs">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
 			</td>
 		</tr>
 	</tbody>
@@ -88,17 +93,32 @@
     </uib-accordion-group>
 </uib-accordion>
 
-<script type="text/ng-template" id="watchedConfirm.html">
+<script type="text/ng-template" id="unbookmarkConfirm.html">
 	<div class="modal-header">
 		<h3 class="modal-title">
-			Confirmation
+			Un-bookmark Confirmation
 		</h3>
 	</div>
 	<div class="modal-body">
-		are you sure, you have been watching this movie ?
+		are you sure, want to remove <strong>{{vm.selectedMovie.Title}}</strong> ?
 	</div>
 	<div class="modal-footer">
-		<button class="btn btn-default" type="button" ng-click="vm.doWatched()">Yes</button>
+		<button class="btn btn-default" type="button" ng-click="vm.doUnbookmark()">Yes</button>
+		<button class="btn btn-warning" type="button" ng-click="vm.doCancel()">Cancel</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="watchedConfirm.html">
+	<div class="modal-header">
+		<h3 class="modal-title">
+			Watched Confirmation
+		</h3>
+	</div>
+	<div class="modal-body">
+		are you sure, you have been watching <strong>{{vm.selectedMovie.Title}}</strong> ?
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-default" type="button" ng-click="vm.doAddWatched()">Yes</button>
 		<button class="btn btn-warning" type="button" ng-click="vm.doCancel()">Cancel</button>
 	</div>
 </script>

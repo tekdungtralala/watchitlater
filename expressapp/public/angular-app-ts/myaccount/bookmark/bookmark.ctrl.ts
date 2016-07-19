@@ -7,7 +7,7 @@ module angularApp {
 		private showBookmarkLoading: boolean = true;
 		private showWatchedLoading: boolean = true;
 		private watchedOpened: boolean = false;
-		private selectedMovieId: string = null;
+		private selectedMovie: Movie = null;
 		private movies: Movie[] = [];
 		private watchedMovies: Movie[] = [];
 
@@ -68,22 +68,38 @@ module angularApp {
 			this.activate();
 		}
 
-		preUnbookmark = (movieId: string): void => {
-			this.selectedMovieId = movieId;
+		preAddTowatched = (movie: Movie): void => {
+			this.selectedMovie = movie;
 
 			let t = this;
 			this.modalInstance = this.$uibModal.open({
 				animation: true,
 				templateUrl: 'watchedConfirm.html',
-				size: 'sm',
 				scope: t.$scope,
 				backdrop: 'static'
 			});
 		}
 
-		doWatched = (movieId: string): void => {
+		doAddWatched = (): void => {
 			this.doCancel();
-			this.bookmarkSrvc.addToWatched(this.selectedMovieId).then(this.activate);
+			this.bookmarkSrvc.addToWatched(this.selectedMovie.imdbID).then(this.activate);
+		}
+
+		preUnBookmark = (movie: Movie): void => {
+			this.selectedMovie = movie;
+
+			let t = this;
+			this.modalInstance = this.$uibModal.open({
+				animation: true,
+				templateUrl: 'unbookmarkConfirm.html',
+				scope: t.$scope,
+				backdrop: 'static'
+			});
+		}
+
+		doUnbookmark = (): void => {
+			this.doCancel();
+			this.bookmarkSrvc.removeFromBookmark(this.selectedMovie.imdbID).then(this.activate);
 		}
 
 		doCancel = (): void => {
