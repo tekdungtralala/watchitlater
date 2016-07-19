@@ -66,6 +66,11 @@ var angularApp;
                     .then(_this.callCbIfAvailable)
                     .then(_this.updateCurrentMovie);
             };
+            this.moveToWatched = function (imdbId) {
+                _this.bookmarkSrvc.addToWatched(imdbId)
+                    .then(_this.callCbIfAvailable)
+                    .then(_this.updateCurrentMovie);
+            };
             this.callCbIfAvailable = function () {
                 if (_this.bookmarkChangeCB)
                     _this.bookmarkChangeCB();

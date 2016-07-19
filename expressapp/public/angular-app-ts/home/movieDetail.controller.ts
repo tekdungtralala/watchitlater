@@ -95,6 +95,12 @@ module angularApp {
 				.then(this.updateCurrentMovie);
 		}
 
+		moveToWatched = (imdbId: string): void => {
+			this.bookmarkSrvc.addToWatched(imdbId)
+				.then(this.callCbIfAvailable)
+				.then(this.updateCurrentMovie);
+		}
+
 		callCbIfAvailable = (): void => {
 			if (this.bookmarkChangeCB) this.bookmarkChangeCB();
 		}

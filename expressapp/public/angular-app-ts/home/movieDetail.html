@@ -51,7 +51,7 @@
 				</div>
 				<div class="form-group" ng-show="loggedUser.email">
 					<span ng-show="!vm.watched">
-						Bookmarked : 
+						Bookmarked : <br/>
 						<input
 							type="checkbox"
 							ng-model="vm.bookmarked"
@@ -61,6 +61,12 @@
 							switch-on-text="Y"
 							switch-off-text="N"
 						/>
+						<button
+							ng-show="vm.bookmarked" 
+							ng-click="vm.moveToWatched(vm.selectedMovie.imdbID)"
+							type="button" class="btn btn-default btn-md">
+							<span class="glyphicon glyphicon-check" aria-hidden="true"></span> Move to Watched
+						</button>
 					</span>
 					<span ng-show="vm.watched">
 						You has been watched this moovie.<br/>
