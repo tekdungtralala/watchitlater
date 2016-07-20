@@ -19,13 +19,11 @@ var angularApp;
             this.orderBookmarkBy = '-imdbRating';
             this.orderWatchedBy = '-imdbRating';
             this.activate = function () {
-                _this.showBookmarkLoading = false;
+                _this.showBookmarkLoading = true;
                 _this.bookmarkSrvc.getBookmarkMovies().then(_this.afterGetBookmarkMovies);
                 if (_this.watchedOpened) {
                     _this.updateWatchedMovies();
                 }
-            };
-            this.reloadData = function () {
             };
             this.toggleWatchedElmt = function (newValue) {
                 if (newValue) {
@@ -37,6 +35,7 @@ var angularApp;
                 _this.bookmarkSrvc.getWatchedMovies().then(_this.afterGetWatchedMovies);
             };
             this.afterGetBookmarkMovies = function (movies) {
+                _this.showBookmarkLoading = false;
                 _this.movies = movies;
                 _this.addRealeasedTimestamp(_this.movies);
             };
@@ -67,6 +66,8 @@ var angularApp;
                 });
             };
             this.doAddWatched = function () {
+                _this.showBookmarkLoading = true;
+                _this.showWatchedLoading = true;
                 _this.doCancel();
                 _this.bookmarkSrvc.addToWatched(_this.selectedMovie.imdbID).then(_this.activate);
             };
@@ -82,6 +83,7 @@ var angularApp;
             };
             this.doUnbookmark = function () {
                 _this.doCancel();
+                _this.showBookmarkLoading = true;
                 _this.bookmarkSrvc.removeFromBookmark(_this.selectedMovie.imdbID).then(_this.activate);
             };
             this.doCancel = function () {
@@ -89,6 +91,8 @@ var angularApp;
                     _this.modalInstance.dismiss();
             };
             this.moveToBookmark = function (movieId) {
+                _this.showBookmarkLoading = true;
+                _this.showWatchedLoading = true;
                 _this.bookmarkSrvc.addToBookmark(movieId).then(_this.activate);
             };
             this.sortBookmarkData = function (newVal) {

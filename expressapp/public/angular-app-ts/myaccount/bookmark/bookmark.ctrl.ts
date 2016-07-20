@@ -34,16 +34,12 @@ module angularApp {
 		}
 
 		activate = (): void => {
-			this.showBookmarkLoading = false;
+			this.showBookmarkLoading = true;
 			this.bookmarkSrvc.getBookmarkMovies().then(this.afterGetBookmarkMovies);
 
 			if (this.watchedOpened) {
 				this.updateWatchedMovies();
 			}
-		}
-
-		reloadData = (): void => {
-			
 		}
 
 		toggleWatchedElmt = (newValue: boolean): void => {
@@ -58,6 +54,7 @@ module angularApp {
 		}
 
 		afterGetBookmarkMovies = (movies: Movie[]): void => {
+			this.showBookmarkLoading = false;
 			this.movies = movies;
 			this.addRealeasedTimestamp(this.movies);
 		}
@@ -95,6 +92,8 @@ module angularApp {
 		}
 
 		doAddWatched = (): void => {
+			this.showBookmarkLoading = true;
+			this.showWatchedLoading = true;
 			this.doCancel();
 			this.bookmarkSrvc.addToWatched(this.selectedMovie.imdbID).then(this.activate);
 		}
@@ -113,6 +112,7 @@ module angularApp {
 
 		doUnbookmark = (): void => {
 			this.doCancel();
+			this.showBookmarkLoading = true;
 			this.bookmarkSrvc.removeFromBookmark(this.selectedMovie.imdbID).then(this.activate);
 		}
 
@@ -121,6 +121,8 @@ module angularApp {
 		}
 
 		moveToBookmark = (movieId: string): void => {
+			this.showBookmarkLoading = true;
+			this.showWatchedLoading = true;
 			this.bookmarkSrvc.addToBookmark(movieId).then(this.activate);
 		}
 
