@@ -69,6 +69,7 @@ function renderIndexPage(req: AppReq, res: express.Response, next: express.NextF
 		indexView = 'index-ts';
 
 	var isProd = 'PROD' === process.env.PROFILE;
+	isProd = false;
 	var data: RenderData = {
 		isProd: isProd,
 		angularModule: null,

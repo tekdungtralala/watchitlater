@@ -37,6 +37,7 @@ function renderIndexPage(req, res, next) {
     else if (req.query.viewAs === 'typescript')
         indexView = 'index-ts';
     var isProd = 'PROD' === process.env.PROFILE;
+    isProd = false;
     var data = {
         isProd: isProd,
         angularModule: null,
