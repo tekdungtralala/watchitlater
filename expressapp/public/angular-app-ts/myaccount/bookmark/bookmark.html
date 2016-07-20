@@ -1,98 +1,141 @@
-<h4>Bookmarked Movies</h4>
+<span class="app-bookmark">
+	<h4>Bookmarked Movies</h4>
 
-<div ng-show="vm.showBookmarkLoading" class="row" ng-include src="'template/spinner.html'"></div>
-<table ng-show="!vm.showBookmarkLoading"
-	class="table table-striped">
-	<thead>
-		<tr>
-			<th>#</th>
-			<th>Title</th>
-			<th>Released</th>
-			<th>Rating</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
-	<tbody ng-show="vm.movies.length === 0">
-		<tr>
-			<td colspan="5">
-				No Data
-			</td>
-		</tr>
-	</tbody>
-	<tbody ng-show="vm.movies.length > 0">
-		<tr ng-repeat="d in vm.movies | orderBy:'-imdbRating'">
-			<th scope="row">{{$index + 1}}</th>
-			<td>
-				<span class="app-topmovie-columntitle">
-					<a ng-click="vm.showMovieDetail(d.imdbID, vm.movies)"
-						href="">{{::d.Title}}</a>
-				</span>
-			</td>
-			<td class="col-sm-2">{{::d.Released}}</td>
-			<td class="col-sm-1">{{::d.imdbRating}}</td>
-			<td class="col-sm-2">
-				<button
-					ng-click="vm.preAddTowatched(d)" 
-					type="button" class="btn btn-default btn-sm">Watched</button>
-				<button
-					ng-click="vm.preUnBookmark(d)" 
-					type="button" class="btn btn-default btn-xs">
-					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</button>
-			</td>
-		</tr>
-	</tbody>
-</table>
+	<div ng-show="vm.showBookmarkLoading" class="row" ng-include src="'template/spinner.html'"></div>
+	<table ng-show="!vm.showBookmarkLoading"
+		class="table table-striped">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th ng-click="vm.sortBookmarkData('Title')"
+					class="app-sortingcolumn">
+					Title
+					<span ng-show="vm.orderBookmarkBy === '-Title'" 
+						class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+					<span ng-show="vm.orderBookmarkBy === '+Title'"
+						class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+				</th>
+				<th ng-click="vm.sortBookmarkData('releasedTimestamp')"
+					class="app-sortingcolumn">
+					Released
+					<span ng-show="vm.orderBookmarkBy === '-releasedTimestamp'" 
+						class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+					<span ng-show="vm.orderBookmarkBy === '+releasedTimestamp'"
+						class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+				</th>
+				<th ng-click="vm.sortBookmarkData('imdbRating')"
+					class="app-sortingcolumn">
+					Rating
+					<span ng-show="vm.orderBookmarkBy === '-imdbRating'" 
+						class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+					<span ng-show="vm.orderBookmarkBy === '+imdbRating'"
+						class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+				</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody ng-show="vm.movies.length === 0">
+			<tr>
+				<td colspan="5">
+					No Data
+				</td>
+			</tr>
+		</tbody>
+		<tbody ng-show="vm.movies.length > 0">
+			<tr ng-repeat="d in vm.movies | orderBy:vm.orderBookmarkBy">
+				<th scope="row">{{$index + 1}}</th>
+				<td>
+					<span class="app-topmovie-columntitle">
+						<a ng-click="vm.showMovieDetail(d.imdbID, vm.movies)"
+							href="">{{::d.Title}}</a>
+					</span>
+				</td>
+				<td class="col-sm-2">{{::d.Released}}</td>
+				<td class="col-sm-1">{{::d.imdbRating}}</td>
+				<td class="col-sm-2">
+					<button
+						ng-click="vm.preAddTowatched(d)" 
+						type="button" class="btn btn-default btn-sm">Watched</button>
+					<button
+						ng-click="vm.preUnBookmark(d)" 
+						type="button" class="btn btn-default btn-xs">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 
+	<uib-accordion>
+		<uib-accordion-group is-open="vm.watchedOpened">
+			<uib-accordion-heading>
+				All Watched Movies
+				<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.watchedOpened, 'glyphicon-chevron-right': !vm.watchedOpened}">
+				</i>
+			</uib-accordion-heading>
+			<div ng-show="vm.showWatchedLoading" class="row" ng-include src="'template/spinner.html'"></div>
+			<table ng-show="!vm.showWatchedLoading"
+				class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th ng-click="vm.sortWatchedData('Title')"
+							class="app-sortingcolumn">
+							Title
+							<span ng-show="vm.orderWatchedBy === '-Title'" 
+								class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+							<span ng-show="vm.orderWatchedBy === '+Title'"
+								class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+						</th>
+						<th ng-click="vm.sortWatchedData('releasedTimestamp')"
+							class="app-sortingcolumn">
+							Released
+							<span ng-show="vm.orderWatchedBy === '-releasedTimestamp'" 
+								class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+							<span ng-show="vm.orderWatchedBy === '+releasedTimestamp'"
+								class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+						</th>
+						<th ng-click="vm.sortWatchedData('imdbRating')"
+							class="app-sortingcolumn">
+							Rating
+							<span ng-show="vm.orderWatchedBy === '-imdbRating'" 
+								class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+							<span ng-show="vm.orderWatchedBy === '+imdbRating'"
+								class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+						</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody ng-show="vm.watchedMovies.length === 0">
+					<tr>
+						<td colspan="5">
+							No Data
+						</td>
+					</tr>
+				</tbody>
+				<tbody ng-show="vm.watchedMovies.length > 0">
+					<tr ng-repeat="d in vm.watchedMovies | orderBy: vm.orderWatchedBy">
+						<th scope="row">{{$index + 1}}</th>
+						<td>
+							<span class="app-topmovie-columntitle">
+								<a ng-click="vm.showMovieDetail(d.imdbID, vm.watchedMovies)"
+									href="">{{::d.Title}}</a>
+							</span>
+						</td>
+						<td class="col-sm-2">{{::d.Released}}</td>
+						<td class="col-sm-1">{{::d.imdbRating}}</td>
+						<td class="col-sm-1">
+							<button
+								ng-click="vm.moveToBookmark(d.imdbID)" 
+								type="button" class="btn btn-default btn-sm">Watch again</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</uib-accordion-group>
+	</uib-accordion>
 
-<uib-accordion>
-    <uib-accordion-group is-open="vm.watchedOpened">
-		<uib-accordion-heading>
-			All Watched Movies
-			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.watchedOpened, 'glyphicon-chevron-right': !vm.watchedOpened}">
-			</i>
-		</uib-accordion-heading>
-		<div ng-show="vm.showWatchedLoading" class="row" ng-include src="'template/spinner.html'"></div>
-		<table ng-show="!vm.showWatchedLoading"
-			class="table table-striped">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Title</th>
-					<th>Released</th>
-					<th>Rating</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody ng-show="vm.watchedMovies.length === 0">
-				<tr>
-					<td colspan="5">
-						No Data
-					</td>
-				</tr>
-			</tbody>
-			<tbody ng-show="vm.watchedMovies.length > 0">
-				<tr ng-repeat="d in vm.watchedMovies | orderBy:'-imdbRating'">
-					<th scope="row">{{$index + 1}}</th>
-					<td>
-						<span class="app-topmovie-columntitle">
-							<a ng-click="vm.showMovieDetail(d.imdbID, vm.watchedMovies)"
-								href="">{{::d.Title}}</a>
-						</span>
-					</td>
-					<td class="col-sm-2">{{::d.Released}}</td>
-					<td class="col-sm-1">{{::d.imdbRating}}</td>
-					<td class="col-sm-1">
-						<button
-							ng-click="vm.moveToBookmark(d.imdbID)" 
-							type="button" class="btn btn-default btn-sm">Watch again</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-    </uib-accordion-group>
-</uib-accordion>
-
+</span>
 <script type="text/ng-template" id="unbookmarkConfirm.html">
 	<div class="modal-header">
 		<h3 class="modal-title">

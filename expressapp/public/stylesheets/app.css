@@ -160,3 +160,8 @@ header {
 .app-myaccount .app-content {
 	padding: 10px;
 }
+
+
+.app-bookmark .app-sortingcolumn {
+	cursor: pointer;
+}

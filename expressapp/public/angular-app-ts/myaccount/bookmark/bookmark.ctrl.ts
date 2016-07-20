@@ -10,6 +10,8 @@ module angularApp {
 		private selectedMovie: Movie = null;
 		private movies: Movie[] = [];
 		private watchedMovies: Movie[] = [];
+		private orderBookmarkBy: string = '-imdbRating';
+		private orderWatchedBy: string = '-imdbRating';
 
 		private modalInstance: angular.ui.bootstrap.IModalServiceInstance;
 
@@ -40,6 +42,10 @@ module angularApp {
 			}
 		}
 
+		reloadData = (): void => {
+			
+		}
+
 		toggleWatchedElmt = (newValue: boolean): void => {
 			if (newValue) {
 				this.updateWatchedMovies();
@@ -53,11 +59,19 @@ module angularApp {
 
 		afterGetBookmarkMovies = (movies: Movie[]): void => {
 			this.movies = movies;
+			this.addRealeasedTimestamp(this.movies);
+		}
+
+		addRealeasedTimestamp = (movies: Movie[]): void => {
+			_.forEach(movies, function(m: Movie) {
+				m.releasedTimestamp = Number(moment(m.Released, "DD MMM YYYY").format('X'));
+			});
 		}
 
 		afterGetWatchedMovies = (movies: Movie[]): void => {
 			this.showWatchedLoading = false;
 			this.watchedMovies = movies;
+			this.addRealeasedTimestamp(this.watchedMovies);
 		}
 
 		showMovieDetail = (movieId: string, listMovies: Movie[]): void => {
@@ -108,6 +122,14 @@ module angularApp {
 
 		moveToBookmark = (movieId: string): void => {
 			this.bookmarkSrvc.addToBookmark(movieId).then(this.activate);
+		}
+
+		sortBookmarkData = (newVal: string): void => {
+			this.orderBookmarkBy = ('-' + newVal) === this.orderBookmarkBy ? ('+' + newVal) : ('-' + newVal); 
+		}
+
+		sortWatchedData = (newVal: string): void => {
+			this.orderWatchedBy = ('-' + newVal) === this.orderWatchedBy ? ('+' + newVal) : ('-' + newVal); 
 		}
 	}
 

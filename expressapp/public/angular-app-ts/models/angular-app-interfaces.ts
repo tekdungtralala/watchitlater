@@ -66,6 +66,7 @@ module angularApp {
 		isImageReady: boolean
 
 		showInBookmark: boolean = true
+		releasedTimestamp: number
 	}
 
 	export class HttpResult<T> {
