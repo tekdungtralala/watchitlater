@@ -15,6 +15,7 @@ db.once('open', function () {
 var port = null;
 var server = null;
 function startApp() {
+    debug('startApp() ' + new Date());
     port = normalizePort(process.env.PORT || '3000');
     app.set('port', port);
     server = http.createServer(app);
@@ -46,14 +47,15 @@ function startApp() {
         debug("cron pattern not valid");
     }
     try {
-        new cron.CronJob('0 0 0 * * 0', function () {
+        new cron.CronJob('0 0-59 * * * *', function () {
+            debug("cronn job here " + new Date() + ', stillWorking=' + stillWorking);
             if (!stillWorking) {
                 stillWorking = true;
                 debug('START fetch image' + new Date());
                 movieUtil
-                    .checkMovies()
+                    .checkThumbnailMovies()
                     .then(function () {
-                    debug('  FINISH fetch image');
+                    debug('  FINISH check thumnail movies');
                     stillWorking = false;
                 });
             }

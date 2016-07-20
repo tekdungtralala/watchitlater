@@ -10,6 +10,8 @@ import Movie = require('./entity/Movie')
 let debug: debug.IDebug = require('debug')('watchitlater:server:movie');
 
 let movieModule = {
+	findAllMovie: findAllMovie,
+	updateMovie: updateMovie,
 	createOrUpdate: createOrUpdate,
 	getLatestBoxOffice: getLatestBoxOffice,
 	getLatestTopMovie: getLatestTopMovie,
@@ -120,6 +122,7 @@ function getLatestBoxOffice(): Q.Promise<iMovieModel[]> {
 
 function createOrUpdate(newData: iMovieModel): Q.Promise<iMovieModel> {
 	debug('createOrUpdate() imdbId: ' + newData.imdbID + ', title:' + newData.Title + ', rating: ' + newData.imdbRating);
+	debug(' poster: ' + newData.Poster);
 
 	if (newData.imdbRating && !isNaN(parseFloat(newData.imdbRating.toString())) && isFinite(newData.imdbRating)) {
 		newData.imdbRating = Number(newData.imdbRating);
@@ -206,6 +209,47 @@ function createOrUpdate(newData: iMovieModel): Q.Promise<iMovieModel> {
 	}
 
 	debug('return promise')
+	return deferred.promise;
+}
+
+function updateMovie(imdbId: string, movie: iMovieModel): Q.Promise<boolean> {
+	debug('updateMovie()')
+	var deferred: Q.Deferred<boolean> = Q.defer<boolean>();
+
+	if (movie.imdbRating && !isNaN(parseFloat(movie.imdbRating.toString())) && isFinite(movie.imdbRating)) {
+		movie.imdbRating = Number(movie.imdbRating);
+	} else {
+		movie.imdbRating = 0;
+	}
+
+	Movie.update({imdbID: imdbId}, movie, {multi: false}, function(err) {
+		debug('err = ' + err)
+		if (err) {
+			deferred.reject(false);
+		} else {
+			deferred.resolve(true);
+		}
+	});
+
+	return deferred.promise;
+}
+
+function findAllMovie(): Q.Promise<iMovieModel[]> {
+	debug('findAllMovie()')
+	let deferred: Q.Deferred<iMovieModel[]> = Q.defer<iMovieModel[]>();
+
+	Movie.find({}, null, {}, function(err: any, docs: iMovieModel[]) {
+		debug('after find')
+		if (err) {
+			debug('error err=');
+			debug(err);
+			deferred.reject(err);
+		} else {
+			debug('movies docs.length = ' + docs.length);
+			deferred.resolve(docs);
+		}
+	});
+
 	return deferred.promise;
 }
 

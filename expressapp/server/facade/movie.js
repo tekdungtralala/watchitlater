@@ -4,6 +4,8 @@ var appConfig = require('./appConfig');
 var Movie = require('./entity/Movie');
 var debug = require('debug')('watchitlater:server:movie');
 var movieModule = {
+    findAllMovie: findAllMovie,
+    updateMovie: updateMovie,
     createOrUpdate: createOrUpdate,
     getLatestBoxOffice: getLatestBoxOffice,
     getLatestTopMovie: getLatestTopMovie,
@@ -98,6 +100,7 @@ function getLatestBoxOffice() {
 }
 function createOrUpdate(newData) {
     debug('createOrUpdate() imdbId: ' + newData.imdbID + ', title:' + newData.Title + ', rating: ' + newData.imdbRating);
+    debug(' poster: ' + newData.Poster);
     if (newData.imdbRating && !isNaN(parseFloat(newData.imdbRating.toString())) && isFinite(newData.imdbRating)) {
         newData.imdbRating = Number(newData.imdbRating);
     }
@@ -177,6 +180,43 @@ function createOrUpdate(newData) {
         deferred.resolve(d);
     }
     debug('return promise');
+    return deferred.promise;
+}
+function updateMovie(imdbId, movie) {
+    debug('updateMovie()');
+    var deferred = Q.defer();
+    if (movie.imdbRating && !isNaN(parseFloat(movie.imdbRating.toString())) && isFinite(movie.imdbRating)) {
+        movie.imdbRating = Number(movie.imdbRating);
+    }
+    else {
+        movie.imdbRating = 0;
+    }
+    Movie.update({ imdbID: imdbId }, movie, { multi: false }, function (err) {
+        debug('err = ' + err);
+        if (err) {
+            deferred.reject(false);
+        }
+        else {
+            deferred.resolve(true);
+        }
+    });
+    return deferred.promise;
+}
+function findAllMovie() {
+    debug('findAllMovie()');
+    var deferred = Q.defer();
+    Movie.find({}, null, {}, function (err, docs) {
+        debug('after find');
+        if (err) {
+            debug('error err=');
+            debug(err);
+            deferred.reject(err);
+        }
+        else {
+            debug('movies docs.length = ' + docs.length);
+            deferred.resolve(docs);
+        }
+    });
     return deferred.promise;
 }
 function isFloat(n) {

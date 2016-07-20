@@ -20,6 +20,7 @@ let port: number = null;
 let server: http.Server = null;
 
 function startApp(): void {
+	debug('startApp() ' + new Date());
 	/**
 	 * Get port from environment and store in Express.
 	 */
@@ -66,14 +67,15 @@ function startApp(): void {
 	}
 
 	try {
-		new cron.CronJob('0 0 0 * * 0', function() {
+		new cron.CronJob('0 0-59 * * * *', function() {
+			debug("cronn job here "  + new Date() + ', stillWorking=' + stillWorking);
 			if (!stillWorking) {
 				stillWorking = true;
 				debug('START fetch image' + new Date());
 				movieUtil
-					.checkMovies()
+					.checkThumbnailMovies()
 					.then(function() {
-						debug('  FINISH fetch image');
+						debug('  FINISH check thumnail movies');
 						stillWorking = false;
 					});
 			}
