@@ -17,6 +17,11 @@ function doInitialize() {
     var d = Q.defer();
     var latestBOUrl = 'http://www.imdb.com/chart/';
     fetchlatestBO()
+        .then(processData)
+        .then(afterProcessBO)
+        .then(fetchLatestTM)
+        .then(processData)
+        .then(afterProcessTM)
         .then(initWeeklyMovie)
         .then(function () {
         d.resolve(true);
