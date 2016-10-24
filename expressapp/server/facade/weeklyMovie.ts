@@ -6,7 +6,7 @@ import Q = require('q');
 import iWeeklyMovieModel = require('./model/iWeeklyMovieModel')
 import WeeklyMovie = require('./entity/WeeklyMovie')
 
-let debug: debug.IDebug = require('debug')('watchitlater:server:weeklyMovie');
+let debug: debug.IDebug = require('debug')('watchitlater:server:facade:weeklyMovie');
 
 let wmModule = {
 	createOrUpdate: createOrUpdate,

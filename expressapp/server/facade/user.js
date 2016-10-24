@@ -1,7 +1,7 @@
 "use strict";
 var Q = require('q');
 var User = require('./entity/User');
-var debug = require('debug')('watchitlater:server:user');
+var debug = require('debug')('watchitlater:server:facade:user');
 var userModule = {
     saveOrUpdate: saveOrUpdate
 };

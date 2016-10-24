@@ -5,7 +5,7 @@ var movie = require('./movie');
 var appConfig = require('./appConfig');
 var appUtil = require('../util/appUtil');
 var weeklyMovieUtil = require('../util/weeklyMovieUtil');
-var debug = require('debug')('watchitlater:server:initEntity');
+var debug = require('debug')('watchitlater:server:facade:initEntity');
 var moduleExport = {
     doInitialize: doInitialize
 };

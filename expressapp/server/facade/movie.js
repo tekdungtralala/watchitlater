@@ -2,7 +2,7 @@
 var Q = require('q');
 var appConfig = require('./appConfig');
 var Movie = require('./entity/Movie');
-var debug = require('debug')('watchitlater:server:movie');
+var debug = require('debug')('watchitlater:server:facade:movie');
 var movieModule = {
     findAllMovie: findAllMovie,
     updateMovie: updateMovie,
@@ -59,9 +59,9 @@ function findByImdbIDs(imdbIds, skip, limit) {
         sort: { imdbRating: -1 }
     };
     if (skip)
-        opt.skip = skip;
+        opt.skip = parseInt(skip);
     if (limit)
-        opt.limit = limit;
+        opt.limit = parseInt(limit);
     Movie.find(query, null, opt, function (err, docs) {
         debug('after find');
         if (err) {

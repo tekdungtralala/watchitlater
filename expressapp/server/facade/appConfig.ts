@@ -6,7 +6,7 @@ import Q = require('q');
 import AppConfig = require('./entity/AppConfig');
 import iAppConfigModel = require('./model/iAppConfigModel')
 
-let debug: debug.IDebug = require('debug')('watchitlater:server:model:appConfig');
+let debug: debug.IDebug = require('debug')('watchitlater:server:facade:appConfig');
 
 let appModule = {
 	updateLatestTopMovies: updateLatestTopMovies,

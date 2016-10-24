@@ -6,7 +6,7 @@ import Q = require('q');
 import iBookmarkModel = require('./model/iBookmarkModel')
 import Bookmark = require('./entity/Bookmark');
 
-let debug: debug.IDebug = require('debug')('watchitlater:server:bookmark');
+let debug: debug.IDebug = require('debug')('watchitlater:server:facade:bookmark');
 
 let bookmarkModule = {
 	findBookmared: findBookmared,

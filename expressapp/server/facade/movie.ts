@@ -7,7 +7,7 @@ import appConfig = require('./appConfig');
 import iMovieModel = require('./model/iMovieModel')
 import Movie = require('./entity/Movie')
 
-let debug: debug.IDebug = require('debug')('watchitlater:server:movie');
+let debug: debug.IDebug = require('debug')('watchitlater:server:facade:movie');
 
 let movieModule = {
 	findAllMovie: findAllMovie,
@@ -63,7 +63,7 @@ function isHasMovieWOImage(): Q.Promise<number> {
 	return deferred.promise;
 }
 
-function findByImdbIDs(imdbIds: Array<String>, skip?: number, limit?: number): Q.Promise<iMovieModel[]> {
+function findByImdbIDs(imdbIds: Array<String>, skip?: any, limit?: any): Q.Promise<iMovieModel[]> {
 	debug('findByImdbIDs() imdbIds.length = ' + imdbIds.length);
 	let deferred: Q.Deferred<iMovieModel[]> = Q.defer<iMovieModel[]>();
 
@@ -74,8 +74,8 @@ function findByImdbIDs(imdbIds: Array<String>, skip?: number, limit?: number): Q
 	var opt: any = {
 		sort: {imdbRating: -1}
 	};
-	if (skip) opt.skip = skip;
-	if (limit) opt.limit = limit;
+	if (skip) opt.skip = parseInt(skip);
+	if (limit) opt.limit = parseInt(limit);
 
 	Movie.find(query, null, opt, function(err: any, docs: iMovieModel[]) {
 		debug('after find')

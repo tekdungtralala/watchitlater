@@ -7,7 +7,7 @@ import appConfig = require('./appConfig');
 import iUserModel = require('./model/iUserModel')
 import User = require('./entity/User')
 
-let debug: debug.IDebug = require('debug')('watchitlater:server:user');
+let debug: debug.IDebug = require('debug')('watchitlater:server:facade:user');
 
 let userModule = {
 	saveOrUpdate: saveOrUpdate

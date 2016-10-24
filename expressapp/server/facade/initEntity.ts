@@ -14,7 +14,7 @@ import weeklyMovieUtil = require('../util/weeklyMovieUtil');
 import iMovieModel = require('./model/iMovieModel');
 import iWeeklyMovieModel = require('./model/iWeeklyMovieModel');
 
-let debug: debug.IDebug = require('debug')('watchitlater:server:initEntity');
+let debug: debug.IDebug = require('debug')('watchitlater:server:facade:initEntity');
 
 let moduleExport = {
 	doInitialize: doInitialize

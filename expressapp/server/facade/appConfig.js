@@ -1,7 +1,7 @@
 "use strict";
 var Q = require('q');
 var AppConfig = require('./entity/AppConfig');
-var debug = require('debug')('watchitlater:server:model:appConfig');
+var debug = require('debug')('watchitlater:server:facade:appConfig');
 var appModule = {
     updateLatestTopMovies: updateLatestTopMovies,
     updateLatestBoxOffice: updateLatestBoxOffice,

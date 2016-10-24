@@ -1,7 +1,7 @@
 "use strict";
 var Q = require('q');
 var Bookmark = require('./entity/Bookmark');
-var debug = require('debug')('watchitlater:server:bookmark');
+var debug = require('debug')('watchitlater:server:facade:bookmark');
 var bookmarkModule = {
     findBookmared: findBookmared,
     changeToBookmarked: changeToBookmarked,

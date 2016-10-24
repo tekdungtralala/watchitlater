@@ -1,7 +1,7 @@
 "use strict";
 var Q = require('q');
 var WeeklyMovie = require('./entity/WeeklyMovie');
-var debug = require('debug')('watchitlater:server:weeklyMovie');
+var debug = require('debug')('watchitlater:server:facade:weeklyMovie');
 var wmModule = {
     createOrUpdate: createOrUpdate,
     findWeeklyMovie: findWeeklyMovie
