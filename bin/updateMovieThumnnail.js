@@ -35,47 +35,63 @@ fetchHtml(api)
                 console.log('process imdbID = ', imdbId);
                 var omdbapi = 'http://www.omdbapi.com/?i=' + imdbId + '&plot=short&r=json';
                 console.log(' ' + i + ' omdbapi = ', omdbapi);
-                fetchHtml(omdbapi).then(function(result) {
-                    var json = JSON.parse(result);
-                    if (json && json.Poster) {
-                        var fileUrl = json.Poster;
-                        var imdbId = json.imdbID;
-                        if (isValidateUrl(fileUrl)) {
-                            console.log(' imdbId = ', imdbId);
-                            console.log(' title = ', json.Title);
-                            console.log(' fileUrl = ', fileUrl);
-                            var fileName = imdbId + '.jpg';
-                            var imagePath = '/home/wiwitaditya/workspace/testjavascript/watchitlater/bin/' + fileName; 
-                            console.log(' fileName = ', fileName);
-                            console.log(' start download ');
-                            request.get({ url: fileUrl, encoding: 'binary' }, function (err, response, body) {
-                                if (err) {
-                                    console.log(' error download ');
-                                    processIndex(i+1);
-                                } else {
-                                    console.log(' success download ');
-                                    fs.writeFile(imagePath, body, 'binary', function (err) {
-                                        if (process.env.DOCOPY && process.env.DOCOPY === true) {
-                                            console.log(' upload ....');
-                                            var sshTarget = process.env.SCP_LOCATION + fileName;
-                                            console.log(' sshTarget = ', sshTarget);
-                                            client.scp(fileName, sshTarget, function(err) {
-                                                console.log(' error : ', err);
-                                                processIndex(i+1);
-                                            });
-                                        } else {
-                                            console.log(' skip upload');
-                                            processIndex(i+1);
-                                        }
-                                    });
-                                }
-                            });
-                        } else {
-                            console.log(' image still empty');
-                            processIndex(i+1);
-                        }                       
+
+                var fileName = imdbId + '.jpg';
+                console.log(' fileName = ', fileName);
+
+                var fileExist = false;
+                try {
+                    if (getFilesizeInBytes(fileName) > 100) {
+                        fileExist = true;
                     }
-                });
+                } catch(err) {
+                }
+                console.log(' fileExist = ', fileExist);
+
+                if (fileExist) {
+                    processIndex(i+1);
+                } else {
+                    fetchHtml(omdbapi).then(function(result) {
+                        var json = JSON.parse(result);
+                        if (json && json.Poster) {
+                            var fileUrl = json.Poster;
+                            var imdbId = json.imdbID;
+                            if (isValidateUrl(fileUrl)) {
+                                console.log(' imdbId = ', imdbId);
+                                console.log(' title = ', json.Title);
+                                console.log(' fileUrl = ', fileUrl);
+                                var imagePath = '/home/wiwitaditya/workspace/testjavascript/watchitlater/bin/' + fileName; 
+                                console.log(' start download ');
+                                request.get({ url: fileUrl, encoding: 'binary' }, function (err, response, body) {
+                                    if (err) {
+                                        console.log(' error download ');
+                                        processIndex(i+1);
+                                    } else {
+                                        console.log(' success download ');
+                                        fs.writeFile(imagePath, body, 'binary', function (err) {
+                                            if (process.env.DOCOPY && process.env.DOCOPY === true) {
+                                                console.log(' upload ....');
+                                                var sshTarget = process.env.SCP_LOCATION + fileName;
+                                                console.log(' sshTarget = ', sshTarget);
+                                                client.scp(fileName, sshTarget, function(err) {
+                                                    console.log(' error : ', err);
+                                                    processIndex(i+1);
+                                                });
+                                            } else {
+                                                console.log(' skip upload');
+                                                processIndex(i+1);
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                console.log(' image still empty');
+                                processIndex(i+1);
+                            }                       
+                        }
+                    });
+
+                }
             } else {
                 console.log('FINISH ALL')
             }
@@ -98,4 +114,10 @@ function fetchHtml(url) {
         });
     });
     return deferred.promise;
+}
+
+function getFilesizeInBytes(filename) {
+    var stats = fs.statSync(filename);
+    var fileSizeInBytes = stats["size"];
+    return fileSizeInBytes;
 }
