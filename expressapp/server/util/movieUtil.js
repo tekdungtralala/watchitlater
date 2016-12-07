@@ -7,8 +7,40 @@ var movie = require('../facade/movie');
 var appUtil = require('../util/appUtil');
 var debug = require('debug')('watchitlater:server:movieUtil');
 var movieUtilModule = {
-    checkThumbnailMovies: checkThumbnailMovies
+    checkThumbnailMovies: checkThumbnailMovies2
 };
+function checkThumbnailMovies2() {
+    var deferred = Q.defer();
+    findAllMovieWithoutImageFile();
+    function findAllMovieWithoutImageFile() {
+        debug('findAllMovieWithoutImageFile()');
+        movie.findAllMovie().then(afterFIndAllMovie);
+        function afterFIndAllMovie(movies) {
+            var moviesWithoutRealImg = [];
+            _.forEach(movies, function (m) {
+                try {
+                    var path = generateRealPath(m.imdbID);
+                    fs.accessSync(path, fs.F_OK);
+                    m.isImageReady = true;
+                    m.Poster = generateRelativePath(m.imdbID);
+                    movie.updateMovie(m.imdbID, m);
+                }
+                catch (err) {
+                    moviesWithoutRealImg.push(m.imdbID);
+                }
+            });
+            debug('toal movies without image file : ' + moviesWithoutRealImg.length);
+            deferred.resolve(true);
+        }
+    }
+    function generateRelativePath(imdbID) {
+        return 'static-assets/imdb-img/' + imdbID + '.jpg';
+    }
+    function generateRealPath(imdbID) {
+        return 'expressapp/public/static-assets/imdb-img/' + imdbID + '.jpg';
+    }
+    return deferred.promise;
+}
 function checkThumbnailMovies() {
     debug('checkThumbnailMovies()');
     var deferred = Q.defer();

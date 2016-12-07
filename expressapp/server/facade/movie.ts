@@ -213,7 +213,7 @@ function createOrUpdate(newData: iMovieModel): Q.Promise<iMovieModel> {
 }
 
 function updateMovie(imdbId: string, movie: iMovieModel): Q.Promise<boolean> {
-	debug('updateMovie()')
+	// debug('updateMovie()')
 	var deferred: Q.Deferred<boolean> = Q.defer<boolean>();
 
 	if (movie.imdbRating && !isNaN(parseFloat(movie.imdbRating.toString())) && isFinite(movie.imdbRating)) {
@@ -223,7 +223,7 @@ function updateMovie(imdbId: string, movie: iMovieModel): Q.Promise<boolean> {
 	}
 
 	Movie.update({imdbID: imdbId}, movie, {multi: false}, function(err) {
-		debug('err = ' + err)
+		// debug('err = ' + err)
 		if (err) {
 			deferred.reject(false);
 		} else {

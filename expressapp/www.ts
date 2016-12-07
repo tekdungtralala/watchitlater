@@ -65,20 +65,31 @@ function startApp(): void {
 	} catch (ex) {
 		debug("cron pattern not valid");
 	}
-
 	try {
+		/*
+			# ┌────────────── second (optional)
+			# │ ┌──────────── minute
+			# │ │ ┌────────── hour
+			# │ │ │ ┌──────── day of month
+			# │ │ │ │ ┌────── month
+			# │ │ │ │ │ ┌──── day of week
+			# │ │ │ │ │ │
+			# │ │ │ │ │ │
+			# * * * * * *
+		*/
 		new cron.CronJob('0 0-59 * * * *', function() {
+			// every 1 second
 			debug("cronn job here "  + new Date() + ', stillWorking=' + stillWorking);
 			if (!stillWorking) {
 				stillWorking = true;
-				debug('START fetch image' + new Date());
+				debug('START update thumnail image' + new Date());
 				stillWorking = false;
-				// movieUtil
-				// 	.checkThumbnailMovies()
-				// 	.then(function() {
-				// 		debug('  FINISH check thumnail movies');
-				// 		stillWorking = false;
-				// 	});
+				movieUtil
+					.checkThumbnailMovies()
+					.then(function() {
+						debug('  FINISH check thumnail movies');
+						stillWorking = false;
+					});
 			}
 		}, null, true);
 	} catch (ex) {

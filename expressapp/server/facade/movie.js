@@ -183,7 +183,6 @@ function createOrUpdate(newData) {
     return deferred.promise;
 }
 function updateMovie(imdbId, movie) {
-    debug('updateMovie()');
     var deferred = Q.defer();
     if (movie.imdbRating && !isNaN(parseFloat(movie.imdbRating.toString())) && isFinite(movie.imdbRating)) {
         movie.imdbRating = Number(movie.imdbRating);
@@ -192,7 +191,6 @@ function updateMovie(imdbId, movie) {
         movie.imdbRating = 0;
     }
     Movie.update({ imdbID: imdbId }, movie, { multi: false }, function (err) {
-        debug('err = ' + err);
         if (err) {
             deferred.reject(false);
         }

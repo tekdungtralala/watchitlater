@@ -13,9 +13,48 @@ import iMovieModel = require('../facade/model/iMovieModel');
 let debug: debug.IDebug = require('debug')('watchitlater:server:movieUtil');
 
 let movieUtilModule = {
-	checkThumbnailMovies: checkThumbnailMovies
+	checkThumbnailMovies: checkThumbnailMovies2
 }
 export = movieUtilModule
+
+function checkThumbnailMovies2(): Q.Promise<boolean> {
+	var deferred = Q.defer<boolean>();
+
+	findAllMovieWithoutImageFile();
+
+	function findAllMovieWithoutImageFile() {
+		debug('findAllMovieWithoutImageFile()');
+		movie.findAllMovie().then(afterFIndAllMovie);
+
+		function afterFIndAllMovie(movies: iMovieModel[]) {
+			let moviesWithoutRealImg: string[] = [];
+			_.forEach(movies, function(m: iMovieModel) {
+				try {
+					let path = generateRealPath(m.imdbID);
+					fs.accessSync(path, fs.F_OK);
+					m.isImageReady = true;
+					m.Poster = generateRelativePath(m.imdbID);
+					movie.updateMovie(m.imdbID, m);
+				} catch (err) {
+					moviesWithoutRealImg.push(m.imdbID);
+				}
+			})
+
+			debug('toal movies without image file : ' + moviesWithoutRealImg.length);
+			deferred.resolve(true);
+		}
+	}
+
+	function generateRelativePath(imdbID: string) {
+		return 'static-assets/imdb-img/' + imdbID + '.jpg';
+	}
+
+	function generateRealPath(imdbID: string) {
+		return 'expressapp/public/static-assets/imdb-img/' + imdbID + '.jpg';
+	}
+
+	return deferred.promise;
+}
 
 function checkThumbnailMovies(): Q.Promise<boolean> {
 	debug('checkThumbnailMovies()');

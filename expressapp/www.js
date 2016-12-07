@@ -3,6 +3,7 @@ var http = require('http');
 var mongoose = require('mongoose');
 var app = require('./app');
 var cron = require('cron');
+var movieUtil = require('./server/util/movieUtil');
 var debug = require('debug')('watchitlater:www');
 mongoose.connect('mongodb://localhost/watchitlater');
 var db = mongoose.connection;
@@ -50,8 +51,14 @@ function startApp() {
             debug("cronn job here " + new Date() + ', stillWorking=' + stillWorking);
             if (!stillWorking) {
                 stillWorking = true;
-                debug('START fetch image' + new Date());
+                debug('START update thumnail image' + new Date());
                 stillWorking = false;
+                movieUtil
+                    .checkThumbnailMovies()
+                    .then(function () {
+                    debug('  FINISH check thumnail movies');
+                    stillWorking = false;
+                });
             }
         }, null, true);
     }
