@@ -10,6 +10,8 @@ if (!process || !process.env || !process.env.API)
     return;
 if (!process || !process.env || !process.env.SCP_LOCATION)
     return;
+if (!process || !process.env || !process.env.IMG_DIR)
+    return;
 
 var test = false;
 if (process.env.TEST) test = process.env.TEST;
@@ -38,6 +40,7 @@ fetchHtml(api)
 
                 var fileName = imdbId + '.jpg';
                 console.log(' fileName = ', fileName);
+                var imagePath = process.env.IMG_DIR + fileName;
 
                 var fileExist = false;
                 try {
@@ -48,10 +51,18 @@ fetchHtml(api)
                 }
                 console.log(' fileExist = ', fileExist);
 
+                var sshTarget = process.env.SCP_LOCATION + fileName;
                 if (fileExist) {
-                    processIndex(i+1);
+                    console.log(' skip download');
+                    console.log(' upload ....');
+                    client.scp(imagePath, sshTarget, function(err) {
+                        console.log(' error : ', err);
+                        processIndex(i+1);
+                    });
                 } else {
+                    console.log(' fetch omdbapi');
                     fetchHtml(omdbapi).then(function(result) {
+                        console.log(' got omdbapi result');
                         var json = JSON.parse(result);
                         if (json && json.Poster) {
                             var fileUrl = json.Poster;
@@ -60,7 +71,6 @@ fetchHtml(api)
                                 console.log(' imdbId = ', imdbId);
                                 console.log(' title = ', json.Title);
                                 console.log(' fileUrl = ', fileUrl);
-                                var imagePath = '/home/wiwitaditya/workspace/testjavascript/watchitlater/bin/' + fileName; 
                                 console.log(' start download ');
                                 request.get({ url: fileUrl, encoding: 'binary' }, function (err, response, body) {
                                     if (err) {
@@ -69,11 +79,9 @@ fetchHtml(api)
                                     } else {
                                         console.log(' success download ');
                                         fs.writeFile(imagePath, body, 'binary', function (err) {
-                                            if (process.env.DOCOPY && process.env.DOCOPY === true) {
+                                            if (process.env.DOCOPY && process.env.DOCOPY === 'true') {
                                                 console.log(' upload ....');
-                                                var sshTarget = process.env.SCP_LOCATION + fileName;
-                                                console.log(' sshTarget = ', sshTarget);
-                                                client.scp(fileName, sshTarget, function(err) {
+                                                client.scp(imagePath, sshTarget, function(err) {
                                                     console.log(' error : ', err);
                                                     processIndex(i+1);
                                                 });
@@ -88,6 +96,9 @@ fetchHtml(api)
                                 console.log(' image still empty');
                                 processIndex(i+1);
                             }                       
+                        } else {
+                            console.log(' poster from omdb result is empty');
+                            processIndex(i+1);
                         }
                     });
 
