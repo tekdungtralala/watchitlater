@@ -15,7 +15,6 @@ let debug: debug.IDebug = require('debug')('watchitlater:server:movieUtil');
 let movieUtilModule = {
 	checkThumbnailMovies: checkThumbnailMovies
 }
-
 export = movieUtilModule
 
 function checkThumbnailMovies(): Q.Promise<boolean> {

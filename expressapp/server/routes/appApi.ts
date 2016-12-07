@@ -6,6 +6,7 @@ import user = require('../facade/user');
 import homePageApi = require('./homePageApi');
 import weeklyMovieApi = require('./weeklyMovieApi');
 import bookmarkApi = require('./bookmarkApi');
+import movieUtilApi = require('./movieUtilApi');
 
 import iUserModel = require('../facade/model/iUserModel');
 
@@ -26,6 +27,8 @@ router.delete('/bookmarks', bookmarkApi.removeFromBookmark);
 router.get('/watched', bookmarkApi.getAllWatched);
 router.post('/watched', bookmarkApi.addToWatched);
 router.get('/watched/movie', bookmarkApi.getWatchedMovie);
+
+router.get('/moviesWithoutThumbnail', movieUtilApi.findAllMovieWithoutImageFile);
 
 router.post('/signin', function(req, res, next) {
 	debug('POST /signin');

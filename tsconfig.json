@@ -40,6 +40,7 @@
 		"expressapp/server/routes/bookmarkApi.ts",
 		"expressapp/server/routes/homePageApi.ts",
 		"expressapp/server/routes/weeklyMovieApi.ts",
+		"expressapp/server/routes/movieUtilApi.ts",
 
 		// angular
 		"expressapp/public/angular-app-ts/models/angular-app-interfaces.ts",

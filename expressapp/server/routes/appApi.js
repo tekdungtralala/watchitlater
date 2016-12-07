@@ -4,6 +4,7 @@ var user = require('../facade/user');
 var homePageApi = require('./homePageApi');
 var weeklyMovieApi = require('./weeklyMovieApi');
 var bookmarkApi = require('./bookmarkApi');
+var movieUtilApi = require('./movieUtilApi');
 var debug = require('debug')('watchitlater:server:appApi');
 var router = express.Router();
 router.get('/getLatestBoxOffice', homePageApi.getLatestBoxOffice);
@@ -17,6 +18,7 @@ router.delete('/bookmarks', bookmarkApi.removeFromBookmark);
 router.get('/watched', bookmarkApi.getAllWatched);
 router.post('/watched', bookmarkApi.addToWatched);
 router.get('/watched/movie', bookmarkApi.getWatchedMovie);
+router.get('/moviesWithoutThumbnail', movieUtilApi.findAllMovieWithoutImageFile);
 router.post('/signin', function (req, res, next) {
     debug('POST /signin');
     var userData = req.body;
