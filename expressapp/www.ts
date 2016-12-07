@@ -72,12 +72,13 @@ function startApp(): void {
 			if (!stillWorking) {
 				stillWorking = true;
 				debug('START fetch image' + new Date());
-				movieUtil
-					.checkThumbnailMovies()
-					.then(function() {
-						debug('  FINISH check thumnail movies');
-						stillWorking = false;
-					});
+				stillWorking = false;
+				// movieUtil
+				// 	.checkThumbnailMovies()
+				// 	.then(function() {
+				// 		debug('  FINISH check thumnail movies');
+				// 		stillWorking = false;
+				// 	});
 			}
 		}, null, true);
 	} catch (ex) {
