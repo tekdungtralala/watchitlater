@@ -13,9 +13,64 @@ import iMovieModel = require('../facade/model/iMovieModel');
 let debug: debug.IDebug = require('debug')('watchitlater:server:movieUtil');
 
 let movieUtilModule = {
-	checkThumbnailMovies: checkThumbnailMovies2
+	checkThumbnailMovies: checkThumbnailMovies2,
+	checkRatingMovies: checkRatingMovies
 }
 export = movieUtilModule
+
+function checkRatingMovies(): Q.Promise<boolean> {
+	debug('checkRatingMovies()');
+	var deferred = Q.defer<boolean>();
+	let movieIds: string[] = [];
+
+	movie.findAllMovie().then(afterFIndAllMovie);
+	function afterFIndAllMovie(movies: iMovieModel[]) {
+		_.forEach(movies, function(m: iMovieModel) {
+			if (m.imdbRating <= 0) {
+				movieIds.push(m.imdbID);
+			}
+		});
+		debug(movieIds);
+		debug('zero rating movieIds.length : ' + movieIds.length);
+		updateMovieRating(0);
+	}
+
+	function updateMovieRating(index: number) {
+		if (index >= movieIds.length) {
+			debug('finish checkRatingMovies() at index = '+ index);
+			deferred.resolve(true);
+		} else if (!movieIds[index]) {
+			updateMovieRating(index + 1);
+		} else {
+			let imdbId: string = movieIds[index];
+			debug('updateMoviRating() ' + imdbId);
+			let url: string = 'http://www.omdbapi.com/?i=' + imdbId + '&plot=full&r=json';
+			debug('omdbapi url = ' + url);
+			appUtil.fetchHtml(url)
+				.then(processMovieData)
+				.then(updateMovie) 
+		}
+
+		function updateMovie(m: iMovieModel) {
+			movie.findByImdbIDs([m.imdbID]).then(afterFindbyImdbId);
+			function afterFindbyImdbId(moviesData: iMovieModel[]) {
+				let currentMovie = moviesData[0];
+				currentMovie.imdbRating = m.imdbRating;
+				movie.updateMovie(currentMovie.imdbID, currentMovie).then(afterUpdateMovie)
+			}
+			function afterUpdateMovie() {
+				debug(' finish update rating movie '+ m.imdbID);
+				updateMovieRating(index + 1);
+			} 
+		}
+
+		function processMovieData(data: string): iMovieModel {
+			return JSON.parse(data);
+		}
+	}
+
+	return deferred.promise;
+}
 
 function checkThumbnailMovies2(): Q.Promise<boolean> {
 	var deferred = Q.defer<boolean>();

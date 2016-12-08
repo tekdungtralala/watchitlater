@@ -5,6 +5,7 @@ var app = require('./app');
 var cron = require('cron');
 var movieUtil = require('./server/util/movieUtil');
 var debug = require('debug')('watchitlater:www');
+var initEntity = require('./server/facade/initEntity');
 mongoose.connect('mongodb://localhost/watchitlater');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -22,7 +23,6 @@ function startApp() {
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
-    var initEntity = require('./server/facade/initEntity');
     var doInitData = 'true' === process.env.DOINITDATA;
     var stillWorking = true;
     debug('doInitData start =' + doInitData);
@@ -47,7 +47,7 @@ function startApp() {
         debug("cron pattern not valid");
     }
     try {
-        new cron.CronJob('0 0-59 * * * *', function () {
+        new cron.CronJob('30 30 0-23 * * *', function () {
             debug("cronn job here " + new Date() + ', stillWorking=' + stillWorking);
             if (!stillWorking) {
                 stillWorking = true;
@@ -55,8 +55,9 @@ function startApp() {
                 stillWorking = false;
                 movieUtil
                     .checkThumbnailMovies()
+                    .then(movieUtil.checkRatingMovies)
                     .then(function () {
-                    debug('  FINISH check thumnail movies');
+                    debug('  FINISH check movies');
                     stillWorking = false;
                 });
             }

@@ -7,6 +7,7 @@ import cron = require('cron');
 import movieUtil = require('./server/util/movieUtil');
 
 let debug: debug.IDebug = require('debug')('watchitlater:www');
+import initEntity = require('./server/facade/initEntity');
 
 mongoose.connect('mongodb://localhost/watchitlater');
 var db = mongoose.connection;
@@ -39,8 +40,6 @@ function startApp(): void {
 	server.on('error', onError);
 	server.on('listening', onListening);
 
-	
-	var initEntity = require('./server/facade/initEntity');
 	var doInitData = 'true' === process.env.DOINITDATA;
 	var stillWorking = true;
 	debug('doInitData start =' + doInitData);
@@ -54,10 +53,22 @@ function startApp(): void {
 	} else {
 		stillWorking = false;
 	}
-		
+	/*
+		CronJob helper
+		# ┌────────────── 0-59 second (optional)
+		# │ ┌──────────── 0-59 minute
+		# │ │ ┌────────── 0-23 hour
+		# │ │ │ ┌──────── day of month
+		# │ │ │ │ ┌────── 1-31 month
+		# │ │ │ │ │ ┌──── 0-7 (0 or 7 are sunday) day of week
+		# │ │ │ │ │ │
+		# │ │ │ │ │ │
+		# * * * * * *
+	*/	
 
 	try {
 		new cron.CronJob('0 0 0 * * 0', function() {
+			// run every sunday in hour 0, minute 0, second 0
 			debug('CronJob do work initEntity.doInitialize()' + new Date());
 			initEntity.doInitialize();
 		}, null, true);
@@ -66,19 +77,8 @@ function startApp(): void {
 		debug("cron pattern not valid");
 	}
 	try {
-		/*
-			# ┌────────────── second (optional)
-			# │ ┌──────────── minute
-			# │ │ ┌────────── hour
-			# │ │ │ ┌──────── day of month
-			# │ │ │ │ ┌────── month
-			# │ │ │ │ │ ┌──── day of week
-			# │ │ │ │ │ │
-			# │ │ │ │ │ │
-			# * * * * * *
-		*/
-		new cron.CronJob('0 0-59 * * * *', function() {
-			// every 1 second
+		new cron.CronJob('30 30 0-23 * * *', function() {
+			// run every hour, in minute 30, second 30
 			debug("cronn job here "  + new Date() + ', stillWorking=' + stillWorking);
 			if (!stillWorking) {
 				stillWorking = true;
@@ -86,9 +86,10 @@ function startApp(): void {
 				stillWorking = false;
 				movieUtil
 					.checkThumbnailMovies()
-					.then(function() {
-						debug('  FINISH check thumnail movies');
-						stillWorking = false;
+					.then(movieUtil.checkRatingMovies)
+					.then(function {
+						debug('  FINISH check movies');
+						stillWorking = false;		
 					});
 			}
 		}, null, true);

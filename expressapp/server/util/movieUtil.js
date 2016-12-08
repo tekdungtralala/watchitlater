@@ -7,8 +7,59 @@ var movie = require('../facade/movie');
 var appUtil = require('../util/appUtil');
 var debug = require('debug')('watchitlater:server:movieUtil');
 var movieUtilModule = {
-    checkThumbnailMovies: checkThumbnailMovies2
+    checkThumbnailMovies: checkThumbnailMovies2,
+    checkRatingMovies: checkRatingMovies
 };
+function checkRatingMovies() {
+    debug('checkRatingMovies()');
+    var deferred = Q.defer();
+    var movieIds = [];
+    movie.findAllMovie().then(afterFIndAllMovie);
+    function afterFIndAllMovie(movies) {
+        _.forEach(movies, function (m) {
+            if (m.imdbRating <= 0) {
+                movieIds.push(m.imdbID);
+            }
+        });
+        debug(movieIds);
+        debug('zero rating movieIds.length : ' + movieIds.length);
+        updateMovieRating(0);
+    }
+    function updateMovieRating(index) {
+        if (index >= movieIds.length) {
+            debug('finish checkRatingMovies() at index = ' + index);
+            deferred.resolve(true);
+        }
+        else if (!movieIds[index]) {
+            updateMovieRating(index + 1);
+        }
+        else {
+            var imdbId = movieIds[index];
+            debug('updateMoviRating() ' + imdbId);
+            var url = 'http://www.omdbapi.com/?i=' + imdbId + '&plot=full&r=json';
+            debug('omdbapi url = ' + url);
+            appUtil.fetchHtml(url)
+                .then(processMovieData)
+                .then(updateMovie);
+        }
+        function updateMovie(m) {
+            movie.findByImdbIDs([m.imdbID]).then(afterFindbyImdbId);
+            function afterFindbyImdbId(moviesData) {
+                var currentMovie = moviesData[0];
+                currentMovie.imdbRating = m.imdbRating;
+                movie.updateMovie(currentMovie.imdbID, currentMovie).then(afterUpdateMovie);
+            }
+            function afterUpdateMovie() {
+                debug(' finish update rating movie ' + m.imdbID);
+                updateMovieRating(index + 1);
+            }
+        }
+        function processMovieData(data) {
+            return JSON.parse(data);
+        }
+    }
+    return deferred.promise;
+}
 function checkThumbnailMovies2() {
     var deferred = Q.defer();
     findAllMovieWithoutImageFile();
